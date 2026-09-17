@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meriem Trabelsi, Software Development Engineer</title>
+  <meta name="description" content="Portfolio of Meriem Trabelsi, software development engineer: process automation, event-driven microservices, full-stack development.">
+  <meta property="og:title" content="Meriem Trabelsi, Software Development Engineer">
+  <meta property="og:description" content="Process automation, event-driven microservices, full-stack development.">
+  <meta property="og:image" content="assets/img/meriem.jpg">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Meriem Trabelsi</span>
+    </a>
+    <div class="view-switch" role="group" aria-label="Choose a view">
+      <button type="button" data-view="full" aria-pressed="true">Full portfolio</button>
+      <button type="button" data-view="brief" aria-pressed="false">Recruiter brief</button>
+    </div>
+    <div class="top-actions">
+      <a class="btn btn-ghost" data-cv href="#" download>CV</a>
+      <a class="btn btn-solid" href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Vue complete -->
+    <div id="view-full">
+      <nav class="rail" aria-label="Sections">
+        <ol>
+          <li><a href="#top" data-node="start"><i class="n n-start"></i><span>Start</span></a></li>
+          <li><a href="#standards"><i class="n"></i><span>Standards</span></a></li>
+          <li><a href="#work"><i class="n"></i><span>Work</span></a></li>
+          <li><a href="#experience"><i class="n"></i><span>Experience</span></a></li>
+          <li><a href="#skills"><i class="n n-gw"></i><span>Skills</span></a></li>
+          <li><a href="#stage"><i class="n"></i><span>On stage</span></a></li>
+          <li><a href="#contact" data-node="end"><i class="n n-end"></i><span>Contact</span></a></li>
+        </ol>
+      </nav>
+
+      <section id="top" class="hero" data-section></section>
+      <section id="standards" class="spot" data-section></section>
+      <section id="work" class="block" data-section></section>
+      <section id="experience" class="block" data-section></section>
+      <section id="skills" class="block" data-section></section>
+      <section id="stage" class="block" data-section></section>
+    </div>
+
+    <!-- Vue recruteur -->
+    <div id="view-brief" hidden></div>
+
+    <section id="contact" class="block contact" data-section></section>
+  </main>
+
+  <footer class="footer" id="footer"></footer>
+
+  <!-- Detail d'un projet -->
+  <dialog id="project-dialog" class="pdialog" aria-labelledby="pd-title"></dialog>
+
+  <!-- Espace admin, ouvert par #admin -->
+  <div id="admin-root" hidden></div>
+
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

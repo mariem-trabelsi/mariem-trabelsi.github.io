@@ -1,0 +1,715 @@
+{
+  "settings": {
+    "owner": "mariem-trabelsi",
+    "repo": "mariem-trabelsi.github.io",
+    "branch": "main",
+    "counterNamespace": "mariem-trabelsi-portfolio",
+    "showVisitsPublicly": false
+  },
+  "profile": {
+    "name": "Meriem Trabelsi",
+    "title": "Software Development Engineer",
+    "headline": "I build cloud-native, event-driven systems where business processes are models, not buried code.",
+    "about": [
+      "Engineer in software development from the Higher Institute of Computer Science (ISI), University of Tunis El Manar.",
+      "My focus is process automation and event-driven microservices. My graduation project at IT Serv orchestrates a telecom fibre order end to end with Kogito, Drools and Apache Kafka, aligned with the TM Forum Open APIs.",
+      "I also bring full-stack experience with Spring Boot and Angular, and applied deep learning for computer vision. I care about SOLID principles, design patterns and architecture decisions that are written down with their cost."
+    ],
+    "location": "Tunis, Tunisia",
+    "availability": "Open to opportunities",
+    "photo": "assets/img/meriem.jpg",
+    "cv": "assets/cv/Meriem_Trabelsi_CV.pdf",
+    "email": "mrtrabelsi547@gmail.com",
+    "whatsapp": "21695475635",
+    "linkedin": "https://www.linkedin.com/in/mariemtrabelsi2000",
+    "github": "https://github.com/mariem-trabelsi",
+    "languages": [
+      {
+        "name": "Arabic",
+        "level": "Native"
+      },
+      {
+        "name": "French",
+        "level": "Fluent (C1)"
+      },
+      {
+        "name": "English",
+        "level": "Upper intermediate (B2)"
+      }
+    ],
+    "facts": [
+      {
+        "value": "5",
+        "label": "professional experiences"
+      },
+      {
+        "value": "8",
+        "label": "projects delivered"
+      },
+      {
+        "value": "17",
+        "label": "TM Forum Open APIs implemented"
+      }
+    ]
+  },
+  "quote": {
+    "text": "You are here on Earth to look after your own evolution, not that of others.",
+    "original": "Tu es ici sur terre pour veiller à ta propre évolution et non à celle des autres.",
+    "author": "Lise Bourbeau",
+    "source": "Écoute ton corps"
+  },
+  "spotlight": {
+    "eyebrow": "Standards I build on",
+    "title": "TM Forum and BPMN, working together",
+    "intro": "A telecom order crosses systems that were never designed to cooperate. I make that journey explicit: TM Forum standards say what is exchanged, a BPMN model says in which order, and an engine runs it.",
+    "tmforum": {
+      "text": "The TM Forum publishes the frameworks and Open APIs that let operator systems interoperate without custom work. My graduation project follows them end to end.",
+      "frameworks": [
+        {
+          "name": "eTOM",
+          "ref": "GB921",
+          "role": "which processes: Order-to-Activate in Fulfilment"
+        },
+        {
+          "name": "SID",
+          "ref": "GB922",
+          "role": "which data: Product, Service, Resource"
+        },
+        {
+          "name": "ODA",
+          "ref": "Open Digital Architecture",
+          "role": "components that own their data"
+        },
+        {
+          "name": "Open APIs",
+          "ref": "TMF630 guidelines",
+          "role": "17 REST contracts, all on version 4"
+        }
+      ],
+      "apis": [
+        {
+          "id": "TMF620",
+          "name": "Product Catalog"
+        },
+        {
+          "id": "TMF621",
+          "name": "Trouble Ticket"
+        },
+        {
+          "id": "TMF622",
+          "name": "Product Ordering"
+        },
+        {
+          "id": "TMF629",
+          "name": "Customer"
+        },
+        {
+          "id": "TMF632",
+          "name": "Party"
+        },
+        {
+          "id": "TMF637",
+          "name": "Product Inventory"
+        },
+        {
+          "id": "TMF638",
+          "name": "Service Inventory"
+        },
+        {
+          "id": "TMF639",
+          "name": "Resource Inventory"
+        },
+        {
+          "id": "TMF640",
+          "name": "Service Activation"
+        },
+        {
+          "id": "TMF641",
+          "name": "Service Ordering"
+        },
+        {
+          "id": "TMF646",
+          "name": "Appointment"
+        },
+        {
+          "id": "TMF648",
+          "name": "Quote"
+        },
+        {
+          "id": "TMF666",
+          "name": "Account"
+        },
+        {
+          "id": "TMF673",
+          "name": "Geographic Address"
+        },
+        {
+          "id": "TMF676",
+          "name": "Payment"
+        },
+        {
+          "id": "TMF679",
+          "name": "Offering Qualification"
+        },
+        {
+          "id": "TMF697",
+          "name": "Work Order"
+        }
+      ],
+      "proof": "Measured with the official TM Forum conformance kits: 4,362 of 5,403 assertions pass; 7 of 8 blocking issues fixed.",
+      "cert": "Certified: Introduction to the TM Forum and the Open Digital Architecture (ODA), TM Forum, 2026"
+    },
+    "bpmn": {
+      "text": "The sequence of the journey is not written in Java. It is a BPMN 2.0 model, compiled by Kogito at build time and executed as it is drawn. Business decisions live beside it in Drools rules.",
+      "file": "assets/projects/o2a-service/model/order_to_activate_v12.bpmn",
+      "stats": [
+        {
+          "value": "118",
+          "label": "nodes"
+        },
+        {
+          "value": "5",
+          "label": "lanes"
+        },
+        {
+          "value": "42",
+          "label": "tasks"
+        },
+        {
+          "value": "52",
+          "label": "Drools rules"
+        }
+      ]
+    }
+  },
+  "projects": [
+    {
+      "id": "o2a-service",
+      "name": "O2A Service, Order-to-Activate Orchestration",
+      "company": "IT Serv",
+      "role": "Process Automation Engineer, graduation project",
+      "period": "Jan. 2025 – Jun. 2026",
+      "keywords": [
+        "TM Forum Open APIs",
+        "BPMN 2.0",
+        "Kogito",
+        "Drools",
+        "Apache Kafka",
+        "Quarkus",
+        "PostgreSQL",
+        "Kill Bill",
+        "Angular",
+        "Docker"
+      ],
+      "summary": "A TM Forum-aligned platform that carries a fibre order from the eligibility check to the first invoice, driven by one executable BPMN model instead of hand-written glue.",
+      "highlights": [
+        "One BPMN model of 118 nodes in five lanes, executed by Kogito 10.2",
+        "52 Drools rules, each file owned by the service that consults it",
+        "9 microservices, 8 PostgreSQL databases, 22 Kafka topics, 17 TM Forum Open APIs (v4)",
+        "Compensation in reverse order when a journey cannot succeed; technical failures stay resumable",
+        "Measured on the live stack: 54 end-to-end checks, 50 concurrent orders at a 0.10 s median",
+        "A port double-booking found under concurrency, fixed with a conditional database write"
+      ],
+      "media": [
+        {
+          "type": "video",
+          "src": "assets/projects/o2a-service/demo-nominal.mp4",
+          "caption": "Nominal journey, from the offer to the first invoice"
+        },
+        {
+          "type": "bpmn",
+          "src": "assets/projects/o2a-service/model/order_to_activate_v12.bpmn",
+          "caption": "The executable BPMN model: 118 nodes, five lanes. Drag to pan, scroll to zoom."
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m0-bpm.jpg",
+          "caption": "The order drawn live on its BPMN model"
+        },
+        {
+          "type": "video",
+          "src": "assets/projects/o2a-service/demo-compensation.mp4",
+          "caption": "Compensation: the journey is undone in reverse order"
+        },
+        {
+          "type": "video",
+          "src": "assets/projects/o2a-service/demo-expiration.mp4",
+          "caption": "Quote reminder and expiry fired by durable timers"
+        },
+        {
+          "type": "video",
+          "src": "assets/projects/o2a-service/demo-assistant.mp4",
+          "caption": "Customer assistant answering from the Open APIs"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m1-offres.jpg",
+          "caption": "Offers after the eligibility check"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m1-devis.jpg",
+          "caption": "A quote where every discount carries its rule and reason"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m1-suivi.jpg",
+          "caption": "Customer order tracking"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m2-creneau.jpg",
+          "caption": "Installation slot confirmation"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m2-technicien.jpg",
+          "caption": "Technician board"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m2-noc.jpg",
+          "caption": "Level-2 support after three failed visits"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m2-inventaire.jpg",
+          "caption": "Product, service and resource inventories"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m3-dashboard.jpg",
+          "caption": "Process indicators dashboard"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m3-facture.jpg",
+          "caption": "The first invoice"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m3-messages.jpg",
+          "caption": "Customer notifications"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m3-assistant.jpg",
+          "caption": "The assistant, and what it refuses to answer"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/o2a-service/m0-instance.jpg",
+          "caption": "An instance stopped in error, ready to resume"
+        }
+      ],
+      "cover": 2,
+      "featured": true,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "foodsafety",
+      "name": "FoodSafety Platform",
+      "company": "Archicompass (French startup)",
+      "role": "Full Stack Developer",
+      "period": "Feb. 2023 – Sep. 2023",
+      "keywords": [
+        "Spring Boot",
+        "Angular",
+        "Keycloak",
+        "Role-based access",
+        "Agile / Scrum"
+      ],
+      "summary": "A compliance and food-aid platform for municipalities: aid requests, donors, beneficiaries, baskets and deliveries, with a space for each role.",
+      "highlights": [
+        "Built with Spring Boot and Angular, delivered in weekly Scrum sprints",
+        "Services secured with Keycloak authentication and role-based access",
+        "Request workflow: general details, donors, delivery, with basket composition by category and product",
+        "Configurable catalogue of categories, sub-categories and products"
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-2.jpg",
+          "caption": "New aid request and basket composition"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-1.jpg",
+          "caption": "Matching potential donors to a request"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-3.jpg",
+          "caption": "Contacting donors"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-4.jpg",
+          "caption": "Basket by category"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-6.jpg",
+          "caption": "A donor's contributions"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-5.jpg",
+          "caption": "Contribution confirmed"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-7.jpg",
+          "caption": "Catalogue configuration"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/foodsafety/screen-8.jpg",
+          "caption": "Making a donation"
+        }
+      ],
+      "cover": 0,
+      "featured": true,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "exam-planner",
+      "name": "Exam Invigilation Scheduler",
+      "company": "ISI Tunis",
+      "role": "Software Developer",
+      "period": "May 2025",
+      "keywords": [
+        "Scheduling",
+        "Constraint rules",
+        "Fairness metrics",
+        "Data import",
+        "Export"
+      ],
+      "summary": "A planner that assigns teachers to exam invigilation slots, respecting quotas and unavailability, and reports how fair the result is by grade.",
+      "highlights": [
+        "526 assignments over 23 slots for 126 teachers, every teacher assigned",
+        "Hard constraints checked: quotas, unavailability, no conflicts",
+        "Quality report: global score, fairness per grade, spread per day",
+        "Views by planning, by teacher and by room, with individual and global export"
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "assets/projects/exam-planner/screen-2.jpg",
+          "caption": "Quality report after generating the planning"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/exam-planner/screen-1.jpg",
+          "caption": "Planning loaded from history"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/exam-planner/screen-3.jpg",
+          "caption": "Fairness by grade and overall statistics"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/exam-planner/screen-4.jpg",
+          "caption": "One teacher's slots and unavailability"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/exam-planner/screen-7.jpg",
+          "caption": "View by room"
+        },
+        {
+          "type": "image",
+          "src": "assets/projects/exam-planner/screen-8.jpg",
+          "caption": "View by teacher"
+        }
+      ],
+      "cover": 0,
+      "featured": true,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "object-detection",
+      "name": "Industrial Object Detection",
+      "company": "Smart Elastic Solutions",
+      "role": "Deep Learning Engineer",
+      "period": "Jun. 2025 – Jul. 2025",
+      "keywords": [
+        "Computer vision",
+        "SSD MobileNet",
+        "Python",
+        "Dataset annotation",
+        "Hyperparameter tuning"
+      ],
+      "summary": "An object detection model for an industrial use case, trained on a custom dataset collected in production conditions.",
+      "highlights": [
+        "SSD MobileNet model built for an industrial use case",
+        "Custom dataset collected and annotated in production conditions",
+        "Hyperparameters tuned for accuracy and inference speed",
+        "Training and evaluation automated with a Python pipeline"
+      ],
+      "media": [],
+      "cover": 0,
+      "featured": false,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "academia",
+      "name": "Academia, Scientific Article Sharing",
+      "company": "Academic project, ISI",
+      "role": "Scrum Master and Backend Developer",
+      "period": "Mar. 2025 – May 2025",
+      "keywords": [
+        "Spring Boot",
+        "Docker",
+        "Swagger",
+        "Keycloak",
+        "Scrum"
+      ],
+      "summary": "A platform to publish and discuss scientific articles, delivered by an agile team I led as Scrum Master.",
+      "highlights": [
+        "Scrum Master for the delivery team",
+        "Secure Spring Boot backend documented with Swagger",
+        "Keycloak configured for role-based access control",
+        "Containerised with Docker"
+      ],
+      "media": [],
+      "cover": 0,
+      "featured": false,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "quiz-app",
+      "name": "Multiplayer Quiz App",
+      "company": "Academic project, ISI",
+      "role": "Mobile Developer",
+      "period": "May 2025 – Jun. 2025",
+      "keywords": [
+        "Flutter",
+        "Firebase",
+        "Real-time sync",
+        "Authentication"
+      ],
+      "summary": "A Mentimeter-style real-time quiz where players join a session and answer live.",
+      "highlights": [
+        "Real-time multiplayer quiz built with Flutter",
+        "Firebase for authentication and real-time synchronisation"
+      ],
+      "media": [],
+      "cover": 0,
+      "featured": false,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "allacarta",
+      "name": "AllaCarta Frontend Revamp",
+      "company": "AllaCarta",
+      "role": "Frontend Developer",
+      "period": "Jul. 2024",
+      "keywords": [
+        "React",
+        "Material-UI",
+        "Theming",
+        "UI/UX"
+      ],
+      "summary": "Integration of a new React template into a production application, with the code refactored for full theme compatibility.",
+      "highlights": [
+        "New React template integrated into a production application",
+        "Frontend code refactored for full UI theme compatibility",
+        "Worked with the UI/UX team on design alignment"
+      ],
+      "media": [],
+      "cover": 0,
+      "featured": false,
+      "visible": true,
+      "links": []
+    },
+    {
+      "id": "internship-share",
+      "name": "Internship Experience Sharing",
+      "company": "ADS Valley",
+      "role": "Web Developer",
+      "period": "Jun. 2022 – Jul. 2022",
+      "keywords": [
+        "Web application",
+        "Dynamic forms",
+        "User data management"
+      ],
+      "summary": "A web application where students share their internship experiences.",
+      "highlights": [
+        "Web app for students to share internship experiences",
+        "Dynamic forms and user data management"
+      ],
+      "media": [],
+      "cover": 0,
+      "featured": false,
+      "visible": true,
+      "links": []
+    }
+  ],
+  "experience": [
+    {
+      "role": "Process Automation Engineer",
+      "company": "IT Serv",
+      "period": "Jan. 2025 – Jun. 2026",
+      "points": [
+        "Cloud-native provisioning engine with Kogito and Quarkus",
+        "Order management, work order and catalogue services connected through Apache Kafka",
+        "Business processes aligned with the TM Forum Open APIs",
+        "Services containerised with Docker"
+      ]
+    },
+    {
+      "role": "Deep Learning Engineer, Computer Vision",
+      "company": "Smart Elastic Solutions",
+      "period": "Jun. 2025 – Jul. 2025",
+      "points": [
+        "SSD MobileNet object detection for an industrial use case",
+        "Custom dataset, tuning and an automated Python pipeline"
+      ]
+    },
+    {
+      "role": "Frontend Developer",
+      "company": "AllaCarta",
+      "period": "Jul. 2024",
+      "points": [
+        "React template integrated into a production application"
+      ]
+    },
+    {
+      "role": "Full Stack Developer",
+      "company": "Archicompass (French startup)",
+      "period": "Feb. 2023 – Sep. 2023",
+      "points": [
+        "FoodSafety compliance app with Spring Boot and Angular",
+        "Weekly Scrum sprints, Keycloak security"
+      ]
+    },
+    {
+      "role": "Web Developer",
+      "company": "ADS Valley",
+      "period": "Jun. 2022 – Jul. 2022",
+      "points": [
+        "Web app for sharing internship experiences"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Engineering Degree, Software Development (IDL)",
+      "school": "Higher Institute of Computer Science (ISI), University of Tunis El Manar",
+      "period": "2023 – 2026"
+    },
+    {
+      "degree": "Bachelor's Degree, Software Engineering, Computer Systems",
+      "school": "Higher Institute of Computer Science (ISI), University of Tunis El Manar",
+      "period": "2020 – 2023"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Introduction to the TM Forum and the Open Digital Architecture (ODA)",
+      "issuer": "TM Forum",
+      "year": "2026"
+    },
+    {
+      "name": "DevNet Associate",
+      "issuer": "Cisco",
+      "year": "2025"
+    },
+    {
+      "name": "Cybersecurity Fundamentals",
+      "issuer": "IBM",
+      "year": "2024"
+    },
+    {
+      "name": "Microsoft Office Specialist: Excel Associate",
+      "issuer": "Microsoft",
+      "year": "2024"
+    },
+    {
+      "name": "Angular",
+      "issuer": "Udemy",
+      "year": "2023"
+    }
+  ],
+  "skills": [
+    {
+      "group": "Process and integration",
+      "items": [
+        "Kogito",
+        "BPMN 2.0",
+        "Drools",
+        "Apache Kafka",
+        "CloudEvents",
+        "REST APIs",
+        "TM Forum Open APIs"
+      ]
+    },
+    {
+      "group": "Backend",
+      "items": [
+        "Java",
+        "Quarkus",
+        "Spring Boot",
+        "Python",
+        "SQL",
+        "PostgreSQL",
+        "Swagger"
+      ]
+    },
+    {
+      "group": "Frontend and mobile",
+      "items": [
+        "Angular",
+        "React",
+        "Flutter",
+        "Firebase",
+        "JavaScript",
+        "HTML5"
+      ]
+    },
+    {
+      "group": "Delivery and security",
+      "items": [
+        "Docker",
+        "Docker Compose",
+        "Git",
+        "GitHub Actions",
+        "Keycloak",
+        "Maven"
+      ]
+    },
+    {
+      "group": "Data and AI",
+      "items": [
+        "Computer vision",
+        "SSD MobileNet",
+        "R"
+      ]
+    }
+  ],
+  "speaking": {
+    "title": "On stage, too",
+    "text": "Beyond code, I host. At the Google Club ISTIC event department I hosted and coordinated public speaking events, and at the Freeways Club I take part in workshops for junior developers. I also love radio programmes about culture and personal development.",
+    "items": [
+      {
+        "name": "Google Club ISTIC (IGC), Event Department",
+        "detail": "Hosted and coordinated public speaking events",
+        "year": "2024"
+      },
+      {
+        "name": "Freeways Club, Junior Department, ISI",
+        "detail": "Workshops and technical events for junior developers",
+        "year": "2025"
+      }
+    ],
+    "media": []
+  }
+}
