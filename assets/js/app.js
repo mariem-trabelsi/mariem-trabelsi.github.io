@@ -28,8 +28,10 @@
     ns() { return (App.data && App.data.settings && App.data.settings.counterNamespace) || 'mariem-trabelsi-portfolio'; },
     key(k) { return String(k).toLowerCase().replace(/[^a-z0-9_-]/g, '-').slice(0, 60); },
     isAdminBrowser() { return store.get('pf_is_admin', '') === '1'; },
+    // une copie locale ou un apercu ne sont jamais comptes
+    isLocal() { return !/github\.io$/.test(location.hostname); },
     hit(k) {
-      if (Counter.isAdminBrowser()) return Promise.resolve(null);
+      if (Counter.isAdminBrowser() || Counter.isLocal()) return Promise.resolve(null);
       return fetch(`${Counter.base}/hit/${Counter.ns()}/${Counter.key(k)}`).then((r) => r.ok ? r.json() : null).catch(() => null);
     },
     get(k) {
