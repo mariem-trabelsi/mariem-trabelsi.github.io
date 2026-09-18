@@ -29,7 +29,10 @@
         "style": "accent"
       }
     ],
-    "photoBg": "original"
+    "photoBg": "color",
+    "pattern": "circles",
+    "patternOpacity": 0.12,
+    "photoBgColor": "#0d3b3e"
   },
   "profile": {
     "name": "Meriem Trabelsi",
@@ -758,14 +761,15 @@
       "name": "TM Forum",
       "description": "Telecom standards in practice: frameworks, SID, Open APIs, conformance and membership.",
       "emoji": "📡",
-      "accent": "#a4145a",
+      "accent": "#0d3b3e",
       "background": "#fbf1f5",
       "bgStyle": "gradient",
       "bgImage": null,
-      "pattern": "hexagons",
-      "patternOpacity": 0.12,
+      "pattern": "waves",
+      "patternOpacity": 0.16,
       "font": "site",
-      "cover": null
+      "cover": null,
+      "patternColor2": "#77767b"
     },
     {
       "id": "business-process-modelling",
