@@ -32,7 +32,7 @@
     "photoBg": "color",
     "pattern": "circles",
     "patternOpacity": 0.12,
-    "photoBgColor": "#0d3b3e",
+    "photoBgColor": "#9141ac",
     "photoBadge": {
       "show": true,
       "emoji": "👋",
@@ -1150,6 +1150,5 @@
         }
       ]
     }
-  },
-  "testimonials": []
+  }
 }
