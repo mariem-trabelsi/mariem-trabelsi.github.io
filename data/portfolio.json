@@ -846,5 +846,309 @@
       "pinned": false,
       "module": "business-process-modelling"
     }
-  ]
+  ],
+  "translations": {
+    "fr": {
+      "profile": {
+        "title": "Ingénieure en développement logiciel",
+        "headline": "Je conçois des systèmes cloud-native et orientés événements où les processus métier sont des modèles, pas du code enfoui.",
+        "about": [
+          "Ingénieure en développement logiciel diplômée de l’Institut Supérieur d’Informatique (ISI), Université de Tunis El Manar.",
+          "Mon domaine : l’automatisation des processus et les microservices orientés événements. J’ai orchestré de bout en bout une commande fibre télécom avec Kogito, Drools et Apache Kafka, alignée sur les Open APIs du TM Forum.",
+          "J’apporte aussi une expérience full-stack avec Spring Boot et Angular, et du deep learning appliqué à la vision par ordinateur. Je tiens aux principes SOLID, aux design patterns et aux décisions d’architecture écrites avec leur coût."
+        ],
+        "location": "Tunis, Tunisie",
+        "availability": "Ouverte aux opportunités",
+        "languages": [
+          {
+            "name": "Arabe",
+            "level": "Langue maternelle"
+          },
+          {
+            "name": "Français",
+            "level": "Courant (C1)"
+          },
+          {
+            "name": "Anglais",
+            "level": "Intermédiaire avancé (B2)"
+          }
+        ],
+        "facts": [
+          {
+            "label": "expériences professionnelles"
+          },
+          {
+            "label": "projets réalisés"
+          },
+          {
+            "label": "Open APIs TM Forum implémentées"
+          }
+        ]
+      },
+      "quote": {
+        "text": "Tu es ici sur terre pour veiller à ta propre évolution et non à celle des autres.",
+        "original": ""
+      },
+      "spotlight": {
+        "eyebrow": "Les standards sur lesquels je m’appuie",
+        "title": "TM Forum et BPMN, ensemble",
+        "intro": "Une commande télécom traverse des systèmes jamais conçus pour coopérer. Je rends ce parcours explicite : les standards du TM Forum disent ce qui est échangé, un modèle BPMN dit dans quel ordre, et un moteur l’exécute.",
+        "tmforum": {
+          "text": "Le TM Forum publie les cadres de référence et les Open APIs qui permettent aux systèmes des opérateurs d’interopérer sans développement spécifique. Mon projet les suit de bout en bout.",
+          "frameworks": [
+            {
+              "role": "quels processus : Order-to-Activate dans le Fulfilment"
+            },
+            {
+              "role": "quelles données : Produit, Service, Ressource"
+            },
+            {
+              "role": "des composants qui possèdent leurs données"
+            },
+            {
+              "role": "17 contrats REST, tous en version 4"
+            }
+          ],
+          "proof": "Mesuré avec les kits de conformité officiels du TM Forum : 4 362 assertions sur 5 403 passent ; 7 problèmes bloquants sur 8 corrigés.",
+          "cert": "Certifiée : Introduction to the TM Forum and the Open Digital Architecture (ODA), TM Forum, mai 2026"
+        },
+        "bpmn": {
+          "text": "La séquence du parcours n’est pas écrite en Java. C’est un modèle BPMN 2.0, compilé par Kogito et exécuté tel qu’il est dessiné. Les décisions métier vivent à côté, dans des règles Drools.",
+          "stats": [
+            {
+              "label": "nœuds"
+            },
+            {
+              "label": "couloirs"
+            },
+            {
+              "label": "tâches"
+            },
+            {
+              "label": "règles Drools"
+            }
+          ]
+        }
+      },
+      "projects": [
+        {
+          "id": "o2a-service",
+          "name": "O2A Service, orchestration Order-to-Activate",
+          "role": "Ingénieure en automatisation des processus, projet de fin d’études",
+          "summary": "Une plateforme alignée TM Forum qui porte une commande fibre de la vérification d’éligibilité à la première facture, pilotée par un modèle BPMN exécutable plutôt que par du code d’intégration.",
+          "highlights": [
+            "Un modèle BPMN de 118 nœuds en cinq couloirs, exécuté par Kogito 10.2",
+            "52 règles Drools, chaque fichier détenu par le service qui le consulte",
+            "9 microservices, 8 bases PostgreSQL, 22 topics Kafka, 17 Open APIs TM Forum (v4)",
+            "Compensation en ordre inverse quand un parcours ne peut aboutir ; les pannes techniques restent reprenables",
+            "Mesuré sur la plateforme réelle : 54 vérifications de bout en bout, 50 commandes simultanées à 0,10 s de médiane",
+            "Une double réservation de port détectée sous concurrence, corrigée par une écriture conditionnelle en base"
+          ]
+        },
+        {
+          "id": "foodsafety",
+          "name": "Plateforme FoodSafety",
+          "company": "Archicompass (start-up française)",
+          "role": "Développeuse full-stack",
+          "summary": "Une plateforme de conformité et d’aide alimentaire pour les municipalités : demandes d’aide, donateurs, bénéficiaires, paniers et livraisons, avec un espace par rôle.",
+          "highlights": [
+            "Développée avec Spring Boot et Angular, livrée en sprints Scrum hebdomadaires",
+            "Services sécurisés par l’authentification Keycloak et un contrôle d’accès par rôle",
+            "Parcours d’une demande : informations générales, donateurs, livraison, avec composition du panier par catégorie et produit",
+            "Catalogue configurable de catégories, sous-catégories et produits"
+          ]
+        },
+        {
+          "id": "exam-planner",
+          "name": "Planificateur de surveillance d’examens",
+          "company": "ISI, Université de Tunis El Manar",
+          "role": "Développeuse logicielle",
+          "summary": "Un planificateur qui affecte les enseignants aux créneaux de surveillance en respectant quotas et indisponibilités, et mesure l’équité du résultat par grade.",
+          "highlights": [
+            "526 affectations sur 23 créneaux pour 126 enseignants, tous affectés",
+            "Contraintes vérifiées : quotas, indisponibilités, aucun conflit",
+            "Rapport de qualité : score global, équité par grade, répartition par jour",
+            "Vues par planning, par enseignant et par salle, avec export individuel et global"
+          ]
+        },
+        {
+          "id": "object-detection",
+          "name": "Détection d’objets industrielle",
+          "role": "Ingénieure deep learning",
+          "summary": "Un modèle de détection d’objets pour un cas d’usage industriel, entraîné sur un jeu de données collecté en conditions de production.",
+          "highlights": [
+            "Modèle SSD MobileNet pour un cas d’usage industriel",
+            "Jeu de données collecté et annoté en conditions de production",
+            "Hyperparamètres ajustés pour la précision et la vitesse d’inférence",
+            "Entraînement et évaluation automatisés par un pipeline Python"
+          ]
+        },
+        {
+          "id": "academia",
+          "name": "Academia, partage d’articles scientifiques",
+          "company": "ISI, Université de Tunis El Manar",
+          "role": "Scrum Master et développeuse backend",
+          "summary": "Une plateforme pour publier et discuter des articles scientifiques, livrée par une équipe agile que j’ai animée en tant que Scrum Master.",
+          "highlights": [
+            "Scrum Master de l’équipe",
+            "Backend Spring Boot sécurisé et documenté avec Swagger",
+            "Keycloak configuré pour le contrôle d’accès par rôle",
+            "Conteneurisée avec Docker"
+          ]
+        },
+        {
+          "id": "quiz-app",
+          "name": "Quiz multijoueur",
+          "company": "ISI, Université de Tunis El Manar",
+          "role": "Développeuse mobile",
+          "summary": "Un quiz en temps réel à la Mentimeter : les joueurs rejoignent une session et répondent en direct.",
+          "highlights": [
+            "Quiz multijoueur en temps réel développé avec Flutter",
+            "Firebase pour l’authentification et la synchronisation en temps réel"
+          ]
+        },
+        {
+          "id": "allacarta",
+          "name": "Refonte frontend AllaCarta",
+          "role": "Développeuse frontend",
+          "summary": "Intégration d’un nouveau template React dans une application en production, avec un code refactoré pour une compatibilité complète des thèmes.",
+          "highlights": [
+            "Nouveau template React intégré dans une application en production",
+            "Code frontend refactoré pour une compatibilité complète des thèmes",
+            "Travail avec l’équipe UI/UX sur l’alignement du design"
+          ]
+        },
+        {
+          "id": "internship-share",
+          "name": "Partage d’expériences de stage",
+          "role": "Développeuse web",
+          "summary": "Une application web où les étudiants partagent leurs expériences de stage.",
+          "highlights": [
+            "Application web de partage d’expériences de stage",
+            "Formulaires dynamiques et gestion des données utilisateurs"
+          ]
+        }
+      ],
+      "experience": [
+        {
+          "role": "Ingénieure en automatisation des processus",
+          "points": [
+            "Moteur de provisioning cloud-native avec Kogito et Quarkus",
+            "Services de commande, d’ordre de travail et de catalogue reliés par Apache Kafka",
+            "Processus métier alignés sur les Open APIs du TM Forum",
+            "Services conteneurisés avec Docker"
+          ]
+        },
+        {
+          "role": "Ingénieure deep learning, vision par ordinateur",
+          "points": [
+            "Détection d’objets SSD MobileNet pour un cas industriel",
+            "Jeu de données dédié, réglages et pipeline Python automatisé"
+          ]
+        },
+        {
+          "role": "Développeuse frontend",
+          "points": [
+            "Template React intégré dans une application en production"
+          ]
+        },
+        {
+          "role": "Développeuse full-stack",
+          "company": "Archicompass (start-up française)",
+          "points": [
+            "Application de conformité FoodSafety avec Spring Boot et Angular",
+            "Sprints Scrum hebdomadaires, sécurité Keycloak"
+          ]
+        },
+        {
+          "role": "Développeuse web",
+          "points": [
+            "Application web de partage d’expériences de stage"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "degree": "Diplôme d’ingénieur, Développement logiciel (IDL)",
+          "school": "ISI, Université de Tunis El Manar"
+        },
+        {
+          "degree": "Licence, Génie logiciel et systèmes informatiques",
+          "school": "ISI, Université de Tunis El Manar"
+        }
+      ],
+      "skills": [
+        {
+          "group": "Processus et intégration"
+        },
+        {
+          "group": "Backend"
+        },
+        {
+          "group": "Frontend et mobile"
+        },
+        {
+          "group": "Livraison et sécurité"
+        },
+        {
+          "group": "Données et IA"
+        }
+      ],
+      "speaking": {
+        "title": "Sur scène, aussi",
+        "text": "Au-delà du code, j’anime. Au département événementiel du Google Club ISTIC, j’ai animé et coordonné des événements de prise de parole comme IGC Talk « Speak up! », et au Freeways Club je participe aux ateliers pour les développeurs juniors. J’aime aussi les émissions de radio sur la culture et le développement personnel.",
+        "items": [
+          {
+            "name": "Google Club ISTIC (IGC), département événementiel",
+            "detail": "Animation et coordination d’événements de prise de parole"
+          },
+          {
+            "name": "Freeways Club, département junior, ISI",
+            "detail": "Ateliers et événements techniques pour les développeurs juniors"
+          }
+        ],
+        "media": [
+          {
+            "caption": "IGC Talk « Speak up! », Google Club ISTIC, 2 février 2023"
+          }
+        ]
+      },
+      "modules": [
+        {
+          "id": "tm-forum",
+          "description": "Les standards télécom en pratique : cadres de référence, SID, Open APIs, conformité et adhésion."
+        },
+        {
+          "id": "business-process-modelling",
+          "name": "Modélisation des processus métier",
+          "description": "BPMN, modèles exécutables et les décisions d’architecture derrière l’automatisation des processus."
+        }
+      ],
+      "design": {
+        "photoBadge": {
+          "text": "Disponible"
+        }
+      },
+      "posts": [
+        {
+          "id": "tm-forum-in-practice",
+          "title": "Le TM Forum en pratique : cadres de référence, Open APIs et comment participer",
+          "excerpt": "Ce que publie le TM Forum, comment le SID sépare produit, service et ressource, les 17 Open APIs que j’ai implémentées, et comment devenir membre.",
+          "body": "<p>Tout opérateur télécom affronte la même question : comment des systèmes achetés à des éditeurs différents, construits par des équipes différentes, peuvent-ils échanger une commande sans développement spécifique à chaque fois ? Le TM Forum existe pour y répondre. Voici ce qu’il publie, comment je l’ai utilisé sur un projet de commande fibre, et comment chacun peut y participer.</p>\n\n<h2>Ce qu’est le TM Forum</h2>\n<p>Le TM Forum est une alliance de l’industrie fondée en 1988, connue sous son nom actuel depuis 2008. Elle réunit plus de 800 organisations dans plus de cent pays : opérateurs, fournisseurs cloud, équipementiers, éditeurs et intégrateurs. Ses membres écrivent des standards partagés pour que deux systèmes conformes s’intègrent sans travail sur mesure.</p>\n\n<h2>Les cadres de référence, en cinq questions</h2>\n<p>La suite s’est longtemps appelée Frameworx ; le TM Forum la regroupe aujourd’hui dans l’<strong>Open Digital Framework</strong>. Je la lis comme cinq questions, de la plus abstraite à la plus concrète.</p>\n<ul>\n<li><strong>eTOM (GB921), quels processus ?</strong> La cartographie de ce que fait un opérateur. Les opérations se divisent en Fulfilment, Assurance et Billing, et Order-to-Activate est le parcours de référence du Fulfilment.</li>\n<li><strong>SID (GB922), quelles données ?</strong> Le dictionnaire partagé des entités : Party, Product, Service, Resource et d’autres.</li>\n<li><strong>TAM (GB929), quels logiciels ?</strong> Des blocs applicatifs comme Order Management, Provisioning et Billing ; son rôle passe au cadre fonctionnel de l’ODA.</li>\n<li><strong>ODA, comment construire ?</strong> L’Open Digital Architecture : des composants qui possèdent leur domaine et l’exposent par des Open APIs.</li>\n<li><strong>Open APIs, comment connecter ?</strong> Des contrats REST avec des règles de conception communes (TMF630) : ressources, états, chemins, filtrage, pagination.</li>\n</ul>\n\n<h2>Le SID par l’exemple</h2>\n<p>Le SID sépare trois couches, et une commande fibre les descend toutes les trois.</p>\n<ul>\n<li><strong>Produit</strong>, ce qui est vendu : l’offre fibre commandée par le client (catalogue TMF620, commande produit TMF622).</li>\n<li><strong>Service</strong>, ce qui est livré : le service internet que le réseau doit fournir (ordre de service TMF641, inventaire des services TMF638, activation TMF640).</li>\n<li><strong>Ressource</strong>, ce sur quoi il tourne : le port fibre physique réservé pour cette adresse (inventaire des ressources TMF639).</li>\n</ul>\n<p>Une commande produit devient un ordre de service à la frontière entre les systèmes commerciaux et techniques, puis consomme une ressource. Bien tenir cette chaîne permet à un écran d’inventaire d’indiquer exactement quel port sert quel client.</p>\n\n<h2>Les 17 Open APIs que j’ai implémentées</h2>\n<p>Toutes en version 4, regroupées selon l’étape du parcours où elles sont appelées.</p>\n<ul>\n<li><strong>Vendre :</strong> TMF620 Product Catalog, TMF673 Geographic Address, TMF679 Product Offering Qualification, TMF648 Quote, TMF629 Customer, TMF632 Party.</li>\n<li><strong>Commander :</strong> TMF622 Product Ordering, TMF641 Service Ordering, TMF637 Product Inventory.</li>\n<li><strong>Livrer et activer :</strong> TMF639 Resource Inventory, TMF697 Work Order, TMF646 Appointment, TMF640 Service Activation, TMF638 Service Inventory.</li>\n<li><strong>Facturer :</strong> TMF666 Account, TMF676 Payment.</li>\n<li><strong>Assurance :</strong> TMF621 Trouble Ticket, ouvert après trois interventions échouées.</li>\n</ul>\n<p>Utiliser le vocabulaire standard a un prix : les besoins hors standard vivent sous un chemin interne séparé, jamais sous le chemin officiel, pour qu’un client sache toujours quel contrat il lit.</p>\n\n<h2>Conformité et certification</h2>\n<p>Le TM Forum publie des <strong>Conformance Test Kits</strong>, des collections de tests officielles pour la plupart des Open APIs, gratuites. Sur ce projet, elles ont évalué 5 403 assertions, dont 4 362 réussies. Plus utile que le score, elles ont révélé huit problèmes qui gêneraient un vrai client, comme trois chemins d’API sans le suffixe officiel ; sept ont été corrigés.</p>\n<p>La certification officielle est délivrée par le TM Forum après revue : questionnaire, exécution du kit, rapport des résultats, puis un certificat et un badge selon le nombre d’API certifiées : Bronze (1 à 3), Silver (4 à 9), Gold (10 à 19), Platinum (20 et plus). Il existe aussi des certifications pour les composants ODA et pour l’alignement eTOM et SID, ainsi que des parcours de formation individuels, d’Awareness à Expert.</p>\n<blockquote>Exécuter les kits mesure l’alignement. La certification est la décision du TM Forum.</blockquote>\n\n<h2>Comment participer</h2>\n<ul>\n<li><strong>Qui peut adhérer :</strong> les entreprises, les partenariats, les universités et les organismes publics. Chaque salarié d’une organisation membre bénéficie des avantages.</li>\n<li><strong>Ce que font les membres :</strong> écrire les standards, participer aux projets Catalyst (des preuves de concept de quatre à six mois, présentées aux événements du TM Forum), suivre des ateliers et lire les études.</li>\n<li><strong>Ce qui est gratuit pour tous :</strong> les spécifications OpenAPI, les collections Postman et les kits de conformité, publiés sous licence Apache 2.0 sur GitHub. On peut commencer à implémenter dès aujourd’hui.</li>\n<li><strong>Se former :</strong> les cours du TM Forum avec examen. J’ai suivi <em>Introduction to the TM Forum and the Open Digital Architecture</em> en mai 2026.</li>\n</ul>\n<p>Sources : <a href=\"https://www.tmforum.org/about-tm-forum/\">tmforum.org, à propos</a>, <a href=\"https://www.tmforum.org/conformance-certification/open-api-conformance/\">conformité des Open APIs</a>, <a href=\"https://www.tmforum.org/about/membership/\">adhésion</a>, <a href=\"https://github.com/tmforum-apis\">les Open APIs du TM Forum sur GitHub</a>.</p>"
+        },
+        {
+          "id": "why-bpmn",
+          "title": "Pourquoi un modèle BPMN pilote tout le parcours de commande",
+          "excerpt": "Une commande fibre traverse neuf services et plusieurs jours. Voici le contexte, l’architecture et les six décisions qui l’ont façonnée, chacune avec le coût qu’elle accepte.",
+          "tags": [
+            "BPMN",
+            "Architecture",
+            "Kogito",
+            "Kafka"
+          ],
+          "body": "<p>Raccorder un logement à la fibre ressemble à une seule action. Chez un opérateur, c’est une chaîne d’engagements entre des systèmes qui ne partagent ni horloge ni base de données : une adresse est qualifiée, un devis est émis, un port est réservé, un technicien se déplace, le service est activé et la facturation commence. Ce post explique comment j’ai construit une plateforme qui porte tout ce parcours, et pourquoi sa séquence vit dans un modèle BPMN plutôt que dans le code.</p>\n\n<h2>Le contexte : deux mondes et une frontière</h2>\n<p>Les opérateurs exploitent deux familles de systèmes construites séparément. Le <strong>BSS</strong> vend et facture : clients, catalogue, prise de commande, factures. L’<strong>OSS</strong> livre : ordres de service, inventaires, provisioning, activation. Une commande fibre naît côté BSS comme commande produit, passe côté OSS comme ordre de service, puis revient pour être facturée. Ce passage, aucun des deux côtés ne le définit.</p>\n<p>Quand il repose sur des intégrations point à point, les mêmes symptômes reviennent :</p>\n<ul>\n<li>personne ne sait où en est une commande donnée ;</li>\n<li>une commande bloquée est retrouvée et poussée à la main ;</li>\n<li>les règles métier sont enfouies dans le code applicatif ;</li>\n<li>quand une étape échoue, ce qui a déjà été fait n’est pas défait, et un port réservé reste bloqué.</li>\n</ul>\n\n<h2>L’architecture</h2>\n<figure><img src=\"assets/projects/o2a-service/m0-bpm.jpg\" alt=\"La commande dessinée en direct sur son modèle BPMN\"><figcaption>Une commande, peinte en direct sur le modèle qui l’exécute.</figcaption></figure>\n<ul>\n<li><strong>Un portail Angular</strong> avec quatre espaces : client, back-office, technicien et support de niveau 2.</li>\n<li><strong>Un moteur Kogito</strong> sur Quarkus qui exécute un modèle BPMN 2.0 de 118 nœuds en cinq couloirs. Il embarque un Data Index interrogeable en GraphQL et confie ses minuteurs (relance de devis, expiration, SLA) à un Jobs Service séparé, pour qu’ils survivent à un redémarrage.</li>\n<li><strong>Neuf services</strong> (catalogue, client, devis, commande, assurance, facturation, adaptateur de facturation, notification, plus le moteur), chacun avec sa propre base PostgreSQL.</li>\n<li><strong>Apache Kafka</strong> avec 22 topics et une enveloppe CloudEvents, pour les faits que les domaines se publient.</li>\n<li><strong>Kill Bill</strong> pour les abonnements, les factures et les paiements, atteint uniquement par un adaptateur.</li>\n<li><strong>17 Open APIs du TM Forum</strong>, toutes en version 4, pour chaque contrat visible de l’extérieur.</li>\n</ul>\n\n<h2>Six décisions, chacune avec le coût qu’elle accepte</h2>\n<p>Une décision sans coût accepté n’a pas été prise, elle a été supposée. Voici les six qui ont façonné la plateforme.</p>\n<ol>\n<li><strong>La séquence vit dans un modèle BPMN exécuté par un moteur</strong>, pas dans un service Java qui appelle les autres tour à tour. Gain : la position de chaque commande se lit dans son instance au lieu d’être reconstruite depuis les logs. Coût : un second artefact à garder en phase avec le code, et une notation à apprendre.</li>\n<li><strong>Les décisions métier vivent dans des règles Drools</strong>, 52 réparties en cinq fichiers, chacun détenu par le service qui le consulte. Gain : un prix ou un seuil change dans un fichier de règles, pas dans le parcours. Coût : les règles ne sont pas un artefact standard comme les tables DMN ; j’ai gardé Drools parce que la faisabilité et l’affectation raisonnent sur plusieurs faits à la fois.</li>\n<li><strong>Orchestration pour le parcours, événements entre domaines.</strong> Le moteur décide de la suite ; Kafka porte ce qui est devenu vrai. Coût : deux mécanismes de coordination à comprendre au lieu d’un.</li>\n<li><strong>Kill Bill derrière une couche anti-corruption.</strong> Un seul module sait que le moteur de facturation existe. Coût : un état tiers que la plateforme ne possède pas, et un adaptateur à maintenir.</li>\n<li><strong>Une base de données par service.</strong> Gain : indépendance et isolation des pannes. Coût : huit bases à faire tourner et aucune jointure entre domaines.</li>\n<li><strong>Un port fibre partagé est réservé par la base elle-même</strong>, avec une écriture conditionnelle. Celle-ci n’était pas prévue : un verrou dans le service laissait dix commandes simultanées se partager trois ports, dont un donné à huit commandes, alors que chaque appel répondait OK. L’écriture conditionnelle a donné dix ports distincts. Coût : une nouvelle tentative quand un candidat est pris entre la lecture et l’écriture.</li>\n</ol>\n\n<h2>Ce que le modèle apporte en pratique</h2>\n<p>Un échec prend l’une de deux routes, choisie dans le modèle. Quand l’échec appelle une réponse métier, une bordure d’erreur déclenche une <strong>compensation</strong> : les étapes terminées sont défaites en ordre inverse, le port revient au stock et le client est informé du motif. Quand c’est une panne technique, l’instance s’arrête en erreur sur le nœud exact, et un administrateur la relance une fois le service revenu. Un problème réseau ne devient jamais un refus affiché au client.</p>\n<blockquote>Un accusé de réception n’est pas une preuve, et un code de statut n’est qu’une affirmation.</blockquote>\n<p>Cette règle a guidé toute la validation : chaque résultat a été lu dans la base du service qui le possède, pas seulement dans la parole du moteur. Dix parcours ont tourné sur la plateforme complète avec 54 vérifications et aucun échec ; cinquante commandes simultanées ont gardé une médiane d’environ un dixième de seconde.</p>\n\n<h2>Ce que j’en retiens</h2>\n<p>La difficulté n’a jamais été à l’intérieur d’un composant, mais entre eux. Orchestrer une commande télécom est un problème de modélisation avant d’être un problème d’intégration, et un modèle BPMN est l’endroit où ce problème devient visible, testable et modifiable.</p>"
+        }
+      ]
+    }
+  }
 }

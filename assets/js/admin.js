@@ -13,7 +13,7 @@
 
   /* ---------------------------------------------------------------- GitHub */
   const GH = {
-    cfg() { return S.draft ? S.draft.settings : App.data.settings; },
+    cfg() { return S.draft ? S.draft.settings : (App.base || App.data).settings; },
     async api(path, opts = {}) {
       const res = await fetch('https://api.github.com' + path, {
         ...opts,
@@ -98,7 +98,7 @@
     document.body.style.overflow = 'hidden';
     root().hidden = false;
     S.token = S.token || store.get('pf_gh_token', '');
-    if (!S.draft) S.draft = clone(App.data);
+    if (!S.draft) S.draft = clone(App.base || App.data);
     if (S.token && S.user) return shell();
     if (S.token) { GH.check().then((u) => { S.user = u; store.set('pf_is_admin', '1'); shell(); }).catch(() => login()); return; }
     login();
@@ -172,7 +172,7 @@
     if (S.blobs[data.profile.photo]) data.profile.photo = S.blobs[data.profile.photo];
     (data.modules || []).forEach((m) => { fix(m.cover); fix(m.bgImage); });
     (data.posts || []).forEach((p) => { fix(p.cover); p.body = String(p.body || '').replace(/src="([^"]+)"/g, (m, u) => S.blobs[u] ? `src="${S.blobs[u]}"` : m); });
-    App.data = data; App.render();
+    App.setData(data); App.render();
     close();
     const bar = document.createElement('div');
     bar.className = 'toast';
@@ -215,7 +215,7 @@ ${items}
       await GH.put('data/portfolio.json', b64Text(json), 'Update portfolio content');
       try { await GH.put('feed.xml', b64Text(buildFeed(S.draft)), 'Update the RSS feed'); } catch (e) { /* le flux sera refait a la prochaine publication */ }
       S.dirty = false;
-      App.data = clone(S.draft);
+      App.setData(clone(S.draft));
       App.render();
       shell();
       toast('Published. GitHub Pages updates the live site in about a minute.', 5000);

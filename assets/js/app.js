@@ -22,6 +22,64 @@
     list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>',
   };
 
+  /* ---------------------------------------------------------------- langues */
+  const UI = {
+    en: {
+      full: 'Full portfolio', brief: 'Recruiter brief', posts: 'Posts', contact: 'Contact', state: 'state', dlcv: 'Download CV', email: 'Email me',
+      about: 'About', aboutTitle: 'Processes as models, decisions as rules, facts as events.', selected: 'Selected work', projects: 'Projects',
+      openCard: 'Open a card to see the screens and the recorded demos.', all: 'All', noKw: 'No project with this keyword yet.',
+      path: 'Path', experience: 'Experience', education: 'Education', certifications: 'Certifications', toolbox: 'Toolbox', skills: 'Skills',
+      beyond: 'Beyond code', stagePh: 'A photo from a hosted public speaking event will appear here.', writing: 'Writing', latest: 'Latest posts',
+      latestSub: 'Thoughts on process automation, architecture and the craft.', allPosts: 'All posts', postsSub: 'What I build, what I learn, what I think.',
+      themes: 'Themes', noPost: 'No post yet.', minRead: 'min read', pinned: 'Pinned', replyMail: 'Reply by e-mail', copyLink: 'Copy link', linkCopied: 'Link copied',
+      previous: 'Previous', next: 'Next', endEvent: 'End event', talk: "Let's talk about your next project.", answer: 'I answer every message. Write me an e-mail, or reach me directly on WhatsApp.',
+      yourName: 'Your name', company: 'Company', message: 'Message', msgPh: 'The role, the team, and how to reach you', sendMail: 'Send by e-mail', sendWa: 'Send on WhatsApp',
+      keyProjects: 'Key projects', seeScreens: 'See screens and demo', coreSkills: 'Core skills', certified: 'Certified', openFull: 'Open the full portfolio',
+      availability: 'Availability', location: 'Location', degree: 'Degree', languages: 'Languages', theme: 'Theme', openModel: 'Open the live model', dragZoom: 'drag to pan · scroll to zoom',
+      apisImpl: 'Open APIs implemented', loveThis: 'Love this profile', youLove: 'You love this profile', searchPosts: 'Search posts', noMatch: 'No post matches your search.',
+      recommendations: 'Recommendations', whatOthers: 'What people say', caseStudy: 'Read the case study', videos: 'video', images: 'image', liveModel: 'Live BPMN model',
+      notExist: 'This post does not exist.', seeAll: 'See all posts', comments: 'Comments', playJourney: '▶ Play an order through the model', stopJourney: '■ Stop',
+    },
+    fr: {
+      full: 'Portfolio complet', brief: 'Vue recruteur', posts: 'Publications', contact: 'Contact', state: 'état', dlcv: 'Télécharger le CV', email: 'M’écrire',
+      about: 'À propos', aboutTitle: 'Les processus en modèles, les décisions en règles, les faits en événements.', selected: 'Réalisations', projects: 'Projets',
+      openCard: 'Ouvrez une carte pour voir les écrans et les démos enregistrées.', all: 'Tous', noKw: 'Aucun projet avec ce mot-clé pour l’instant.',
+      path: 'Parcours', experience: 'Expérience', education: 'Formation', certifications: 'Certifications', toolbox: 'Boîte à outils', skills: 'Compétences',
+      beyond: 'Au-delà du code', stagePh: 'Une photo d’un événement de prise de parole apparaîtra ici.', writing: 'Écrits', latest: 'Dernières publications',
+      latestSub: 'Réflexions sur l’automatisation des processus, l’architecture et le métier.', allPosts: 'Toutes les publications', postsSub: 'Ce que je construis, ce que j’apprends, ce que je pense.',
+      themes: 'Thèmes', noPost: 'Aucune publication pour l’instant.', minRead: 'min de lecture', pinned: 'Épinglé', replyMail: 'Répondre par e-mail', copyLink: 'Copier le lien', linkCopied: 'Lien copié',
+      previous: 'Précédent', next: 'Suivant', endEvent: 'Événement de fin', talk: 'Parlons de votre prochain projet.', answer: 'Je réponds à chaque message. Écrivez-moi un e-mail, ou joignez-moi directement sur WhatsApp.',
+      yourName: 'Votre nom', company: 'Entreprise', message: 'Message', msgPh: 'Le poste, l’équipe, et comment vous joindre', sendMail: 'Envoyer par e-mail', sendWa: 'Envoyer sur WhatsApp',
+      keyProjects: 'Projets clés', seeScreens: 'Voir les écrans et la démo', coreSkills: 'Compétences clés', certified: 'Certifiée', openFull: 'Ouvrir le portfolio complet',
+      availability: 'Disponibilité', location: 'Localisation', degree: 'Diplôme', languages: 'Langues', theme: 'Thème', openModel: 'Ouvrir le modèle interactif', dragZoom: 'glisser pour déplacer · molette pour zoomer',
+      apisImpl: 'Open APIs implémentées', loveThis: 'J’aime ce profil', youLove: 'Vous aimez ce profil', searchPosts: 'Rechercher une publication', noMatch: 'Aucune publication ne correspond.',
+      recommendations: 'Recommandations', whatOthers: 'Ce qu’on dit de moi', caseStudy: 'Lire l’étude de cas', videos: 'vidéo', images: 'image', liveModel: 'Modèle BPMN interactif',
+      notExist: 'Cette publication n’existe pas.', seeAll: 'Voir toutes les publications', comments: 'Commentaires', playJourney: '▶ Faire traverser une commande', stopJourney: '■ Arrêter',
+    },
+  };
+  let LANG = 'en';
+  const T = (k) => (UI[LANG] && UI[LANG][k]) || UI.en[k] || k;
+  // superpose la traduction : objets fusionnes, listes d'objets rapprochees par id ou par position
+  function overlay(base, tr) {
+    if (tr === undefined || tr === null) return base;
+    if (Array.isArray(base) && Array.isArray(tr)) {
+      return base.map((b, i) => {
+        const t = b && typeof b === 'object' && b.id !== undefined ? tr.find((x) => x && x.id === b.id) : tr[i];
+        return t === undefined ? b : overlay(b, t);
+      });
+    }
+    if (base && typeof base === 'object' && !Array.isArray(base) && tr && typeof tr === 'object' && !Array.isArray(tr)) {
+      const o = { ...base };
+      Object.keys(tr).forEach((k) => { o[k] = k in base ? overlay(base[k], tr[k]) : tr[k]; });
+      return o;
+    }
+    return tr;
+  }
+  function localize(raw, lang) {
+    if (lang === 'en' || !raw.translations || !raw.translations[lang]) return raw;
+    return overlay(raw, raw.translations[lang]);
+  }
+
   /* ---------------------------------------------------------------- compteur */
   const Counter = {
     base: 'https://abacus.jasoncameron.dev',
@@ -155,7 +213,7 @@
   }
   function fmtDate(d) {
     const t = new Date(d + 'T12:00:00');
-    return isNaN(t) ? d || '' : t.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    return isNaN(t) ? d || '' : t.toLocaleDateString(LANG === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }
   function readMin(html) { return Math.max(1, Math.round(String(html || '').replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length / 200)); }
   function postCover(p, cls = '') {
@@ -197,7 +255,7 @@
     paint() {
       $$('[data-love]').forEach((b) => {
         b.setAttribute('aria-pressed', String(Love.loved()));
-        b.title = Love.loved() ? 'You love this profile' : 'Love this profile';
+        b.title = Love.loved() ? T('youLove') : T('loveThis');
         const n = $('.love-n', b); if (n) n.textContent = Love.count === null ? '' : Love.count;
       });
     },
@@ -231,12 +289,12 @@
     layout: store.get('pf_layout', 'grid'),
 
     async init() {
-      const preview = window.__PF_PREVIEW__;
-      if (preview) this.data = preview;
-      else {
-        const res = await fetch('data/portfolio.json?v=' + Date.now(), { cache: 'no-store' });
-        this.data = await res.json();
-      }
+      const res = await fetch('data/portfolio.json?v=' + Date.now(), { cache: 'no-store' });
+      const raw = await res.json();
+      const q = new URLSearchParams(location.search).get('lang');
+      const saved = store.get('pf_lang', '');
+      LANG = q === 'fr' || q === 'en' ? q : saved || ((navigator.language || '').toLowerCase().startsWith('fr') ? 'fr' : 'en');
+      this.setData(raw);
       this.render();
       this.bindGlobal();
       const view = new URLSearchParams(location.search).get('view') || store.get('pf_view', 'full');
@@ -246,11 +304,26 @@
       document.dispatchEvent(new CustomEvent('pf:ready'));
     },
 
+    setData(raw) {
+      this.base = raw;
+      this.data = localize(raw, LANG);
+      document.documentElement.lang = LANG;
+    },
+    setLang(l) {
+      if (l === LANG) return;
+      LANG = l; store.set('pf_lang', l);
+      this.setData(this.base);
+      this.render();
+      Counter.hit('lang-' + l);
+    },
     visible() { return (this.data.projects || []).filter((p) => p.visible !== false); },
 
     render() {
       const d = this.data, p = d.profile;
       document.title = `${p.name}, ${p.title}`;
+      $$('.view-switch button').forEach((b) => { b.textContent = T(b.dataset.view); });
+      $$('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
+      const cta = $('.top-actions .btn-solid'); if (cta) cta.textContent = T('contact');
       $$('[data-cv]').forEach((a) => { a.href = p.cv; a.setAttribute('download', p.cv.split('/').pop()); });
       this.renderHero(); this.renderSpotlight(); this.renderWork(); this.renderExperience(); this.renderSkills(); this.renderStage();
       this.renderWriting(); this.renderContact(); this.renderBrief(); this.renderFooter();
@@ -266,17 +339,17 @@
       const [first, ...rest] = p.name.split(' ');
       $('#top').innerHTML = `
         <div class="hero-text reveal">
-          <span class="state"><i class="dot"></i>state: <b>${esc(p.availability || 'Open to opportunities')}</b></span>
+          <span class="state"><i class="dot"></i>${T('state')}: <b>${esc(p.availability || 'Open to opportunities')}</b></span>
           <h1>${esc(first)} <em>${esc(rest.join(' '))}</em></h1>
           <div class="role">${esc(p.title)}</div>
           <p class="headline">${esc(p.headline)}</p>
           <div class="hero-cta">
-            <a class="btn btn-solid" data-cv data-count="cv" href="${esc(p.cv)}" download>${ICON.download} Download CV</a>
-            <a class="btn" data-count="contact-email" href="${esc(mailto(p))}">${ICON.mail} Email me</a>
+            <a class="btn btn-solid" data-cv data-count="cv" href="${esc(p.cv)}" download>${ICON.download} ${T('dlcv')}</a>
+            <a class="btn" data-count="contact-email" href="${esc(mailto(p))}">${ICON.mail} ${T('email')}</a>
             <a class="btn" data-count="contact-whatsapp" href="${esc(wa(p))}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>
             <a class="btn btn-ghost" href="${esc(p.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn">${ICON.in}</a>
             <a class="btn btn-ghost" href="${esc(p.github)}" target="_blank" rel="noopener" aria-label="GitHub">${ICON.gh}</a>
-            <button type="button" class="love" data-love aria-pressed="false" aria-label="Love this profile"><span class="heart" aria-hidden="true">❤</span><span class="love-n">0</span></button>
+            <button type="button" class="love" data-love aria-pressed="false" aria-label="${T('loveThis')}"><span class="heart" aria-hidden="true">❤</span><span class="love-n">0</span></button>
           </div>
           <div class="facts">${(p.facts || []).map((f) => `<div class="fact"><b>${esc(f.value)}</b><span>${esc(f.label)}</span></div>`).join('')}</div>
         </div>
@@ -305,7 +378,7 @@
             <div class="spot-label"><span class="logo-mark">TM</span>TM Forum</div>
             <p>${esc(t.text)}</p>
             <ol class="fw">${(t.frameworks || []).map((f) => `<li><b>${esc(f.name)}</b><span class="mono">${esc(f.ref)}</span><em>${esc(f.role)}</em></li>`).join('')}</ol>
-            <div class="apis-head"><b>${(t.apis || []).length}</b> Open APIs implemented</div>
+            <div class="apis-head"><b>${(t.apis || []).length}</b> ${T('apisImpl')}</div>
             <ul class="apis">${(t.apis || []).map((a) => `<li><span class="mono">${esc(a.id)}</span>${esc(a.name)}</li>`).join('')}</ul>
             ${t.proof ? `<p class="proof">${esc(t.proof)}</p>` : ''}
             ${t.cert ? `<p class="cert"><span aria-hidden="true">✓</span>${esc(t.cert)}</p>` : ''}
@@ -315,7 +388,7 @@
             <p>${esc(b.text)}</p>
             <div class="bstats">${(b.stats || []).map((x) => `<div><b>${esc(x.value)}</b><span>${esc(x.label)}</span></div>`).join('')}</div>
             <div class="bpmn-host" id="spot-bpmn" data-src="${esc(b.file)}">
-              <button type="button" class="bpmn-start">◇ Open the live model<small>drag to pan · scroll to zoom</small></button>
+              <button type="button" class="bpmn-start">◇ ${T('openModel')}<small>${T('dragZoom')}</small></button>
             </div>
           </article>
         </div></div>`;
@@ -332,16 +405,16 @@
       const top = Object.keys(kws).sort((a, b) => kws[b] - kws[a] || a.localeCompare(b)).slice(0, 14);
       $('#work').innerHTML = `
         <div class="about reveal">
-          <div><span class="eyebrow">About</span><h2 style="font-size:clamp(28px,3.4vw,38px);margin-top:8px">Processes as models, decisions as rules, facts as events.</h2></div>
+          <div><span class="eyebrow">${T('about')}</span><h2 style="font-size:clamp(28px,3.4vw,38px);margin-top:8px">${T('aboutTitle')}</h2></div>
           <div>${(p.about || []).map((t) => `<p>${esc(t)}</p>`).join('')}</div>
         </div>
         <div class="section-head reveal">
-          <div><span class="eyebrow">Selected work</span><h2>Projects</h2>
-          <p>Open a card to see the screens and the recorded demos.</p></div>
+          <div><span class="eyebrow">${T('selected')}</span><h2>${T('projects')}</h2>
+          <p>${T('openCard')}</p></div>
         </div>
         <div class="toolbar reveal">
           <div class="filters" role="group" aria-label="Filter by keyword">
-            <button class="chip" type="button" data-filter="" aria-pressed="${!this.filter}">All</button>
+            <button class="chip" type="button" data-filter="" aria-pressed="${!this.filter}">${T('all')}</button>
             ${top.map((k) => `<button class="chip" type="button" data-filter="${esc(k)}" aria-pressed="${this.filter === k}">${esc(k)}</button>`).join('')}
           </div>
           <div class="layout-toggle" role="group" aria-label="Layout">
@@ -357,7 +430,7 @@
       const list = this.visible().filter((pr) => !this.filter || (pr.keywords || []).includes(this.filter));
       const grid = $('#project-grid');
       grid.className = 'grid' + (this.layout === 'list' ? ' list' : '');
-      if (!list.length) { grid.innerHTML = '<p class="empty">No project with this keyword yet.</p>'; return; }
+      if (!list.length) { grid.innerHTML = `<p class="empty">${T('noKw')}</p>`; return; }
       grid.innerHTML = list.map((pr) => {
         const kw = pr.keywords || [];
         const shown = kw.slice(0, pr.featured ? 7 : 5);
@@ -389,7 +462,7 @@
     renderExperience() {
       const d = this.data;
       $('#experience').innerHTML = `
-        <div class="section-head reveal"><div><span class="eyebrow">Path</span><h2>Experience</h2></div></div>
+        <div class="section-head reveal"><div><span class="eyebrow">${T('path')}</span><h2>${T('experience')}</h2></div></div>
         <div class="two-col">
           <ol class="timeline reveal">${(d.experience || []).map((x) => `<li>
             <h3>${esc(x.role)}</h3><span class="when">${esc(x.period)}</span>
@@ -397,8 +470,8 @@
             ${(x.points || []).length ? `<ul>${x.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
           </li>`).join('')}</ol>
           <div class="reveal">
-            <div class="side-card"><h3>Education</h3>${(d.education || []).map((e) => `<div class="item"><b>${esc(e.degree)}</b><span>${esc(e.school)} · ${esc(e.period)}</span></div>`).join('')}</div>
-            <div class="side-card"><h3>Certifications</h3>${(d.certifications || []).map((c) => `<div class="item"><b>${esc(c.name)}</b><span>${esc(c.issuer)} · ${esc(c.year)}${c.id ? ` · <span class="mono" style="font-size:11.5px">ID ${esc(c.id)}</span>` : ''}</span></div>`).join('')}</div>
+            <div class="side-card"><h3>${T('education')}</h3>${(d.education || []).map((e) => `<div class="item"><b>${esc(e.degree)}</b><span>${esc(e.school)} · ${esc(e.period)}</span></div>`).join('')}</div>
+            <div class="side-card"><h3>${T('certifications')}</h3>${(d.certifications || []).map((c) => `<div class="item"><b>${esc(c.name)}</b><span>${esc(c.issuer)} · ${esc(c.year)}${c.id ? ` · <span class="mono" style="font-size:11.5px">ID ${esc(c.id)}</span>` : ''}</span></div>`).join('')}</div>
           </div>
         </div>`;
     },
@@ -406,7 +479,7 @@
     renderSkills() {
       const d = this.data;
       $('#skills').innerHTML = `
-        <div class="section-head reveal"><div><span class="eyebrow">Toolbox</span><h2>Skills</h2></div></div>
+        <div class="section-head reveal"><div><span class="eyebrow">${T('toolbox')}</span><h2>${T('skills')}</h2></div></div>
         <div class="skills reveal">${(d.skills || []).map((g) => `<div class="skill-group"><h3>${esc(g.group)}</h3><div class="tags">${g.items.map((i) => `<span class="tag">${esc(i)}</span>`).join('')}</div></div>`).join('')}</div>
         <div class="langs reveal">${(d.profile.languages || []).map((l) => `<span><b>${esc(l.name)}</b>${esc(l.level)}</span>`).join('')}</div>`;
     },
@@ -416,14 +489,14 @@
       if (!s) { $('#stage').hidden = true; return; }
       const media = s.media || [];
       $('#stage').innerHTML = `
-        <div class="section-head reveal"><div><span class="eyebrow">Beyond code</span><h2>${esc(s.title || 'On stage')}</h2></div></div>
+        <div class="section-head reveal"><div><span class="eyebrow">${T('beyond')}</span><h2>${esc(s.title || 'On stage')}</h2></div></div>
         <div class="stage">
           <div class="reveal">
             <p class="mic">${esc(s.text)}</p>
             ${(s.items || []).map((i) => `<div class="side-card" style="margin-bottom:10px"><div class="item"><b>${esc(i.name)}</b><span>${esc(i.detail)} · ${esc(i.year)}</span></div></div>`).join('')}
           </div>
           <div class="stage-media reveal">${media.length ? media.map((m) => `<figure style="margin:0">${mediaEl(m, { controls: true })}${m.caption ? `<figcaption class="meta" style="margin-top:6px">${esc(m.caption)}</figcaption>` : ''}</figure>`).join('')
-            : '<div class="stage-placeholder">A photo from a hosted public speaking event will appear here.</div>'}</div>
+            : `<div class="stage-placeholder">${T('stagePh')}</div>`}</div>
         </div>`;
     },
 
@@ -438,7 +511,7 @@
         ${m ? `<span class="mod-chip">${esc(m.emoji || '')} ${esc(m.name)}</span>` : ''}
         ${postCover(p)}
         <div class="pc-body">
-          <div class="meta">${p.pinned ? '<span class="company">Pinned</span>' : ''}<span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} min read</span></div>
+          <div class="meta">${p.pinned ? `<span class="company">${T('pinned')}</span>` : ''}<span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} ${T('minRead')}</span></div>
           <h3>${esc(p.title)}</h3>
           <p>${esc(p.excerpt || '')}</p>
           <div class="tags">${(p.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
@@ -449,8 +522,8 @@
       const el = $('#writing');
       if (!list.length) { el.hidden = true; return; }
       el.hidden = false;
-      el.innerHTML = `<div class="section-head reveal"><div><span class="eyebrow">Writing</span><h2>Latest posts</h2><p>Thoughts on process automation, architecture and the craft.</p></div>
-        <a class="btn" href="#/posts">All posts</a></div>
+      el.innerHTML = `<div class="section-head reveal"><div><span class="eyebrow">${T('writing')}</span><h2>${T('latest')}</h2><p>${T('latestSub')}</p></div>
+        <a class="btn" href="#/posts">${T('allPosts')}</a></div>
         <div class="post-grid reveal">${list.slice(0, 3).map((p) => this.postCard(p)).join('')}</div>`;
     },
     renderPostsList(tag) {
@@ -460,13 +533,13 @@
       this.resetModuleBg();
       const mods = (this.data.modules || []).filter((m) => all.some((p) => p.module === m.id));
       $('#view-posts').innerHTML = `<div class="posts-page">
-        <header class="section-head"><div><span class="eyebrow">Writing</span><h2>Posts</h2><p>What I build, what I learn, what I think.</p></div></header>
-        ${mods.length ? `<h3 class="mods-title">Themes</h3><div class="mod-grid">${mods.map((m) => `<a class="mod-card" href="#/module/${esc(m.id)}" style="${esc(moduleStyle(m))}">
+        <header class="section-head"><div><span class="eyebrow">${T('writing')}</span><h2>${T('posts')}</h2><p>${T('postsSub')}</p></div></header>
+        ${mods.length ? `<h3 class="mods-title">${T('themes')}</h3><div class="mod-grid">${mods.map((m) => `<a class="mod-card" href="#/module/${esc(m.id)}" style="${esc(moduleStyle(m))}">
           ${m.cover && m.cover.src ? `<img src="${esc(m.cover.src)}" alt="" loading="lazy">` : ''}
           <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small>
-          <em>${all.filter((p) => p.module === m.id).length} posts</em></a>`).join('')}</div><h3 class="mods-title">All posts</h3>` : ''}
+          <em>${all.filter((p) => p.module === m.id).length} posts</em></a>`).join('')}</div><h3 class="mods-title">${T('allPosts')}</h3>` : ''}
         ${tags.length ? `<div class="filters" style="margin-bottom:22px"><a class="chip" href="#/posts" aria-pressed="${!tag}">All</a>${tags.map((t) => `<a class="chip" href="#/posts/${encodeURIComponent(t)}" aria-pressed="${t === tag}">${esc(t)}</a>`).join('')}</div>` : ''}
-        ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : '<p class="empty">No post yet.</p>'}
+        ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : `<p class="empty">${T('noPost')}</p>`}
       </div>`;
     },
     resetModuleBg() { const v = $('#view-posts'); v.removeAttribute('style'); v.className = ''; },
@@ -494,7 +567,7 @@
     renderPost(id) {
       const p = (this.data.posts || []).find((x) => x.id === id && x.visible !== false);
       const box = $('#view-posts');
-      if (!p) { box.innerHTML = '<div class="posts-page"><p class="empty">This post does not exist. <a href="#/posts">See all posts</a>.</p></div>'; return; }
+      if (!p) { box.innerHTML = `<div class="posts-page"><p class="empty">${T('notExist')} <a href="#/posts">${T('seeAll')}</a>.</p></div>`; return; }
       Counter.hit('post-' + p.id);
       const st = p.style || {};
       const mod = this.module(p.module);
@@ -504,9 +577,9 @@
       const all = this.posts(); const i = all.findIndex((x) => x.id === p.id);
       const prev = all[i + 1], next = all[i - 1];
       box.innerHTML = `<article class="post layout-${esc(st.layout || 'standard')}" style="${st.accent ? `--accent:${esc(st.accent)};--accent-ink:${esc(st.accent)};` : ''}${font ? `--post-font:${font};` : ''}">
-        <a class="back" href="${mod ? '#/module/' + esc(mod.id) : '#/posts'}">← ${mod ? esc((mod.emoji || '') + ' ' + mod.name) : 'All posts'}</a>
+        <a class="back" href="${mod ? '#/module/' + esc(mod.id) : '#/posts'}">← ${mod ? esc((mod.emoji || '') + ' ' + mod.name) : T('allPosts')}</a>
         <header>
-          <div class="meta"><span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} min read</span>${(p.tags || []).map((t) => `<a class="tag" href="#/posts/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>
+          <div class="meta"><span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} ${T('minRead')}</span>${(p.tags || []).map((t) => `<a class="tag" href="#/posts/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>
           <h1>${esc(p.title)}</h1>
           ${p.excerpt ? `<p class="lede">${esc(p.excerpt)}</p>` : ''}
           <div class="byline"><img src="${esc(this.data.profile.photo)}" alt=""><span>${esc(this.data.profile.name)}<small>${esc(this.data.profile.title)}</small></span></div>
@@ -515,10 +588,10 @@
         <div class="post-body">${clean(p.body)}</div>
         <footer class="post-foot">
           <button type="button" class="love" data-love aria-pressed="false"><span class="heart" aria-hidden="true">❤</span><span class="love-n"></span></button>
-          <a class="btn" href="${esc(mailto(this.data.profile, 'About your post: ' + p.title))}">${ICON.mail} Reply by e-mail</a>
-          <button class="btn" type="button" data-share="${esc(p.id)}">Copy link</button>
+          <a class="btn" href="${esc(mailto(this.data.profile, 'About your post: ' + p.title))}">${ICON.mail} ${T('replyMail')}</a>
+          <button class="btn" type="button" data-share="${esc(p.id)}">${T('copyLink')}</button>
         </footer>
-        <nav class="post-nav">${prev ? `<a href="#/post/${esc(prev.id)}"><small>Previous</small>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/post/${esc(next.id)}" style="text-align:right"><small>Next</small>${esc(next.title)}</a>` : ''}</nav>
+        <nav class="post-nav">${prev ? `<a href="#/post/${esc(prev.id)}"><small>${T('previous')}</small>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/post/${esc(next.id)}" style="text-align:right"><small>${T('next')}</small>${esc(next.title)}</a>` : ''}</nav>
       </article>`;
       Love.sync();
       document.title = `${p.title}, ${this.data.profile.name}`;
@@ -538,9 +611,9 @@
       const p = this.data.profile;
       $('#contact').innerHTML = `<div class="inner">
         <div>
-          <span class="eyebrow">End event</span>
-          <h2>Let's talk about your next project.</h2>
-          <p>I answer every message. Write me an e-mail, or reach me directly on WhatsApp.</p>
+          <span class="eyebrow">${T('endEvent')}</span>
+          <h2>${T('talk')}</h2>
+          <p>${T('answer')}</p>
           <div class="contact-actions">
             <a class="btn btn-accent" data-count="contact-email" href="${esc(mailto(p))}">${ICON.mail} ${esc(p.email)}</a>
             <a class="btn" data-count="contact-whatsapp" href="${esc(wa(p))}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>
@@ -550,13 +623,13 @@
         </div>
         <form class="form" id="contact-form" novalidate>
           <div class="row">
-            <label>Your name<input name="name" autocomplete="name" required></label>
-            <label>Company<input name="company" autocomplete="organization"></label>
+            <label>${T('yourName')}<input name="name" autocomplete="name" required></label>
+            <label>${T('company')}<input name="company" autocomplete="organization"></label>
           </div>
-          <label>Message<textarea name="message" required placeholder="The role, the team, and how to reach you"></textarea></label>
+          <label>${T('message')}<textarea name="message" required placeholder="${T('msgPh')}"></textarea></label>
           <div class="send">
-            <button class="btn btn-accent" type="submit" data-channel="email">${ICON.mail} Send by e-mail</button>
-            <button class="btn" type="submit" data-channel="whatsapp">${ICON.wa} Send on WhatsApp</button>
+            <button class="btn btn-accent" type="submit" data-channel="email">${ICON.mail} ${T('sendMail')}</button>
+            <button class="btn" type="submit" data-channel="whatsapp">${ICON.wa} ${T('sendWa')}</button>
           </div>
         </form>
       </div>`;
@@ -583,31 +656,31 @@
           <img src="${esc(p.photo)}" alt="Portrait of ${esc(p.name)}">
           <div><h1>${esc(p.name)}</h1><div class="role">${esc(p.title)}</div><p style="margin:6px 0 0;color:var(--muted)">${esc(p.headline)}</p></div>
           <div class="brief-cta">
-            <a class="btn btn-solid" data-cv data-count="cv" href="${esc(p.cv)}" download>${ICON.download} Download CV</a>
-            <a class="btn" data-count="contact-email" href="${esc(mailto(p))}">${ICON.mail} Email</a>
+            <a class="btn btn-solid" data-cv data-count="cv" href="${esc(p.cv)}" download>${ICON.download} ${T('dlcv')}</a>
+            <a class="btn" data-count="contact-email" href="${esc(mailto(p))}">${ICON.mail} E-mail</a>
             <a class="btn" data-count="contact-whatsapp" href="${esc(wa(p))}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>
           </div>
         </header>
         <dl class="brief-grid" style="margin:0">
-          <div><dt>Availability</dt><dd>${esc(p.availability)}</dd></div>
-          <div><dt>Location</dt><dd>${esc(p.location)}</dd></div>
-          <div><dt>Degree</dt><dd>${esc(((d.education || [])[0] || {}).degree || '')}</dd></div>
-          <div><dt>Languages</dt><dd>${(p.languages || []).map((l) => esc(l.name + ' ' + l.level.replace(/\s*\(.*\)/, ''))).join(', ')}</dd></div>
+          <div><dt>${T('availability')}</dt><dd>${esc(p.availability)}</dd></div>
+          <div><dt>${T('location')}</dt><dd>${esc(p.location)}</dd></div>
+          <div><dt>${T('degree')}</dt><dd>${esc(((d.education || [])[0] || {}).degree || '')}</dd></div>
+          <div><dt>${T('languages')}</dt><dd>${(p.languages || []).map((l) => esc(l.name + ' ' + l.level.replace(/\s*\(.*\)/, ''))).join(', ')}</dd></div>
         </dl>
         <div class="brief-body">
           <section>
-            <h2>Key projects</h2>
+            <h2>${T('keyProjects')}</h2>
             ${key.map((x) => `<div class="bp"><b>${esc(x.name)}</b> <span class="meta" style="display:inline">· ${esc(x.company)} · ${esc(x.role)}</span>
               <p style="margin:4px 0 6px;font-size:14.5px">${esc(x.summary)}</p>
               ${(x.highlights || []).length ? `<p style="margin:0 0 6px;font-size:13.5px;color:var(--muted)">${esc(x.highlights.slice(0, 2).join('. '))}.</p>` : ''}
-              <button type="button" data-project="${esc(x.id)}">See screens and demo</button></div>`).join('')}
+              <button type="button" data-project="${esc(x.id)}">${T('seeScreens')}</button></div>`).join('')}
           </section>
           <section>
-            <h2>Experience</h2>
+            <h2>${T('experience')}</h2>
             ${(d.experience || []).map((x) => `<div class="xp"><div><b>${esc(x.role)}</b><br><small style="color:var(--muted)">${esc(x.company)}</small></div><span>${esc(x.period)}</span></div>`).join('')}
-            <h2 style="margin-top:22px">Core skills</h2>
+            <h2 style="margin-top:22px">${T('coreSkills')}</h2>
             <div class="tags" style="padding:0">${allSkills.map((s) => `<span class="tag">${esc(s)}</span>`).join('')}</div>
-            <p class="brief-note">Certified: ${(d.certifications || []).slice(0, 3).map((c) => esc(c.issuer)).join(', ')}. <a href="?view=full" data-goview="full">Open the full portfolio</a>.</p>
+            <p class="brief-note">${T('certified')}: ${(d.certifications || []).slice(0, 3).map((c) => esc(c.issuer)).join(', ')}. <a href="?view=full" data-goview="full">${T('openFull')}</a>.</p>
           </section>
         </div>
       </article>`;
@@ -693,8 +766,10 @@
         if (l) { this.layout = l.dataset.layout; store.set('pf_layout', this.layout); $$('[data-layout]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layout === this.layout))); this.renderCards(); return; }
         const v = e.target.closest('.view-switch button, [data-goview]');
         if (v) { e.preventDefault(); this.setView(v.dataset.view || v.dataset.goview); return; }
+        const lg = e.target.closest('[data-lang]');
+        if (lg) { this.setLang(lg.dataset.lang); return; }
         const sh = e.target.closest('[data-share]');
-        if (sh) { const u = location.origin + location.pathname + '#/post/' + sh.dataset.share; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { sh.textContent = 'Link copied'; }).catch(() => prompt('Copy this link', u)); return; }
+        if (sh) { const u = location.origin + location.pathname + '#/post/' + sh.dataset.share; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { sh.textContent = T('linkCopied'); }).catch(() => prompt('Copy this link', u)); return; }
         const lv = e.target.closest('[data-love]');
         if (lv) { Love.click(lv); return; }
         const c = e.target.closest('[data-count]');
