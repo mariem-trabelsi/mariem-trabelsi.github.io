@@ -543,3 +543,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .post-card { position: relative; }
 .mod-chip { position: absolute; z-index: 2; left: 10px; top: 10px; font: 600 11.5px var(--sans); padding: 4px 10px; border-radius: 999px; background: var(--accent); color: #fff; }
 .back { font: 500 13px var(--mono); color: var(--muted); text-decoration: none; }
+
+/* texte des publications pose sur une carte, au-dessus du fond du theme */
+#view-posts.in-module .post { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow);
+  margin: clamp(20px, 4vw, 44px) auto; padding: clamp(24px, 4vw, 48px) clamp(18px, 4vw, 52px); }
+#view-posts.in-module .post .post-cover.hero-full { margin-left: 0; margin-right: 0; }
+#view-posts.in-module .posts-page .back { display: inline-block; background: var(--surface); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); }
+#view-posts.in-module .post-card { box-shadow: var(--shadow); }

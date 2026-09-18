@@ -176,7 +176,9 @@
     if (f.url && !document.querySelector(`link[href="${f.url}"]`)) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = f.url; document.head.appendChild(l); }
     let st = '';
     if (m.accent) st += `--accent:${m.accent};--accent-ink:${m.accent};`;
-    if (m.background) st += `--mod-bg:${m.background};`;
+    if (m.bgStyle === 'image' && m.bgImage && m.bgImage.src) st += `--mod-bg:url("${m.bgImage.src}") center / cover fixed, ${m.background || '#ffffff'};`;
+    else if (m.bgStyle === 'gradient' && m.background) st += `--mod-bg:linear-gradient(160deg, ${m.background}, ${m.accent || m.background}33);`;
+    else if (m.background) st += `--mod-bg:${m.background};`;
     if (f.body) st += `--post-font:${f.body};`;
     if (f.title) st += `--mod-title:${f.title};`;
     if (m.pattern && m.pattern !== 'none' && window.PFDesign) {
@@ -456,7 +458,7 @@
       const mods = (this.data.modules || []).filter((m) => all.some((p) => p.module === m.id));
       $('#view-posts').innerHTML = `<div class="posts-page">
         <header class="section-head"><div><span class="eyebrow">Writing</span><h2>Posts</h2><p>What I build, what I learn, what I think.</p></div></header>
-        ${mods.length ? `<h3 class="mods-title">Modules</h3><div class="mod-grid">${mods.map((m) => `<a class="mod-card" href="#/module/${esc(m.id)}" style="${esc(moduleStyle(m))}">
+        ${mods.length ? `<h3 class="mods-title">Themes</h3><div class="mod-grid">${mods.map((m) => `<a class="mod-card" href="#/module/${esc(m.id)}" style="${esc(moduleStyle(m))}">
           ${m.cover && m.cover.src ? `<img src="${esc(m.cover.src)}" alt="" loading="lazy">` : ''}
           <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small>
           <em>${all.filter((p) => p.module === m.id).length} posts</em></a>`).join('')}</div><h3 class="mods-title">All posts</h3>` : ''}

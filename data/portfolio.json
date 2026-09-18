@@ -754,12 +754,28 @@
   },
   "modules": [
     {
-      "id": "tech-notes",
-      "name": "Tech notes",
-      "description": "Architecture, standards and what I learn building real systems.",
+      "id": "tm-forum",
+      "name": "TM Forum",
+      "description": "Telecom standards in practice: frameworks, SID, Open APIs, conformance and membership.",
+      "emoji": "📡",
+      "accent": "#a4145a",
+      "background": "#fbf1f5",
+      "bgStyle": "gradient",
+      "bgImage": null,
+      "pattern": "hexagons",
+      "patternOpacity": 0.12,
+      "font": "site",
+      "cover": null
+    },
+    {
+      "id": "business-process-modelling",
+      "name": "Business Process Modelling",
+      "description": "BPMN, executable models and the architecture decisions behind process automation.",
       "emoji": "◇",
       "accent": "#b8741f",
       "background": "#eef2f8",
+      "bgStyle": "color",
+      "bgImage": null,
       "pattern": "bpmn",
       "patternOpacity": 0.1,
       "font": "site",
@@ -791,7 +807,7 @@
       },
       "visible": true,
       "pinned": false,
-      "module": "tech-notes"
+      "module": "tm-forum"
     },
     {
       "id": "why-bpmn",
@@ -817,7 +833,7 @@
       },
       "visible": true,
       "pinned": false,
-      "module": "tech-notes"
+      "module": "business-process-modelling"
     }
   ]
 }

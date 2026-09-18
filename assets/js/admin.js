@@ -170,7 +170,7 @@
     data.projects.forEach((p) => (p.media || []).forEach(fix));
     (data.speaking && data.speaking.media || []).forEach(fix);
     if (S.blobs[data.profile.photo]) data.profile.photo = S.blobs[data.profile.photo];
-    (data.modules || []).forEach((m) => fix(m.cover));
+    (data.modules || []).forEach((m) => { fix(m.cover); fix(m.bgImage); });
     (data.posts || []).forEach((p) => { fix(p.cover); p.body = String(p.body || '').replace(/src="([^"]+)"/g, (m, u) => S.blobs[u] ? `src="${S.blobs[u]}"` : m); });
     App.data = data; App.render();
     close();
@@ -224,12 +224,12 @@
     if (S.editingPost != null && list[S.editingPost]) return editPost(list[S.editingPost]);
     const p = $('#admin-panel');
     p.innerHTML = `<div class="panel" style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
-      <div><h2>Modules</h2><p class="hint">Themes that group your posts, each with its own look: Romans, Tech notes, Travel…</p></div>
-      <button class="btn btn-solid" type="button" id="new-mod">New module</button></div>
+      <div><h2>Themes</h2><p class="hint">Themes group your posts (TM Forum, Romans, Travel…). Add, rename, reorder, delete, and give each one its own background.</p></div>
+      <button class="btn btn-solid" type="button" id="new-mod">New theme</button></div>
       <div class="rows">${mods.map((m, i) => `<div class="prow">
         <div class="thumb" style="display:grid;place-items:center;font-size:22px;background:${esc(m.background || 'var(--surface-2)')};border:2px solid ${esc(m.accent || 'transparent')}">${esc(m.emoji || '✦')}</div>
         <div class="t"><b>${esc(m.name)}</b><span>${list.filter((x) => x.module === m.id).length} posts · ${esc(m.description || '')}</span></div>
-        <div class="acts"><button class="icon-btn" type="button" data-medit="${i}">Edit</button><button class="icon-btn danger" type="button" data-mdel="${i}">Delete</button></div>
+        <div class="acts"><button class="icon-btn" type="button" data-mmv="${i}" data-d="-1" aria-label="Move up">↑</button><button class="icon-btn" type="button" data-mmv="${i}" data-d="1" aria-label="Move down">↓</button><button class="icon-btn" type="button" data-medit="${i}">Edit, rename, background</button><button class="icon-btn danger" type="button" data-mdel="${i}">Delete</button></div>
       </div>`).join('') || '<p class="hint">No module yet.</p>'}</div></div>
     <div class="panel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
       <div><h2>Posts</h2><p class="hint">Your thoughts, published on your portfolio. Drafts stay hidden until you make them visible.</p></div>
@@ -247,6 +247,7 @@
       S.editingModule = mods.length - 1; markDirty(); tabPosts();
     };
     $$('[data-medit]', p).forEach((b) => b.onclick = () => { S.editingModule = +b.dataset.medit; tabPosts(); });
+    $$('[data-mmv]', p).forEach((b) => b.onclick = () => { const i = +b.dataset.mmv, j = i + +b.dataset.d; if (j < 0 || j >= mods.length) return; [mods[i], mods[j]] = [mods[j], mods[i]]; markDirty(); tabPosts(); });
     $$('[data-mdel]', p).forEach((b) => b.onclick = () => {
       const m = mods[+b.dataset.mdel];
       if (confirm(`Delete the module “${m.name}”? Its posts stay, without a module.`)) { list.forEach((x) => { if (x.module === m.id) x.module = ''; }); mods.splice(+b.dataset.mdel, 1); markDirty(); tabPosts(); }
@@ -275,6 +276,11 @@
         <label class="field full"><span>Description</span><textarea name="description" style="min-height:60px">${esc(m.description || '')}</textarea></label>
         <label class="field"><span>Accent colour</span><input type="color" name="accent" value="${esc(m.accent || '#b8741f')}"></label>
         <label class="field"><span>Background colour</span><input type="color" name="background" value="${esc(m.background || '#ffffff')}"></label>
+        <label class="field"><span>Background style</span><select name="bgStyle">${[['color', 'Plain colour'], ['gradient', 'Gradient to the accent'], ['image', 'My image']].map(([k, l]) => `<option value="${k}" ${(m.bgStyle || 'color') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <div class="field"><span>Background image</span><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          ${m.bgImage && m.bgImage.src ? `<img src="${esc(src(m.bgImage.src))}" alt="" style="width:120px;height:68px;object-fit:cover;border-radius:6px">` : ''}
+          <label class="btn" style="cursor:pointer">Upload<input type="file" id="mbg" accept="image/*" hidden></label>
+          ${m.bgImage ? '<button class="btn" type="button" id="mbg-rm">Remove</button>' : ''}</div></div>
         <label class="field"><span>Background pattern</span><select name="pattern">${Object.entries(D.PATTERNS).map(([k, l]) => `<option value="${k}" ${m.pattern === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
         <label class="field"><span>Pattern strength</span><input type="range" name="patternOpacity" min="3" max="50" value="${Math.round((Number(m.patternOpacity) || 0.12) * 100)}"></label>
         <label class="field"><span>Font</span><select name="font">${Object.entries(fonts).map(([k, l]) => `<option value="${k}" ${m.font === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
@@ -288,7 +294,8 @@
     </div>`;
     const prev = () => {
       const pat = m.pattern && m.pattern !== 'none' ? D.pattern(m.pattern, m.accent, m.accent, 1) : 'none';
-      $('#mprev').innerHTML = `<div class="mod-card" style="--accent:${esc(m.accent)};--mod-bg:${esc(m.background)};--mod-pattern:${esc(pat)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12}">
+      const bg = m.bgStyle === 'image' && m.bgImage ? `url("${src(m.bgImage.src)}") center / cover` : m.bgStyle === 'gradient' ? `linear-gradient(160deg, ${m.background}, ${m.accent}33)` : m.background;
+      $('#mprev').innerHTML = `<div class="mod-card" style="--accent:${esc(m.accent)};--mod-bg:${esc(bg)};--mod-pattern:${esc(pat)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12}">
         <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small><em>posts</em></div>`;
     };
     prev();
@@ -299,6 +306,8 @@
       if (n === 'name' && /^module-/.test(m.id)) m.id = slug(el.value) + '-' + m.id.slice(7);
       markDirty(); prev();
     }));
+    $('#mbg').onchange = async (e) => { try { const r = await upload(e.target.files[0], 'modules'); m.bgImage = { type: 'image', src: r.path }; m.bgStyle = 'image'; markDirty(); editModule(m); } catch (er) { toast(er.message, 6000); } };
+    if ($('#mbg-rm')) $('#mbg-rm').onclick = () => { m.bgImage = null; if (m.bgStyle === 'image') m.bgStyle = 'color'; markDirty(); editModule(m); };
     $('#mcover').onchange = async (e) => { try { const r = await upload(e.target.files[0], 'modules'); m.cover = { type: 'image', src: r.path }; markDirty(); editModule(m); } catch (er) { toast(er.message, 6000); } };
     if ($('#mcover-rm')) $('#mcover-rm').onclick = () => { m.cover = null; markDirty(); editModule(m); };
   }
@@ -316,7 +325,7 @@
         <label class="field full"><span>Title</span><input name="title" value="${esc(x.title)}" placeholder="What is this post about?"></label>
         <label class="field"><span>Date</span><input name="date" type="date" value="${esc(x.date)}"></label>
         <label class="field"><span>Tags, separated by commas</span><input name="tags" value="${esc((x.tags || []).join(', '))}"></label>
-        <label class="field"><span>Module</span><select name="module"><option value="">No module</option>${(S.draft.modules || []).map((m) => `<option value="${esc(m.id)}" ${x.module === m.id ? 'selected' : ''}>${esc((m.emoji || '') + ' ' + m.name)}</option>`).join('')}</select></label>
+        <label class="field"><span>Theme</span><select name="module"><option value="">No theme</option>${(S.draft.modules || []).map((m) => `<option value="${esc(m.id)}" ${x.module === m.id ? 'selected' : ''}>${esc((m.emoji || '') + ' ' + m.name)}</option>`).join('')}</select></label>
         <label class="field full"><span>Short summary, shown on the cards</span><textarea name="excerpt" style="min-height:60px">${esc(x.excerpt)}</textarea></label>
         <label class="check"><input type="checkbox" name="visible" ${x.visible !== false ? 'checked' : ''}> Published (visible to visitors)</label>
         <label class="check"><input type="checkbox" name="pinned" ${x.pinned ? 'checked' : ''}> Pinned at the top</label>
