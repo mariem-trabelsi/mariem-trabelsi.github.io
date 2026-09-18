@@ -201,7 +201,7 @@
       <p class="hint">Counted once per browser session. Your own visits on this device are not counted.</p>
       <div class="stats" id="stats">Loading…</div>
       <h3 style="font-size:18px;margin:6px 0 10px">Project openings</h3><div class="bars" id="bars"></div></div>`;
-    const keys = [['visits', 'Visits'], ['cv', 'CV downloads'], ['bpmn-viewer', 'BPMN model opened'], ['contact-email', 'E-mail clicks'], ['contact-whatsapp', 'WhatsApp clicks'], ['view-brief', 'Recruiter brief views'], ['view-full', 'Full view switches']];
+    const keys = [['visits', 'Visits'], ['likes', '❤ Profile loves'], ['cv', 'CV downloads'], ['bpmn-viewer', 'BPMN model opened'], ['contact-email', 'E-mail clicks'], ['contact-whatsapp', 'WhatsApp clicks'], ['view-brief', 'Recruiter brief views'], ['view-full', 'Full view switches']];
     const vals = await Promise.all(keys.map(([k]) => Counter.get(k)));
     $('#stats').innerHTML = keys.map(([, l], i) => `<div class="stat"><b>${vals[i] === null ? '–' : vals[i]}</b><span>${l}</span></div>`).join('');
     const pv = await Promise.all(d.projects.map((x) => Counter.get('project-' + x.id)));
@@ -237,6 +237,39 @@
         <button class="btn" type="button" id="reset-colors" style="margin-top:10px">Back to the theme colours</button>
       </div>
 
+      <div class="design-block"><h3>Background painting</h3>
+        <p class="hint">A pattern painted behind the whole site, in your theme colours.</p>
+        <div class="presets" id="pats">${Object.entries(D.PATTERNS).map(([k, l]) => `<button type="button" class="preset" data-pat="${k}" aria-pressed="${(d.pattern || 'none') === k}">
+          <span class="sw pat-sw" style="background:${cur.light.paper}"><i style="background:${k === 'none' ? 'none' : D.pattern(k, (d.colors.accent || cur.light.accent) + '66', (d.colors.ink2 || cur.light.ink2) + '55', 0.5)}"></i></span>${l}</button>`).join('')}</div>
+        <div class="fields" style="margin-top:12px">
+          <div class="field"><span>Pattern colours</span>${seg('patternColor', { both: 'Accent and secondary', accent: 'Accent only', main: 'Main colours' })}</div>
+          <div class="field"><span>Pattern size</span>${seg('patternSize', { small: 'Small', medium: 'Medium', large: 'Large' })}</div>
+          <label class="field"><span>Strength: <b id="op-v">${Math.round((Number(d.patternOpacity) || 0.12) * 100)}%</b></span><input type="range" min="3" max="60" value="${Math.round((Number(d.patternOpacity) || 0.12) * 100)}" id="pat-op"></label>
+          <div class="field"><span>Where</span>${seg('patternArea', { page: 'Whole page', hero: 'Top section only' })}</div>
+        </div>
+      </div>
+
+      <div class="design-block"><h3>Cards and buttons</h3>
+        <div class="fields">
+          <div class="field"><span>Cards</span>${seg('cards', { bordered: 'Bordered', flat: 'Flat', elevated: 'Floating' })}</div>
+          <div class="field"><span>Buttons</span>${seg('buttons', { rounded: 'Rounded', pill: 'Pill', square: 'Square' })}</div>
+        </div>
+      </div>
+
+      <div class="design-block"><h3>Layout and motion</h3>
+        <div class="fields">
+          <div class="field"><span>Photo position</span>${seg('heroLayout', { 'photo-right': 'Photo right', 'photo-left': 'Photo left' })}</div>
+          <div class="field"><span>Title size</span>${seg('titleSize', { compact: 'Compact', normal: 'Normal', large: 'Large' })}</div>
+          <div class="field"><span>Animations</span>${seg('motion', { on: 'On', off: 'Off' })}</div>
+        </div>
+      </div>
+
+      <div class="design-block"><h3>Photo background</h3>
+        <p class="hint">Your photo is cut out, so its background can take any colour.</p>
+        ${seg('photoBg', { original: 'Original', accent: 'Accent', main: 'Main colour', soft: 'Soft tint', gradient: 'Gradient', color: 'My colour' })}
+        <label class="field" style="max-width:220px;margin-top:10px"><span>My colour</span><input type="color" id="photo-bg-color" value="${esc(d.photoBgColor || cur.light.accent)}"></label>
+      </div>
+
       <div class="design-block"><h3>Mode</h3>${seg('mode', { auto: 'Follow the visitor', light: 'Light', dark: 'Dark' })}</div>
       <div class="design-block"><h3>Typography</h3>${seg('font', Object.fromEntries(Object.entries(D.FONTS).map(([k, v]) => [k, v.name])))}</div>
       <div class="design-block"><h3>Corners</h3>${seg('radius', { sharp: 'Sharp', soft: 'Soft', round: 'Round' })}</div>
@@ -264,6 +297,9 @@
     $$('[data-color]', p).forEach((el) => el.oninput = () => { d.colors[el.dataset.color] = el.value; live(); });
     $('#reset-colors').onclick = () => { d.colors = {}; live(); tabDesign(); };
     $$('[data-seg]', p).forEach((g) => $$('button', g).forEach((b) => b.onclick = () => { d[g.dataset.seg] = b.dataset.v; live(); tabDesign(); }));
+    $$('[data-pat]', p).forEach((b) => b.onclick = () => { d.pattern = b.dataset.pat; if (!d.patternOpacity) d.patternOpacity = 0.12; live(); tabDesign(); });
+    $('#photo-bg-color').oninput = (e) => { d.photoBgColor = e.target.value; d.photoBg = 'color'; live(); };
+    $('#pat-op').oninput = (e) => { d.patternOpacity = e.target.value / 100; $('#op-v').textContent = e.target.value + '%'; live(); };
     $$('[data-hide]', p).forEach((el) => el.onchange = () => { d.hide[el.dataset.hide] = el.checked; live(); });
     $$('[data-add]', p).forEach((b) => b.onclick = () => { d.stickers.push({ emoji: b.dataset.add, text: b.dataset.add ? '' : 'Hello', section: 'top', pos: 'top-right', rotate: -4, style: 'accent' }); live(); tabDesign(); });
     $$('[data-s]', p).forEach((el) => el.oninput = el.onchange = () => { const st = d.stickers[+el.dataset.s]; st[el.dataset.k] = el.dataset.k === 'rotate' ? Number(el.value) : el.value; live(); });

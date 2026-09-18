@@ -28,7 +28,8 @@
         "rotate": -6,
         "style": "accent"
       }
-    ]
+    ],
+    "photoBg": "original"
   },
   "profile": {
     "name": "Meriem Trabelsi",
@@ -74,7 +75,8 @@
         "value": "17",
         "label": "TM Forum Open APIs implemented"
       }
-    ]
+    ],
+    "photoCutout": "assets/img/meriem-cutout.webp"
   },
   "quote": {
     "text": "You are here on Earth to look after your own evolution, not that of others.",

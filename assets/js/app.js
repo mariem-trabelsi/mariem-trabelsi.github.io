@@ -130,6 +130,40 @@
     }
   }
 
+  /* ---------------------------------------------------------------- coeur */
+  const Love = {
+    loved() { return store.get('pf_loved', '') === '1'; },
+    count: null,
+    paint() {
+      $$('[data-love]').forEach((b) => {
+        b.setAttribute('aria-pressed', String(Love.loved()));
+        b.title = Love.loved() ? 'You love this profile' : 'Love this profile';
+        const n = $('.love-n', b); if (n) n.textContent = Love.count === null ? '' : Love.count;
+      });
+    },
+    sync() {
+      Love.paint();
+      if (Love.count === null) Counter.get('likes').then((v) => { if (v !== null) { Love.count = v; Love.paint(); } });
+    },
+    click(btn) {
+      if (Love.loved()) { btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop'); return; }
+      store.set('pf_loved', '1');
+      Love.count = (Love.count || 0) + 1;
+      Love.paint();
+      $$('[data-love]').forEach((b) => { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); });
+      for (let i = 0; i < 7; i++) {
+        const h = document.createElement('span'); h.className = 'float-heart'; h.textContent = '❤';
+        const r = btn.getBoundingClientRect();
+        h.style.left = (r.left + r.width / 2 + (Math.random() * 60 - 30)) + 'px';
+        h.style.top = (r.top) + 'px';
+        h.style.animationDelay = (i * 60) + 'ms';
+        document.body.appendChild(h); setTimeout(() => h.remove(), 1400);
+      }
+      // le proprietaire et les copies locales ne sont pas comptes
+      if (!Counter.isAdminBrowser() && !Counter.isLocal()) fetch(`${Counter.base}/hit/${Counter.ns()}/likes`).then((r) => r.json()).then((j) => { if (j && j.value) { Love.count = j.value; Love.paint(); } }).catch(() => {});
+    },
+  };
+
   /* ---------------------------------------------------------------- application */
   const App = {
     data: null,
@@ -159,6 +193,8 @@
       $$('[data-cv]').forEach((a) => { a.href = p.cv; a.setAttribute('download', p.cv.split('/').pop()); });
       this.renderHero(); this.renderSpotlight(); this.renderWork(); this.renderExperience(); this.renderSkills(); this.renderStage();
       this.renderContact(); this.renderBrief(); this.renderFooter();
+      if (!$('#love-fab')) document.body.insertAdjacentHTML('beforeend', '<button type="button" id="love-fab" class="love fab" data-love aria-pressed="false" aria-label="Love this profile"><span class="heart" aria-hidden="true">❤</span><span class="love-n">0</span></button>');
+      Love.sync();
       if (window.PFDesign) window.PFDesign.apply(d.design);
       this.observe();
     },
@@ -178,6 +214,7 @@
             <a class="btn" data-count="contact-whatsapp" href="${esc(wa(p))}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>
             <a class="btn btn-ghost" href="${esc(p.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn">${ICON.in}</a>
             <a class="btn btn-ghost" href="${esc(p.github)}" target="_blank" rel="noopener" aria-label="GitHub">${ICON.gh}</a>
+            <button type="button" class="love" data-love aria-pressed="false" aria-label="Love this profile"><span class="heart" aria-hidden="true">❤</span><span class="love-n">0</span></button>
           </div>
           <div class="facts">${(p.facts || []).map((f) => `<div class="fact"><b>${esc(f.value)}</b><span>${esc(f.label)}</span></div>`).join('')}</div>
         </div>
@@ -482,6 +519,8 @@
         if (l) { this.layout = l.dataset.layout; store.set('pf_layout', this.layout); $$('[data-layout]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layout === this.layout))); this.renderCards(); return; }
         const v = e.target.closest('.view-switch button, [data-goview]');
         if (v) { e.preventDefault(); this.setView(v.dataset.view || v.dataset.goview); return; }
+        const lv = e.target.closest('[data-love]');
+        if (lv) { Love.click(lv); return; }
         const c = e.target.closest('[data-count]');
         if (c) Counter.hit(c.dataset.count);
         if (e.target.id === 'theme-btn') {
