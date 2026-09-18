@@ -231,7 +231,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
 @media (max-width: 860px) { .stage { grid-template-columns: 1fr; } }
 .stage-media { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-.stage-media img, .stage-media video { border-radius: var(--radius); width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.stage-media { grid-template-columns: 1fr; } .stage-media img, .stage-media video { border-radius: var(--radius); width: 100%; height: auto; box-shadow: var(--shadow); }
 .stage-placeholder { border: 1.5px dashed var(--line); border-radius: var(--radius); aspect-ratio: 4 / 3; display: grid; place-items: center; text-align: center; color: var(--faint); font-size: 14px; padding: 20px; }
 .mic { font: italic 400 22px/1.4 var(--serif); color: var(--ink-2); margin-bottom: 18px; }
 

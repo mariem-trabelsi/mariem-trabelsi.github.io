@@ -377,7 +377,7 @@
     {
       "id": "exam-planner",
       "name": "Exam Invigilation Scheduler",
-      "company": "ISI Tunis",
+      "company": "ISI, University of Tunis El Manar",
       "role": "Software Developer",
       "period": "May 2025",
       "keywords": [
@@ -460,7 +460,7 @@
     {
       "id": "academia",
       "name": "Academia, Scientific Article Sharing",
-      "company": "Academic project, ISI",
+      "company": "ISI, University of Tunis El Manar",
       "role": "Scrum Master and Backend Developer",
       "period": "Mar. 2025 – May 2025",
       "keywords": [
@@ -486,7 +486,7 @@
     {
       "id": "quiz-app",
       "name": "Multiplayer Quiz App",
-      "company": "Academic project, ISI",
+      "company": "ISI, University of Tunis El Manar",
       "role": "Mobile Developer",
       "period": "May 2025 – Jun. 2025",
       "keywords": [
@@ -603,12 +603,12 @@
   "education": [
     {
       "degree": "Engineering Degree, Software Development (IDL)",
-      "school": "Higher Institute of Computer Science (ISI), University of Tunis El Manar",
+      "school": "ISI, University of Tunis El Manar",
       "period": "2023 – 2026"
     },
     {
       "degree": "Bachelor's Degree, Software Engineering, Computer Systems",
-      "school": "Higher Institute of Computer Science (ISI), University of Tunis El Manar",
+      "school": "ISI, University of Tunis El Manar",
       "period": "2020 – 2023"
     }
   ],
@@ -697,7 +697,7 @@
   ],
   "speaking": {
     "title": "On stage, too",
-    "text": "Beyond code, I host. At the Google Club ISTIC event department I hosted and coordinated public speaking events, and at the Freeways Club I take part in workshops for junior developers. I also love radio programmes about culture and personal development.",
+    "text": "Beyond code, I host. With the event department of the Google Club ISTIC I hosted and coordinated public speaking events such as IGC Talk “Speak up!”, and at the Freeways Club I take part in workshops for junior developers. I also love radio programmes about culture and personal development.",
     "items": [
       {
         "name": "Google Club ISTIC (IGC), Event Department",
@@ -710,6 +710,12 @@
         "year": "2025"
       }
     ],
-    "media": []
+    "media": [
+      {
+        "type": "image",
+        "src": "assets/img/stage/igc-talk-2023.jpg",
+        "caption": "IGC Talk “Speak up!”, Google Club ISTIC, 2 February 2023"
+      }
+    ]
   }
 }
