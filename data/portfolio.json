@@ -752,6 +752,20 @@
       }
     ]
   },
+  "modules": [
+    {
+      "id": "tech-notes",
+      "name": "Tech notes",
+      "description": "Architecture, standards and what I learn building real systems.",
+      "emoji": "◇",
+      "accent": "#b8741f",
+      "background": "#eef2f8",
+      "pattern": "bpmn",
+      "patternOpacity": 0.1,
+      "font": "site",
+      "cover": null
+    }
+  ],
   "posts": [
     {
       "id": "tm-forum-in-practice",
@@ -776,7 +790,8 @@
         "coverDisplay": "full"
       },
       "visible": true,
-      "pinned": false
+      "pinned": false,
+      "module": "tech-notes"
     },
     {
       "id": "why-bpmn",
@@ -801,7 +816,8 @@
         "coverDisplay": "full"
       },
       "visible": true,
-      "pinned": false
+      "pinned": false,
+      "module": "tech-notes"
     }
   ]
 }

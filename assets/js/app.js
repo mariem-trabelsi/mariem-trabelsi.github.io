@@ -164,6 +164,27 @@
     return `<div class="post-cover ${cls}">${c.type === 'video' ? `<video src="${esc(c.src)}" muted playsinline loop autoplay preload="metadata"></video>` : `<img src="${esc(c.src)}" alt="" loading="lazy">`}</div>`;
   }
 
+  const MOD_FONTS = {
+    site: {}, serif: { body: 'var(--serif)' }, sans: { body: 'var(--sans)' }, mono: { body: 'var(--mono)' },
+    elegant: { title: '"Cormorant Garamond", Georgia, serif', body: '"Cormorant Garamond", Georgia, serif', url: 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap' },
+    script: { title: '"Caveat", cursive', url: 'https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap' },
+    typewriter: { title: '"Special Elite", monospace', body: '"Courier Prime", monospace', url: 'https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital@0;1&display=swap' },
+  };
+  function moduleStyle(m) {
+    if (!m) return '';
+    const f = MOD_FONTS[m.font] || {};
+    if (f.url && !document.querySelector(`link[href="${f.url}"]`)) { const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = f.url; document.head.appendChild(l); }
+    let st = '';
+    if (m.accent) st += `--accent:${m.accent};--accent-ink:${m.accent};`;
+    if (m.background) st += `--mod-bg:${m.background};`;
+    if (f.body) st += `--post-font:${f.body};`;
+    if (f.title) st += `--mod-title:${f.title};`;
+    if (m.pattern && m.pattern !== 'none' && window.PFDesign) {
+      st += `--mod-pattern:${window.PFDesign.pattern(m.pattern, m.accent || '#b8741f', m.accent || '#1f3a60', 1)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12};`;
+    }
+    return st;
+  }
+
   /* ---------------------------------------------------------------- coeur */
   const Love = {
     loved() { return store.get('pf_loved', '') === '1'; },
@@ -405,8 +426,11 @@
       return (this.data.posts || []).filter((p) => p.visible !== false)
         .sort((a, b) => (b.pinned === true) - (a.pinned === true) || String(b.date).localeCompare(String(a.date)));
     },
+    module(id) { return (this.data.modules || []).find((m) => m.id === id); },
     postCard(p) {
-      return `<a class="post-card" href="#/post/${esc(p.id)}">
+      const m = this.module(p.module);
+      return `<a class="post-card" href="#/post/${esc(p.id)}" style="${esc(moduleStyle(m))}">
+        ${m ? `<span class="mod-chip">${esc(m.emoji || '')} ${esc(m.name)}</span>` : ''}
         ${postCover(p)}
         <div class="pc-body">
           <div class="meta">${p.pinned ? '<span class="company">Pinned</span>' : ''}<span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} min read</span></div>
@@ -428,11 +452,34 @@
       const all = this.posts();
       const tags = [...new Set(all.flatMap((p) => p.tags || []))];
       const list = tag ? all.filter((p) => (p.tags || []).includes(tag)) : all;
+      this.resetModuleBg();
+      const mods = (this.data.modules || []).filter((m) => all.some((p) => p.module === m.id));
       $('#view-posts').innerHTML = `<div class="posts-page">
         <header class="section-head"><div><span class="eyebrow">Writing</span><h2>Posts</h2><p>What I build, what I learn, what I think.</p></div></header>
+        ${mods.length ? `<h3 class="mods-title">Modules</h3><div class="mod-grid">${mods.map((m) => `<a class="mod-card" href="#/module/${esc(m.id)}" style="${esc(moduleStyle(m))}">
+          ${m.cover && m.cover.src ? `<img src="${esc(m.cover.src)}" alt="" loading="lazy">` : ''}
+          <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small>
+          <em>${all.filter((p) => p.module === m.id).length} posts</em></a>`).join('')}</div><h3 class="mods-title">All posts</h3>` : ''}
         ${tags.length ? `<div class="filters" style="margin-bottom:22px"><a class="chip" href="#/posts" aria-pressed="${!tag}">All</a>${tags.map((t) => `<a class="chip" href="#/posts/${encodeURIComponent(t)}" aria-pressed="${t === tag}">${esc(t)}</a>`).join('')}</div>` : ''}
         ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : '<p class="empty">No post yet.</p>'}
       </div>`;
+    },
+    resetModuleBg() { const v = $('#view-posts'); v.removeAttribute('style'); v.classList.remove('in-module'); },
+    renderModule(id) {
+      const m = this.module(id);
+      const v = $('#view-posts');
+      if (!m) { this.renderPostsList(); return; }
+      Counter.hit('module-' + m.id);
+      const list = this.posts().filter((p) => p.module === m.id);
+      v.setAttribute('style', moduleStyle(m)); v.classList.add('in-module');
+      v.innerHTML = `<div class="posts-page">
+        <a class="back" href="#/posts">← All posts</a>
+        <header class="mod-hero">${m.cover && m.cover.src ? `<img src="${esc(m.cover.src)}" alt="">` : ''}
+          <span class="mod-emoji big">${esc(m.emoji || '✦')}</span>
+          <h2>${esc(m.name)}</h2><p>${esc(m.description || '')}</p><span class="meta">${list.length} post${list.length > 1 ? 's' : ''}</span></header>
+        ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : '<p class="empty">No post in this module yet.</p>'}
+      </div>`;
+      document.title = `${m.name}, ${this.data.profile.name}`;
     },
     renderPost(id) {
       const p = (this.data.posts || []).find((x) => x.id === id && x.visible !== false);
@@ -440,11 +487,14 @@
       if (!p) { box.innerHTML = '<div class="posts-page"><p class="empty">This post does not exist. <a href="#/posts">See all posts</a>.</p></div>'; return; }
       Counter.hit('post-' + p.id);
       const st = p.style || {};
+      const mod = this.module(p.module);
+      const v = $('#view-posts');
+      if (mod) { v.setAttribute('style', moduleStyle(mod)); v.classList.add('in-module'); } else this.resetModuleBg();
       const font = { serif: 'var(--serif)', sans: 'var(--sans)', mono: 'var(--mono)' }[st.font] || '';
       const all = this.posts(); const i = all.findIndex((x) => x.id === p.id);
       const prev = all[i + 1], next = all[i - 1];
       box.innerHTML = `<article class="post layout-${esc(st.layout || 'standard')}" style="${st.accent ? `--accent:${esc(st.accent)};--accent-ink:${esc(st.accent)};` : ''}${font ? `--post-font:${font};` : ''}">
-        <a class="back" href="#/posts">← All posts</a>
+        <a class="back" href="${mod ? '#/module/' + esc(mod.id) : '#/posts'}">← ${mod ? esc((mod.emoji || '') + ' ' + mod.name) : 'All posts'}</a>
         <header>
           <div class="meta"><span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} min read</span>${(p.tags || []).map((t) => `<a class="tag" href="#/posts/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>
           <h1>${esc(p.title)}</h1>
@@ -468,6 +518,7 @@
       const h = decodeURIComponent(location.hash || '');
       let m;
       if ((m = h.match(/^#\/post\/(.+)$/))) { this.setView('posts', false); this.renderPost(m[1]); window.scrollTo({ top: 0 }); return true; }
+      if ((m = h.match(/^#\/module\/(.+)$/))) { this.setView('posts', false); this.renderModule(m[1]); window.scrollTo({ top: 0 }); return true; }
       if ((m = h.match(/^#\/posts(?:\/(.+))?$/))) { this.setView('posts', false); this.renderPostsList(m[1]); window.scrollTo({ top: 0 }); document.title = `Posts, ${this.data.profile.name}`; return true; }
       if (!$('#view-posts').hidden) { this.setView(store.get('pf_view', 'full') === 'brief' ? 'brief' : 'full', false); document.title = `${this.data.profile.name}, ${this.data.profile.title}`; }
       return false;

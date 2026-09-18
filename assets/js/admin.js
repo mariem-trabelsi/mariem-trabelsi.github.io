@@ -157,7 +157,7 @@
         <nav class="admin-tabs" role="tablist">${TABS.map(([k, l]) => `<button role="tab" type="button" data-tab="${k}" aria-selected="${S.tab === k}">${l}</button>`).join('')}</nav>
         <div id="admin-panel"></div>
       </div></div>`;
-    $$('[data-tab]', root()).forEach((b) => b.onclick = () => { S.tab = b.dataset.tab; S.editing = null; S.editingPost = null; shell(); });
+    $$('[data-tab]', root()).forEach((b) => b.onclick = () => { S.tab = b.dataset.tab; S.editing = null; S.editingPost = null; S.editingModule = null; shell(); });
     $('[data-act="close"]', root()).onclick = () => { if (!S.dirty || confirm('Leave the studio? Unsaved changes stay in memory until you reload the page.')) close(); };
     $('[data-act="preview"]', root()).onclick = preview;
     $('[data-act="publish"]', root()).onclick = publish;
@@ -170,6 +170,7 @@
     data.projects.forEach((p) => (p.media || []).forEach(fix));
     (data.speaking && data.speaking.media || []).forEach(fix);
     if (S.blobs[data.profile.photo]) data.profile.photo = S.blobs[data.profile.photo];
+    (data.modules || []).forEach((m) => fix(m.cover));
     (data.posts || []).forEach((p) => { fix(p.cover); p.body = String(p.body || '').replace(/src="([^"]+)"/g, (m, u) => S.blobs[u] ? `src="${S.blobs[u]}"` : m); });
     App.data = data; App.render();
     close();
@@ -218,9 +219,19 @@
   /* ---------------------------------------------------------------- onglet publications */
   function tabPosts() {
     const list = S.draft.posts = S.draft.posts || [];
+    const mods = S.draft.modules = S.draft.modules || [];
+    if (S.editingModule != null && mods[S.editingModule]) return editModule(mods[S.editingModule]);
     if (S.editingPost != null && list[S.editingPost]) return editPost(list[S.editingPost]);
     const p = $('#admin-panel');
-    p.innerHTML = `<div class="panel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
+    p.innerHTML = `<div class="panel" style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
+      <div><h2>Modules</h2><p class="hint">Themes that group your posts, each with its own look: Romans, Tech notes, Travel…</p></div>
+      <button class="btn btn-solid" type="button" id="new-mod">New module</button></div>
+      <div class="rows">${mods.map((m, i) => `<div class="prow">
+        <div class="thumb" style="display:grid;place-items:center;font-size:22px;background:${esc(m.background || 'var(--surface-2)')};border:2px solid ${esc(m.accent || 'transparent')}">${esc(m.emoji || '✦')}</div>
+        <div class="t"><b>${esc(m.name)}</b><span>${list.filter((x) => x.module === m.id).length} posts · ${esc(m.description || '')}</span></div>
+        <div class="acts"><button class="icon-btn" type="button" data-medit="${i}">Edit</button><button class="icon-btn danger" type="button" data-mdel="${i}">Delete</button></div>
+      </div>`).join('') || '<p class="hint">No module yet.</p>'}</div></div>
+    <div class="panel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
       <div><h2>Posts</h2><p class="hint">Your thoughts, published on your portfolio. Drafts stay hidden until you make them visible.</p></div>
       <button class="btn btn-solid" type="button" id="new-post">Write a post</button></div>
       <div class="rows">${list.map((x, i) => `<div class="prow">
@@ -231,6 +242,15 @@
           <button class="icon-btn" type="button" data-pedit="${i}">Edit</button>
           <button class="icon-btn danger" type="button" data-pdel="${i}">Delete</button>
         </div></div>`).join('') || '<p class="hint">No post yet.</p>'}</div></div>`;
+    $('#new-mod').onclick = () => {
+      mods.push({ id: 'module-' + Date.now().toString(36), name: 'New module', description: '', emoji: '✦', accent: '#b8741f', background: '#fbf6ee', pattern: 'none', patternOpacity: 0.12, font: 'site', cover: null });
+      S.editingModule = mods.length - 1; markDirty(); tabPosts();
+    };
+    $$('[data-medit]', p).forEach((b) => b.onclick = () => { S.editingModule = +b.dataset.medit; tabPosts(); });
+    $$('[data-mdel]', p).forEach((b) => b.onclick = () => {
+      const m = mods[+b.dataset.mdel];
+      if (confirm(`Delete the module “${m.name}”? Its posts stay, without a module.`)) { list.forEach((x) => { if (x.module === m.id) x.module = ''; }); mods.splice(+b.dataset.mdel, 1); markDirty(); tabPosts(); }
+    });
     $('#new-post').onclick = () => {
       list.unshift({ id: 'post-' + Date.now().toString(36), title: '', date: new Date().toISOString().slice(0, 10), tags: [], excerpt: '', cover: null, body: '<p></p>',
         style: { layout: 'standard', font: 'site', accent: '', coverDisplay: 'full' }, visible: false, pinned: false });
@@ -239,6 +259,48 @@
     $$('[data-pvis]', p).forEach((b) => b.onclick = () => { const x = list[+b.dataset.pvis]; x.visible = x.visible === false; markDirty(); tabPosts(); });
     $$('[data-pedit]', p).forEach((b) => b.onclick = () => { S.editingPost = +b.dataset.pedit; tabPosts(); });
     $$('[data-pdel]', p).forEach((b) => b.onclick = () => { const x = list[+b.dataset.pdel]; if (confirm(`Delete “${x.title || 'this post'}”?`)) { list.splice(+b.dataset.pdel, 1); markDirty(); tabPosts(); } });
+  }
+
+  function editModule(m) {
+    const D = window.PFDesign;
+    const fonts = { site: 'Site font', serif: 'Serif', sans: 'Sans', mono: 'Mono', elegant: 'Elegant', script: 'Handwritten titles', typewriter: 'Typewriter' };
+    const p = $('#admin-panel');
+    p.innerHTML = `<div class="panel">
+      <button class="btn btn-ghost" type="button" id="mback">← Posts and modules</button>
+      <h2 style="margin-top:12px">${esc(m.emoji || '')} ${esc(m.name)}</h2>
+      <p class="hint">Posts in this module take its colours, background and font.</p>
+      <div class="fields" id="mf">
+        <label class="field"><span>Name</span><input name="name" value="${esc(m.name)}"></label>
+        <label class="field"><span>Symbol or emoji</span><input name="emoji" value="${esc(m.emoji || '')}" maxlength="4"></label>
+        <label class="field full"><span>Description</span><textarea name="description" style="min-height:60px">${esc(m.description || '')}</textarea></label>
+        <label class="field"><span>Accent colour</span><input type="color" name="accent" value="${esc(m.accent || '#b8741f')}"></label>
+        <label class="field"><span>Background colour</span><input type="color" name="background" value="${esc(m.background || '#ffffff')}"></label>
+        <label class="field"><span>Background pattern</span><select name="pattern">${Object.entries(D.PATTERNS).map(([k, l]) => `<option value="${k}" ${m.pattern === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label class="field"><span>Pattern strength</span><input type="range" name="patternOpacity" min="3" max="50" value="${Math.round((Number(m.patternOpacity) || 0.12) * 100)}"></label>
+        <label class="field"><span>Font</span><select name="font">${Object.entries(fonts).map(([k, l]) => `<option value="${k}" ${m.font === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <div class="field"><span>Cover image</span><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          ${m.cover && m.cover.src ? `<img src="${esc(src(m.cover.src))}" alt="" style="width:120px;height:68px;object-fit:cover;border-radius:6px">` : ''}
+          <label class="btn" style="cursor:pointer">Upload<input type="file" id="mcover" accept="image/*" hidden></label>
+          ${m.cover ? '<button class="btn" type="button" id="mcover-rm">Remove</button>' : ''}</div></div>
+      </div>
+      <h3 style="font-size:18px;margin:20px 0 10px">Preview</h3>
+      <div id="mprev" style="max-width:320px"></div>
+    </div>`;
+    const prev = () => {
+      const pat = m.pattern && m.pattern !== 'none' ? D.pattern(m.pattern, m.accent, m.accent, 1) : 'none';
+      $('#mprev').innerHTML = `<div class="mod-card" style="--accent:${esc(m.accent)};--mod-bg:${esc(m.background)};--mod-pattern:${esc(pat)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12}">
+        <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small><em>posts</em></div>`;
+    };
+    prev();
+    $('#mback').onclick = () => { S.editingModule = null; tabPosts(); };
+    $$('#mf [name]', p).forEach((el) => el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', () => {
+      const n = el.name;
+      m[n] = n === 'patternOpacity' ? el.value / 100 : el.value;
+      if (n === 'name' && /^module-/.test(m.id)) m.id = slug(el.value) + '-' + m.id.slice(7);
+      markDirty(); prev();
+    }));
+    $('#mcover').onchange = async (e) => { try { const r = await upload(e.target.files[0], 'modules'); m.cover = { type: 'image', src: r.path }; markDirty(); editModule(m); } catch (er) { toast(er.message, 6000); } };
+    if ($('#mcover-rm')) $('#mcover-rm').onclick = () => { m.cover = null; markDirty(); editModule(m); };
   }
 
   function editPost(x) {
@@ -254,6 +316,7 @@
         <label class="field full"><span>Title</span><input name="title" value="${esc(x.title)}" placeholder="What is this post about?"></label>
         <label class="field"><span>Date</span><input name="date" type="date" value="${esc(x.date)}"></label>
         <label class="field"><span>Tags, separated by commas</span><input name="tags" value="${esc((x.tags || []).join(', '))}"></label>
+        <label class="field"><span>Module</span><select name="module"><option value="">No module</option>${(S.draft.modules || []).map((m) => `<option value="${esc(m.id)}" ${x.module === m.id ? 'selected' : ''}>${esc((m.emoji || '') + ' ' + m.name)}</option>`).join('')}</select></label>
         <label class="field full"><span>Short summary, shown on the cards</span><textarea name="excerpt" style="min-height:60px">${esc(x.excerpt)}</textarea></label>
         <label class="check"><input type="checkbox" name="visible" ${x.visible !== false ? 'checked' : ''}> Published (visible to visitors)</label>
         <label class="check"><input type="checkbox" name="pinned" ${x.pinned ? 'checked' : ''}> Pinned at the top</label>
@@ -313,7 +376,7 @@
     };
     ed.addEventListener('input', sync);
     $('#pback').onclick = () => { sync(); S.editingPost = null; tabPosts(); };
-    $$('#pf [name]', p).forEach((el) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => {
+    $$('#pf [name]', p).forEach((el) => el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', () => {
       const n = el.name;
       if (el.type === 'checkbox') x[n] = el.checked;
       else if (n === 'tags') x.tags = el.value.split(',').map((t) => t.trim()).filter(Boolean);
