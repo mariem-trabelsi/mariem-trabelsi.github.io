@@ -751,5 +751,30 @@
         "caption": "IGC Talk “Speak up!”, Google Club ISTIC, 2 February 2023"
       }
     ]
-  }
+  },
+  "posts": [
+    {
+      "id": "why-bpmn",
+      "title": "Why I let a BPMN model drive the journey",
+      "date": "2026-09-18",
+      "tags": [
+        "BPMN",
+        "Architecture"
+      ],
+      "excerpt": "Code can hold a sequence, but it cannot answer where an order is right now. A model can.",
+      "cover": {
+        "type": "image",
+        "src": "assets/projects/o2a-service/m0-bpm.jpg"
+      },
+      "body": "<p>When a telecom order crosses nine services, the hardest question is not <em>how</em> to call them. It is <strong>where the order stands</strong> at any moment.</p><h2>A model you can read, and run</h2><p>With BPMN 2.0 executed by Kogito, the drawing is the program. There is nothing to keep in step, and every instance can be painted on the diagram.</p><blockquote>An acknowledgement is not evidence.</blockquote><p>That rule shaped the whole validation of my graduation project.</p>",
+      "style": {
+        "layout": "standard",
+        "font": "site",
+        "accent": "",
+        "coverDisplay": "full"
+      },
+      "visible": true,
+      "pinned": false
+    }
+  ]
 }

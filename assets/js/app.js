@@ -130,6 +130,40 @@
     }
   }
 
+  /* ---------------------------------------------------------------- publications */
+  const ALLOWED = { P: [], H2: [], H3: [], STRONG: [], B: [], EM: [], I: [], U: [], S: [], BLOCKQUOTE: [], UL: [], OL: [], LI: [], A: ['href'], IMG: ['src', 'alt'],
+    VIDEO: ['src', 'controls', 'poster'], FIGURE: [], FIGCAPTION: [], CODE: [], PRE: [], BR: [], HR: [], SPAN: [], DIV: [], MARK: [] };
+  function clean(html) {
+    const doc = new DOMParser().parseFromString(`<div>${html || ''}</div>`, 'text/html');
+    const walk = (node) => {
+      [...node.children].forEach((el) => {
+        const allow = ALLOWED[el.tagName];
+        if (!allow) { if (/^(SCRIPT|STYLE|IFRAME|OBJECT|EMBED)$/.test(el.tagName)) el.remove(); else { el.replaceWith(...el.childNodes); } return; }
+        [...el.attributes].forEach((a) => {
+          const ok = allow.includes(a.name) || (a.name === 'class' && /^(align-(left|center|right)|wide|note)$/.test(a.value));
+          if (!ok) el.removeAttribute(a.name);
+          else if ((a.name === 'href' || a.name === 'src') && /^\s*javascript:/i.test(a.value)) el.removeAttribute(a.name);
+        });
+        if (el.tagName === 'A') { el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); }
+        if (el.tagName === 'VIDEO') { el.setAttribute('controls', ''); el.setAttribute('playsinline', ''); }
+        if (el.tagName === 'IMG') el.setAttribute('loading', 'lazy');
+        walk(el);
+      });
+    };
+    walk(doc.body.firstChild);
+    return doc.body.firstChild.innerHTML;
+  }
+  function fmtDate(d) {
+    const t = new Date(d + 'T12:00:00');
+    return isNaN(t) ? d || '' : t.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  function readMin(html) { return Math.max(1, Math.round(String(html || '').replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length / 200)); }
+  function postCover(p, cls = '') {
+    const c = p.cover;
+    if (!c || !c.src) return `<div class="post-cover gen ${cls}">${genCover({ id: p.id, name: p.title, keywords: p.tags || [] })}</div>`;
+    return `<div class="post-cover ${cls}">${c.type === 'video' ? `<video src="${esc(c.src)}" muted playsinline loop autoplay preload="metadata"></video>` : `<img src="${esc(c.src)}" alt="" loading="lazy">`}</div>`;
+  }
+
   /* ---------------------------------------------------------------- coeur */
   const Love = {
     loved() { return store.get('pf_loved', '') === '1'; },
@@ -180,7 +214,8 @@
       this.render();
       this.bindGlobal();
       const view = new URLSearchParams(location.search).get('view') || store.get('pf_view', 'full');
-      this.setView(view === 'brief' ? 'brief' : 'full', false);
+      if (!this.route()) this.setView(view === 'brief' ? 'brief' : 'full', false);
+      window.addEventListener('hashchange', () => this.route());
       if (!store.sget('pf_counted')) { store.sset('pf_counted', '1'); Counter.hit('visits'); }
       document.dispatchEvent(new CustomEvent('pf:ready'));
     },
@@ -192,7 +227,8 @@
       document.title = `${p.name}, ${p.title}`;
       $$('[data-cv]').forEach((a) => { a.href = p.cv; a.setAttribute('download', p.cv.split('/').pop()); });
       this.renderHero(); this.renderSpotlight(); this.renderWork(); this.renderExperience(); this.renderSkills(); this.renderStage();
-      this.renderContact(); this.renderBrief(); this.renderFooter();
+      this.renderWriting(); this.renderContact(); this.renderBrief(); this.renderFooter();
+      this.route();
       if (!$('#love-fab')) document.body.insertAdjacentHTML('beforeend', '<button type="button" id="love-fab" class="love fab" data-love aria-pressed="false" aria-label="Love this profile"><span class="heart" aria-hidden="true">❤</span><span class="love-n">0</span></button>');
       Love.sync();
       if (window.PFDesign) window.PFDesign.apply(d.design);
@@ -365,6 +401,78 @@
         </div>`;
     },
 
+    posts() {
+      return (this.data.posts || []).filter((p) => p.visible !== false)
+        .sort((a, b) => (b.pinned === true) - (a.pinned === true) || String(b.date).localeCompare(String(a.date)));
+    },
+    postCard(p) {
+      return `<a class="post-card" href="#/post/${esc(p.id)}">
+        ${postCover(p)}
+        <div class="pc-body">
+          <div class="meta">${p.pinned ? '<span class="company">Pinned</span>' : ''}<span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} min read</span></div>
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.excerpt || '')}</p>
+          <div class="tags">${(p.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+        </div></a>`;
+    },
+    renderWriting() {
+      const list = this.posts();
+      const el = $('#writing');
+      if (!list.length) { el.hidden = true; return; }
+      el.hidden = false;
+      el.innerHTML = `<div class="section-head reveal"><div><span class="eyebrow">Writing</span><h2>Latest posts</h2><p>Thoughts on process automation, architecture and the craft.</p></div>
+        <a class="btn" href="#/posts">All posts</a></div>
+        <div class="post-grid reveal">${list.slice(0, 3).map((p) => this.postCard(p)).join('')}</div>`;
+    },
+    renderPostsList(tag) {
+      const all = this.posts();
+      const tags = [...new Set(all.flatMap((p) => p.tags || []))];
+      const list = tag ? all.filter((p) => (p.tags || []).includes(tag)) : all;
+      $('#view-posts').innerHTML = `<div class="posts-page">
+        <header class="section-head"><div><span class="eyebrow">Writing</span><h2>Posts</h2><p>What I build, what I learn, what I think.</p></div></header>
+        ${tags.length ? `<div class="filters" style="margin-bottom:22px"><a class="chip" href="#/posts" aria-pressed="${!tag}">All</a>${tags.map((t) => `<a class="chip" href="#/posts/${encodeURIComponent(t)}" aria-pressed="${t === tag}">${esc(t)}</a>`).join('')}</div>` : ''}
+        ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : '<p class="empty">No post yet.</p>'}
+      </div>`;
+    },
+    renderPost(id) {
+      const p = (this.data.posts || []).find((x) => x.id === id && x.visible !== false);
+      const box = $('#view-posts');
+      if (!p) { box.innerHTML = '<div class="posts-page"><p class="empty">This post does not exist. <a href="#/posts">See all posts</a>.</p></div>'; return; }
+      Counter.hit('post-' + p.id);
+      const st = p.style || {};
+      const font = { serif: 'var(--serif)', sans: 'var(--sans)', mono: 'var(--mono)' }[st.font] || '';
+      const all = this.posts(); const i = all.findIndex((x) => x.id === p.id);
+      const prev = all[i + 1], next = all[i - 1];
+      box.innerHTML = `<article class="post layout-${esc(st.layout || 'standard')}" style="${st.accent ? `--accent:${esc(st.accent)};--accent-ink:${esc(st.accent)};` : ''}${font ? `--post-font:${font};` : ''}">
+        <a class="back" href="#/posts">← All posts</a>
+        <header>
+          <div class="meta"><span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} min read</span>${(p.tags || []).map((t) => `<a class="tag" href="#/posts/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>
+          <h1>${esc(p.title)}</h1>
+          ${p.excerpt ? `<p class="lede">${esc(p.excerpt)}</p>` : ''}
+          <div class="byline"><img src="${esc(this.data.profile.photo)}" alt=""><span>${esc(this.data.profile.name)}<small>${esc(this.data.profile.title)}</small></span></div>
+        </header>
+        ${st.coverDisplay !== 'none' && p.cover && p.cover.src ? postCover(p, 'hero-' + (st.coverDisplay || 'full')) : ''}
+        <div class="post-body">${clean(p.body)}</div>
+        <footer class="post-foot">
+          <button type="button" class="love" data-love aria-pressed="false"><span class="heart" aria-hidden="true">❤</span><span class="love-n"></span></button>
+          <a class="btn" href="${esc(mailto(this.data.profile, 'About your post: ' + p.title))}">${ICON.mail} Reply by e-mail</a>
+          <button class="btn" type="button" data-share="${esc(p.id)}">Copy link</button>
+        </footer>
+        <nav class="post-nav">${prev ? `<a href="#/post/${esc(prev.id)}"><small>Previous</small>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/post/${esc(next.id)}" style="text-align:right"><small>Next</small>${esc(next.title)}</a>` : ''}</nav>
+      </article>`;
+      Love.sync();
+      document.title = `${p.title}, ${this.data.profile.name}`;
+    },
+
+    route() {
+      const h = decodeURIComponent(location.hash || '');
+      let m;
+      if ((m = h.match(/^#\/post\/(.+)$/))) { this.setView('posts', false); this.renderPost(m[1]); window.scrollTo({ top: 0 }); return true; }
+      if ((m = h.match(/^#\/posts(?:\/(.+))?$/))) { this.setView('posts', false); this.renderPostsList(m[1]); window.scrollTo({ top: 0 }); document.title = `Posts, ${this.data.profile.name}`; return true; }
+      if (!$('#view-posts').hidden) { this.setView(store.get('pf_view', 'full') === 'brief' ? 'brief' : 'full', false); document.title = `${this.data.profile.name}, ${this.data.profile.title}`; }
+      return false;
+    },
+
     renderContact() {
       const p = this.data.profile;
       $('#contact').innerHTML = `<div class="inner">
@@ -504,8 +612,13 @@
     setView(v, save = true) {
       $('#view-full').hidden = v !== 'full';
       $('#view-brief').hidden = v !== 'brief';
+      $('#view-posts').hidden = v !== 'posts';
       $$('.view-switch button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === v)));
-      if (save) { store.set('pf_view', v); Counter.hit('view-' + v); window.scrollTo({ top: 0 }); }
+      if (save) {
+        if (v === 'posts') { location.hash = '#/posts'; return; }
+        store.set('pf_view', v); Counter.hit('view-' + v); window.scrollTo({ top: 0 });
+        if (/^#\//.test(location.hash)) history.replaceState(null, '', location.pathname + location.search);
+      }
     },
 
     bindGlobal() {
@@ -519,6 +632,8 @@
         if (l) { this.layout = l.dataset.layout; store.set('pf_layout', this.layout); $$('[data-layout]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layout === this.layout))); this.renderCards(); return; }
         const v = e.target.closest('.view-switch button, [data-goview]');
         if (v) { e.preventDefault(); this.setView(v.dataset.view || v.dataset.goview); return; }
+        const sh = e.target.closest('[data-share]');
+        if (sh) { const u = location.origin + location.pathname + '#/post/' + sh.dataset.share; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { sh.textContent = 'Link copied'; }).catch(() => prompt('Copy this link', u)); return; }
         const lv = e.target.closest('[data-love]');
         if (lv) { Love.click(lv); return; }
         const c = e.target.closest('[data-count]');

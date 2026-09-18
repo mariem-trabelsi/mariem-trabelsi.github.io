@@ -142,7 +142,7 @@
     };
   }
 
-  const TABS = [['visitors', 'Visitors'], ['design', 'Design'], ['profile', 'Profile'], ['projects', 'Projects'], ['sections', 'Other sections'], ['settings', 'Settings']];
+  const TABS = [['visitors', 'Visitors'], ['posts', 'Posts'], ['design', 'Design'], ['profile', 'Profile'], ['projects', 'Projects'], ['sections', 'Other sections'], ['settings', 'Settings']];
 
   function shell() {
     root().innerHTML = `<div class="admin">
@@ -157,11 +157,11 @@
         <nav class="admin-tabs" role="tablist">${TABS.map(([k, l]) => `<button role="tab" type="button" data-tab="${k}" aria-selected="${S.tab === k}">${l}</button>`).join('')}</nav>
         <div id="admin-panel"></div>
       </div></div>`;
-    $$('[data-tab]', root()).forEach((b) => b.onclick = () => { S.tab = b.dataset.tab; S.editing = null; shell(); });
+    $$('[data-tab]', root()).forEach((b) => b.onclick = () => { S.tab = b.dataset.tab; S.editing = null; S.editingPost = null; shell(); });
     $('[data-act="close"]', root()).onclick = () => { if (!S.dirty || confirm('Leave the studio? Unsaved changes stay in memory until you reload the page.')) close(); };
     $('[data-act="preview"]', root()).onclick = preview;
     $('[data-act="publish"]', root()).onclick = publish;
-    ({ visitors: tabVisitors, design: tabDesign, profile: tabProfile, projects: tabProjects, sections: tabSections, settings: tabSettings })[S.tab]();
+    ({ visitors: tabVisitors, posts: tabPosts, design: tabDesign, profile: tabProfile, projects: tabProjects, sections: tabSections, settings: tabSettings })[S.tab]();
   }
 
   function preview() {
@@ -170,6 +170,7 @@
     data.projects.forEach((p) => (p.media || []).forEach(fix));
     (data.speaking && data.speaking.media || []).forEach(fix);
     if (S.blobs[data.profile.photo]) data.profile.photo = S.blobs[data.profile.photo];
+    (data.posts || []).forEach((p) => { fix(p.cover); p.body = String(p.body || '').replace(/src="([^"]+)"/g, (m, u) => S.blobs[u] ? `src="${S.blobs[u]}"` : m); });
     App.data = data; App.render();
     close();
     const bar = document.createElement('div');
@@ -206,8 +207,159 @@
     $('#stats').innerHTML = keys.map(([, l], i) => `<div class="stat"><b>${vals[i] === null ? '–' : vals[i]}</b><span>${l}</span></div>`).join('');
     const pv = await Promise.all(d.projects.map((x) => Counter.get('project-' + x.id)));
     const max = Math.max(1, ...pv.map((v) => v || 0));
+    const posts = d.posts || [];
+    const ps = await Promise.all(posts.map((x) => Counter.get('post-' + x.id)));
+    const pmax = Math.max(1, ...ps.map((v) => v || 0));
+    $('#bars').insertAdjacentHTML('afterend', posts.length ? `<h3 style="font-size:18px;margin:18px 0 10px">Post reads</h3><div class="bars">${posts.map((x, i) => `<div><span>${esc(x.title || 'Untitled')}</span><i style="width:${((ps[i] || 0) / pmax) * 100}%"></i><em>${ps[i] ?? '–'}</em></div>`).join('')}</div>` : '');
     $('#bars').innerHTML = d.projects.map((x, i) => `<div><span>${esc(x.name)}</span><i style="width:${((pv[i] || 0) / max) * 100}%"></i><em>${pv[i] ?? '–'}</em></div>`).join('');
     if (vals.every((v) => v === null)) $('#stats').insertAdjacentHTML('afterend', '<div class="notice">The counter service did not answer. Try again later.</div>');
+  }
+
+  /* ---------------------------------------------------------------- onglet publications */
+  function tabPosts() {
+    const list = S.draft.posts = S.draft.posts || [];
+    if (S.editingPost != null && list[S.editingPost]) return editPost(list[S.editingPost]);
+    const p = $('#admin-panel');
+    p.innerHTML = `<div class="panel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
+      <div><h2>Posts</h2><p class="hint">Your thoughts, published on your portfolio. Drafts stay hidden until you make them visible.</p></div>
+      <button class="btn btn-solid" type="button" id="new-post">Write a post</button></div>
+      <div class="rows">${list.map((x, i) => `<div class="prow">
+        <div class="thumb">${x.cover && x.cover.src ? (x.cover.type === 'video' ? `<video src="${esc(src(x.cover.src))}" muted></video>` : `<img src="${esc(src(x.cover.src))}" alt="">`) : ''}</div>
+        <div class="t"><b>${esc(x.title || 'Untitled')}</b><span>${esc(x.date)}${x.visible === false ? ' · draft' : ' · published'}${x.pinned ? ' · pinned' : ''}</span></div>
+        <div class="acts">
+          <button class="icon-btn" type="button" data-pvis="${i}">${x.visible === false ? 'Publish' : 'Unpublish'}</button>
+          <button class="icon-btn" type="button" data-pedit="${i}">Edit</button>
+          <button class="icon-btn danger" type="button" data-pdel="${i}">Delete</button>
+        </div></div>`).join('') || '<p class="hint">No post yet.</p>'}</div></div>`;
+    $('#new-post').onclick = () => {
+      list.unshift({ id: 'post-' + Date.now().toString(36), title: '', date: new Date().toISOString().slice(0, 10), tags: [], excerpt: '', cover: null, body: '<p></p>',
+        style: { layout: 'standard', font: 'site', accent: '', coverDisplay: 'full' }, visible: false, pinned: false });
+      S.editingPost = 0; markDirty(); tabPosts();
+    };
+    $$('[data-pvis]', p).forEach((b) => b.onclick = () => { const x = list[+b.dataset.pvis]; x.visible = x.visible === false; markDirty(); tabPosts(); });
+    $$('[data-pedit]', p).forEach((b) => b.onclick = () => { S.editingPost = +b.dataset.pedit; tabPosts(); });
+    $$('[data-pdel]', p).forEach((b) => b.onclick = () => { const x = list[+b.dataset.pdel]; if (confirm(`Delete “${x.title || 'this post'}”?`)) { list.splice(+b.dataset.pdel, 1); markDirty(); tabPosts(); } });
+  }
+
+  function editPost(x) {
+    x.style = x.style || {};
+    const st = x.style;
+    const segP = (key, opts) => `<div class="seg">${Object.entries(opts).map(([k, l]) => `<button type="button" data-ps="${key}" data-v="${k}" aria-pressed="${(st[key] || '') === k}">${l}</button>`).join('')}</div>`;
+    // les medias televerses s'affichent depuis le navigateur, le chemin reel est garde a cote
+    const bodyForEdit = String(x.body || '').replace(/src="([^"]+)"/g, (m, u) => S.blobs[u] ? `src="${S.blobs[u]}" data-path="${u}"` : m);
+    const p = $('#admin-panel');
+    p.innerHTML = `<div class="panel">
+      <button class="btn btn-ghost" type="button" id="pback">← All posts</button>
+      <div class="fields" style="margin-top:14px" id="pf">
+        <label class="field full"><span>Title</span><input name="title" value="${esc(x.title)}" placeholder="What is this post about?"></label>
+        <label class="field"><span>Date</span><input name="date" type="date" value="${esc(x.date)}"></label>
+        <label class="field"><span>Tags, separated by commas</span><input name="tags" value="${esc((x.tags || []).join(', '))}"></label>
+        <label class="field full"><span>Short summary, shown on the cards</span><textarea name="excerpt" style="min-height:60px">${esc(x.excerpt)}</textarea></label>
+        <label class="check"><input type="checkbox" name="visible" ${x.visible !== false ? 'checked' : ''}> Published (visible to visitors)</label>
+        <label class="check"><input type="checkbox" name="pinned" ${x.pinned ? 'checked' : ''}> Pinned at the top</label>
+      </div>
+
+      <div class="design-block"><h3>Cover</h3>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div class="thumb" style="width:160px;height:90px;border-radius:6px;overflow:hidden;background:var(--surface-2)">${x.cover && x.cover.src ? (x.cover.type === 'video' ? `<video src="${esc(src(x.cover.src))}" muted style="width:100%;height:100%;object-fit:cover"></video>` : `<img src="${esc(src(x.cover.src))}" alt="" style="width:100%;height:100%;object-fit:cover">`) : ''}</div>
+          <label class="btn" style="cursor:pointer">Upload an image or video<input type="file" id="pcover" accept="image/*,video/mp4,video/webm" hidden></label>
+          ${x.cover ? '<button class="btn" type="button" id="pcover-rm">Remove the cover</button>' : ''}
+        </div>
+      </div>
+
+      <div class="design-block"><h3>Text</h3>
+        <div class="rte-bar" role="toolbar" aria-label="Formatting">
+          <select id="rte-block" aria-label="Paragraph style"><option value="p">Paragraph</option><option value="h2">Heading</option><option value="h3">Subheading</option><option value="blockquote">Quote</option><option value="pre">Code block</option></select>
+          <span class="sep"></span>
+          <button type="button" data-cmd="bold" title="Bold"><b>B</b></button>
+          <button type="button" data-cmd="italic" title="Italic"><i>I</i></button>
+          <button type="button" data-cmd="underline" title="Underline"><u>U</u></button>
+          <button type="button" data-cmd="strikeThrough" title="Strike"><s>S</s></button>
+          <button type="button" data-wrap="mark" title="Highlight">▮</button>
+          <button type="button" data-wrap="code" title="Inline code">&lt;/&gt;</button>
+          <span class="sep"></span>
+          <button type="button" data-cmd="insertUnorderedList" title="Bullet list">• List</button>
+          <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+          <button type="button" data-align="left" title="Align left">⇤</button>
+          <button type="button" data-align="center" title="Centre">↔</button>
+          <button type="button" data-align="right" title="Align right">⇥</button>
+          <span class="sep"></span>
+          <button type="button" id="rte-link" title="Link">🔗 Link</button>
+          <label style="cursor:pointer;padding:5px 8px;font-size:13px">🖼 Image<input type="file" id="rte-img" accept="image/*" hidden></label>
+          <label style="cursor:pointer;padding:5px 8px;font-size:13px">🎬 Video<input type="file" id="rte-vid" accept="video/mp4,video/webm" hidden></label>
+          <button type="button" data-cmd="insertHorizontalRule" title="Divider">―</button>
+          <button type="button" data-cmd="removeFormat" title="Clear formatting">✕ Format</button>
+        </div>
+        <div class="rte post-body" id="rte" contenteditable="true" spellcheck="true">${bodyForEdit}</div>
+      </div>
+
+      <div class="design-block"><h3>Post style</h3>
+        <div class="fields">
+          <div class="field"><span>Layout</span>${segP('layout', { standard: 'Standard', wide: 'Wide', centered: 'Centred title' })}</div>
+          <div class="field"><span>Body font</span>${segP('font', { site: 'Site font', serif: 'Serif', sans: 'Sans', mono: 'Mono' })}</div>
+          <div class="field"><span>Cover display</span>${segP('coverDisplay', { full: 'Large', inline: 'In the column', none: 'Hidden' })}</div>
+          <label class="field"><span>Accent colour for this post</span><div style="display:flex;gap:8px;align-items:center"><input type="color" id="paccent" value="${esc(st.accent || '#b8741f')}" style="width:60px"><button class="btn" type="button" id="paccent-rm">Use the site accent</button></div></label>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn" type="button" id="pview">Preview this post</button>
+      </div>
+    </div>`;
+    const ed = $('#rte');
+    const sync = () => {
+      const tmp = ed.cloneNode(true);
+      tmp.querySelectorAll('[data-path]').forEach((el) => { el.setAttribute('src', el.dataset.path); el.removeAttribute('data-path'); });
+      x.body = tmp.innerHTML; markDirty();
+    };
+    ed.addEventListener('input', sync);
+    $('#pback').onclick = () => { sync(); S.editingPost = null; tabPosts(); };
+    $$('#pf [name]', p).forEach((el) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => {
+      const n = el.name;
+      if (el.type === 'checkbox') x[n] = el.checked;
+      else if (n === 'tags') x.tags = el.value.split(',').map((t) => t.trim()).filter(Boolean);
+      else x[n] = el.value;
+      if (n === 'title' && /^post-/.test(x.id)) x.id = slug(el.value) + '-' + x.id.slice(5);
+      markDirty();
+    }));
+    const exec = (c, v = null) => { ed.focus(); document.execCommand(c, false, v); sync(); };
+    $$('[data-cmd]', p).forEach((b) => b.onmousedown = (e) => { e.preventDefault(); exec(b.dataset.cmd); });
+    $('#rte-block').onchange = (e) => { exec('formatBlock', e.target.value); e.target.value = 'p'; };
+    $$('[data-wrap]', p).forEach((b) => b.onmousedown = (e) => {
+      e.preventDefault(); const sel = getSelection(); if (!sel.rangeCount || sel.isCollapsed) return;
+      const w = document.createElement(b.dataset.wrap); try { sel.getRangeAt(0).surroundContents(w); } catch (er) { toast('Select text inside one paragraph'); } sync();
+    });
+    $$('[data-align]', p).forEach((b) => b.onmousedown = (e) => {
+      e.preventDefault(); const sel = getSelection(); if (!sel.rangeCount) return;
+      let n = sel.anchorNode; while (n && n.parentNode !== ed) n = n.parentNode;
+      if (n && n.nodeType === 1) { n.classList.remove('align-left', 'align-center', 'align-right'); if (b.dataset.align !== 'left') n.classList.add('align-' + b.dataset.align); sync(); }
+    });
+    $('#rte-link').onmousedown = (e) => { e.preventDefault(); const u = prompt('Link address (https://…)'); if (u && /^(https?:|mailto:|#)/.test(u)) exec('createLink', u); };
+    let saved = null;
+    ed.addEventListener('blur', () => { const sel = getSelection(); if (sel.rangeCount) saved = sel.getRangeAt(0).cloneRange(); });
+    const insertMedia = async (file, kind) => {
+      try {
+        const r = await upload(file, 'posts/' + x.id);
+        const blob = S.blobs[r.path];
+        const cap = prompt('Caption (optional)') || '';
+        const html = kind === 'video'
+          ? `<figure><video src="${blob}" data-path="${r.path}" controls></video>${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure><p></p>`
+          : `<figure><img src="${blob}" data-path="${r.path}" alt="${esc(cap)}">${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure><p></p>`;
+        ed.focus();
+        if (saved) { const sel = getSelection(); sel.removeAllRanges(); sel.addRange(saved); }
+        document.execCommand('insertHTML', false, html);
+        sync();
+      } catch (er) { toast(er.message, 6000); }
+    };
+    $('#rte-img').onchange = (e) => { if (e.target.files[0]) insertMedia(e.target.files[0], 'image'); e.target.value = ''; };
+    $('#rte-vid').onchange = (e) => { if (e.target.files[0]) insertMedia(e.target.files[0], 'video'); e.target.value = ''; };
+    $('#pcover').onchange = async (e) => {
+      try { const r = await upload(e.target.files[0], 'posts/' + x.id); x.cover = { type: r.type, src: r.path }; sync(); editPost(x); } catch (er) { toast(er.message, 6000); }
+    };
+    if ($('#pcover-rm')) $('#pcover-rm').onclick = () => { x.cover = null; sync(); editPost(x); };
+    $$('[data-ps]', p).forEach((b) => b.onclick = () => { sync(); st[b.dataset.ps] = b.dataset.v; markDirty(); editPost(x); });
+    $('#paccent').oninput = (e) => { st.accent = e.target.value; markDirty(); };
+    $('#paccent-rm').onclick = () => { st.accent = ''; markDirty(); toast('This post uses the site accent'); };
+    $('#pview').onclick = () => { sync(); const vis = x.visible; x.visible = true; const id = x.id; preview(); x.visible = vis; location.hash = '#/post/' + id; };
   }
 
   /* ---------------------------------------------------------------- onglet design */
