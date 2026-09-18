@@ -296,7 +296,7 @@
           </li>`).join('')}</ol>
           <div class="reveal">
             <div class="side-card"><h3>Education</h3>${(d.education || []).map((e) => `<div class="item"><b>${esc(e.degree)}</b><span>${esc(e.school)} · ${esc(e.period)}</span></div>`).join('')}</div>
-            <div class="side-card"><h3>Certifications</h3>${(d.certifications || []).map((c) => `<div class="item"><b>${esc(c.name)}</b><span>${esc(c.issuer)} · ${esc(c.year)}</span></div>`).join('')}</div>
+            <div class="side-card"><h3>Certifications</h3>${(d.certifications || []).map((c) => `<div class="item"><b>${esc(c.name)}</b><span>${esc(c.issuer)} · ${esc(c.year)}${c.id ? ` · <span class="mono" style="font-size:11.5px">ID ${esc(c.id)}</span>` : ''}</span></div>`).join('')}</div>
           </div>
         </div>`;
     },

@@ -157,7 +157,7 @@
         }
       ],
       "proof": "Measured with the official TM Forum conformance kits: 4,362 of 5,403 assertions pass; 7 of 8 blocking issues fixed.",
-      "cert": "Certified: Introduction to the TM Forum and the Open Digital Architecture (ODA), TM Forum, 2026"
+      "cert": "Certified: Introduction to the TM Forum and the Open Digital Architecture (ODA), TM Forum, May 2026"
     },
     "bpmn": {
       "text": "The sequence of the journey is not written in Java. It is a BPMN 2.0 model, compiled by Kogito at build time and executed as it is drawn. Business decisions live beside it in Drools rules.",
@@ -616,27 +616,35 @@
     {
       "name": "Introduction to the TM Forum and the Open Digital Architecture (ODA)",
       "issuer": "TM Forum",
-      "year": "2026"
+      "year": "May 2026",
+      "id": "323496848"
+    },
+    {
+      "name": "Confidentiality and Data Protection in Health Research",
+      "issuer": "Medical Research Council",
+      "year": "Dec. 2025"
     },
     {
       "name": "DevNet Associate",
       "issuer": "Cisco",
-      "year": "2025"
+      "year": "Nov. 2025"
     },
     {
       "name": "Cybersecurity Fundamentals",
       "issuer": "IBM",
-      "year": "2024"
+      "year": "Jul. 2024"
     },
     {
-      "name": "Microsoft Office Specialist: Excel Associate",
+      "name": "Microsoft Office Specialist: Excel Associate (Office 2019)",
       "issuer": "Microsoft",
-      "year": "2024"
+      "year": "Apr. 2024",
+      "id": "996570878"
     },
     {
       "name": "Angular",
       "issuer": "Udemy",
-      "year": "2023"
+      "year": "Jul. 2023",
+      "id": "UC-510b64ff-0178-438b-b417-887d526ee4f7"
     }
   ],
   "skills": [
