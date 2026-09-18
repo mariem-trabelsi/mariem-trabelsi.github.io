@@ -182,8 +182,11 @@
     if (f.body) st += `--post-font:${f.body};`;
     if (f.title) st += `--mod-title:${f.title};`;
     if (m.pattern && m.pattern !== 'none' && window.PFDesign) {
-      st += `--mod-pattern:${window.PFDesign.pattern(m.pattern, m.accent || '#b8741f', m.accent || '#1f3a60', 1)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12};`;
+      const k = { small: 0.7, medium: 1, large: 1.6 }[m.patternSize] || 1;
+      const c1 = m.patternColor || m.accent || '#b8741f';
+      st += `--mod-pattern:${window.PFDesign.pattern(m.pattern, c1, m.patternColor2 || c1, k)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12};`;
     }
+    if (m.titleColor) st += `--mod-title-color:${m.titleColor};`;
     return st;
   }
 
@@ -466,14 +469,19 @@
         ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : '<p class="empty">No post yet.</p>'}
       </div>`;
     },
-    resetModuleBg() { const v = $('#view-posts'); v.removeAttribute('style'); v.classList.remove('in-module'); },
+    resetModuleBg() { const v = $('#view-posts'); v.removeAttribute('style'); v.className = ''; },
+    applyModule(m) {
+      const v = $('#view-posts');
+      v.setAttribute('style', moduleStyle(m));
+      v.className = ['in-module', 'mc-' + (m.cardStyle || 'solid'), 'mh-' + (m.headerStyle || 'banner'), 'ml-' + (m.listLayout || 'grid'), 'mr-' + (m.radius || 'soft')].join(' ');
+    },
     renderModule(id) {
       const m = this.module(id);
       const v = $('#view-posts');
       if (!m) { this.renderPostsList(); return; }
       Counter.hit('module-' + m.id);
       const list = this.posts().filter((p) => p.module === m.id);
-      v.setAttribute('style', moduleStyle(m)); v.classList.add('in-module');
+      this.applyModule(m);
       v.innerHTML = `<div class="posts-page">
         <a class="back" href="#/posts">← All posts</a>
         <header class="mod-hero">${m.cover && m.cover.src ? `<img src="${esc(m.cover.src)}" alt="">` : ''}
@@ -491,7 +499,7 @@
       const st = p.style || {};
       const mod = this.module(p.module);
       const v = $('#view-posts');
-      if (mod) { v.setAttribute('style', moduleStyle(mod)); v.classList.add('in-module'); } else this.resetModuleBg();
+      if (mod) this.applyModule(mod); else this.resetModuleBg();
       const font = { serif: 'var(--serif)', sans: 'var(--sans)', mono: 'var(--mono)' }[st.font] || '';
       const all = this.posts(); const i = all.findIndex((x) => x.id === p.id);
       const prev = all[i + 1], next = all[i - 1];

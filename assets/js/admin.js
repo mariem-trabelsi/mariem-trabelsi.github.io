@@ -283,6 +283,14 @@
           ${m.bgImage ? '<button class="btn" type="button" id="mbg-rm">Remove</button>' : ''}</div></div>
         <label class="field"><span>Background pattern</span><select name="pattern">${Object.entries(D.PATTERNS).map(([k, l]) => `<option value="${k}" ${m.pattern === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
         <label class="field"><span>Pattern strength</span><input type="range" name="patternOpacity" min="3" max="50" value="${Math.round((Number(m.patternOpacity) || 0.12) * 100)}"></label>
+        <label class="field"><span>Pattern size</span><select name="patternSize">${[['small', 'Small'], ['medium', 'Medium'], ['large', 'Large']].map(([k, l]) => `<option value="${k}" ${(m.patternSize || 'medium') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label class="field"><span>Pattern colour</span><input type="color" name="patternColor" value="${esc(m.patternColor || m.accent || '#b8741f')}"></label>
+        <label class="field"><span>Second pattern colour</span><input type="color" name="patternColor2" value="${esc(m.patternColor2 || m.patternColor || m.accent || '#b8741f')}"></label>
+        <label class="field"><span>Title colour</span><input type="color" name="titleColor" value="${esc(m.titleColor || '#0f1d33')}"></label>
+        <label class="field"><span>Text cards</span><select name="cardStyle">${[['solid', 'White'], ['glass', 'Frosted glass'], ['tinted', 'Tinted with the accent'], ['dark', 'Dark']].map(([k, l]) => `<option value="${k}" ${(m.cardStyle || 'solid') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label class="field"><span>Header</span><select name="headerStyle">${[['banner', 'Banner'], ['minimal', 'Minimal'], ['image', 'Large cover image']].map(([k, l]) => `<option value="${k}" ${(m.headerStyle || 'banner') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label class="field"><span>Post list</span><select name="listLayout">${[['grid', 'Grid'], ['list', 'List']].map(([k, l]) => `<option value="${k}" ${(m.listLayout || 'grid') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label class="field"><span>Corners</span><select name="radius">${[['sharp', 'Sharp'], ['soft', 'Soft'], ['round', 'Round']].map(([k, l]) => `<option value="${k}" ${(m.radius || 'soft') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
         <label class="field"><span>Font</span><select name="font">${Object.entries(fonts).map(([k, l]) => `<option value="${k}" ${m.font === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
         <div class="field"><span>Cover image</span><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           ${m.cover && m.cover.src ? `<img src="${esc(src(m.cover.src))}" alt="" style="width:120px;height:68px;object-fit:cover;border-radius:6px">` : ''}
@@ -293,7 +301,8 @@
       <div id="mprev" style="max-width:320px"></div>
     </div>`;
     const prev = () => {
-      const pat = m.pattern && m.pattern !== 'none' ? D.pattern(m.pattern, m.accent, m.accent, 1) : 'none';
+      const pk = { small: 0.7, medium: 1, large: 1.6 }[m.patternSize] || 1;
+      const pat = m.pattern && m.pattern !== 'none' ? D.pattern(m.pattern, m.patternColor || m.accent, m.patternColor2 || m.patternColor || m.accent, pk) : 'none';
       const bg = m.bgStyle === 'image' && m.bgImage ? `url("${src(m.bgImage.src)}") center / cover` : m.bgStyle === 'gradient' ? `linear-gradient(160deg, ${m.background}, ${m.accent}33)` : m.background;
       $('#mprev').innerHTML = `<div class="mod-card" style="--accent:${esc(m.accent)};--mod-bg:${esc(bg)};--mod-pattern:${esc(pat)};--mod-pattern-op:${Number(m.patternOpacity) || 0.12}">
         <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small><em>posts</em></div>`;
