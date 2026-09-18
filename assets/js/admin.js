@@ -142,7 +142,7 @@
     };
   }
 
-  const TABS = [['visitors', 'Visitors'], ['profile', 'Profile'], ['projects', 'Projects'], ['sections', 'Other sections'], ['settings', 'Settings']];
+  const TABS = [['visitors', 'Visitors'], ['design', 'Design'], ['profile', 'Profile'], ['projects', 'Projects'], ['sections', 'Other sections'], ['settings', 'Settings']];
 
   function shell() {
     root().innerHTML = `<div class="admin">
@@ -161,7 +161,7 @@
     $('[data-act="close"]', root()).onclick = () => { if (!S.dirty || confirm('Leave the studio? Unsaved changes stay in memory until you reload the page.')) close(); };
     $('[data-act="preview"]', root()).onclick = preview;
     $('[data-act="publish"]', root()).onclick = publish;
-    ({ visitors: tabVisitors, profile: tabProfile, projects: tabProjects, sections: tabSections, settings: tabSettings })[S.tab]();
+    ({ visitors: tabVisitors, design: tabDesign, profile: tabProfile, projects: tabProjects, sections: tabSections, settings: tabSettings })[S.tab]();
   }
 
   function preview() {
@@ -208,6 +208,66 @@
     const max = Math.max(1, ...pv.map((v) => v || 0));
     $('#bars').innerHTML = d.projects.map((x, i) => `<div><span>${esc(x.name)}</span><i style="width:${((pv[i] || 0) / max) * 100}%"></i><em>${pv[i] ?? '–'}</em></div>`).join('');
     if (vals.every((v) => v === null)) $('#stats').insertAdjacentHTML('afterend', '<div class="notice">The counter service did not answer. Try again later.</div>');
+  }
+
+  /* ---------------------------------------------------------------- onglet design */
+  function tabDesign() {
+    const D = window.PFDesign;
+    const d = S.draft.design = S.draft.design || {};
+    d.colors = d.colors || {}; d.hide = d.hide || {}; d.stickers = d.stickers || [];
+    const live = () => { D.apply(d); markDirty(); };
+    const seg = (key, opts) => `<div class="seg" data-seg="${key}">${Object.entries(opts).map(([k, l]) => `<button type="button" data-v="${k}" aria-pressed="${(d[key] || '') === k}">${l}</button>`).join('')}</div>`;
+    const cur = D.PRESETS[d.preset] || D.PRESETS['ink-ochre'];
+    const p = $('#admin-panel');
+    p.innerHTML = `<div class="panel"><h2>Design</h2>
+      <p class="hint">Every change applies at once behind this panel. Use Preview to see it, then Save and publish.</p>
+
+      <div class="design-block"><h3>Theme</h3>
+        <div class="presets">${Object.entries(D.PRESETS).map(([k, v]) => `<button type="button" class="preset" data-preset="${k}" aria-pressed="${d.preset === k}">
+          <span class="sw"><i style="background:${v.light.ink}"></i><i style="background:${v.light.ink2}"></i><i style="background:${v.light.accent}"></i><i style="background:${v.light.paper}"></i></span>${esc(v.name)}</button>`).join('')}</div>
+      </div>
+
+      <div class="design-block"><h3>Your own colours</h3>
+        <div class="fields">
+          <label class="field"><span>Main colour</span><input type="color" data-color="ink" value="${esc(d.colors.ink || cur.light.ink)}"></label>
+          <label class="field"><span>Accent colour</span><input type="color" data-color="accent" value="${esc(d.colors.accent || cur.light.accent)}"></label>
+          <label class="field"><span>Secondary colour</span><input type="color" data-color="ink2" value="${esc(d.colors.ink2 || cur.light.ink2)}"></label>
+          <label class="field"><span>Background</span><input type="color" data-color="paper" value="${esc(d.colors.paper || cur.light.paper)}"></label>
+        </div>
+        <button class="btn" type="button" id="reset-colors" style="margin-top:10px">Back to the theme colours</button>
+      </div>
+
+      <div class="design-block"><h3>Mode</h3>${seg('mode', { auto: 'Follow the visitor', light: 'Light', dark: 'Dark' })}</div>
+      <div class="design-block"><h3>Typography</h3>${seg('font', Object.fromEntries(Object.entries(D.FONTS).map(([k, v]) => [k, v.name])))}</div>
+      <div class="design-block"><h3>Corners</h3>${seg('radius', { sharp: 'Sharp', soft: 'Soft', round: 'Round' })}</div>
+      <div class="design-block"><h3>Photo shape</h3>${seg('photo', { arch: 'Arch', circle: 'Circle', square: 'Square' })}</div>
+
+      <div class="design-block"><h3>Sections</h3>
+        ${[['standards', 'Hide the Standards section'], ['stage', 'Hide the On stage section'], ['quote', 'Hide the quote'], ['rail', 'Hide the side navigation']].map(([k, l]) => `<label class="check"><input type="checkbox" data-hide="${k}" ${d.hide[k] ? 'checked' : ''}> ${l}</label>`).join('')}
+      </div>
+
+      <div class="design-block"><h3>Stickers</h3>
+        <p class="hint">Pick a symbol, write a short label, choose where it goes.</p>
+        <div class="emojis">${D.STICKERS.map((e) => `<button type="button" data-add="${esc(e)}" aria-label="Add sticker ${esc(e)}">${esc(e)}</button>`).join('')}
+          <button type="button" data-add="" style="width:auto;padding:0 10px;font-size:13px">Text only</button></div>
+        <div class="rows" style="margin-top:12px">${d.stickers.map((st, i) => `<div class="st-row">
+          <input data-s="${i}" data-k="emoji" value="${esc(st.emoji || '')}" placeholder="Symbol" aria-label="Symbol">
+          <input data-s="${i}" data-k="text" value="${esc(st.text || '')}" placeholder="Label" aria-label="Label">
+          <select data-s="${i}" data-k="section" aria-label="Section">${Object.entries(D.SECTIONS).map(([k, l]) => `<option value="${k}" ${st.section === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+          <select data-s="${i}" data-k="pos" aria-label="Position">${['top-left', 'top-right', 'bottom-left', 'bottom-right'].map((k) => `<option ${st.pos === k ? 'selected' : ''}>${k}</option>`).join('')}</select>
+          <select data-s="${i}" data-k="style" aria-label="Style">${[['ink', 'Dark pill'], ['accent', 'Accent pill'], ['outline', 'Dashed'], ['paper', 'Paper'], ['circle', 'Round badge']].map(([k, l]) => `<option value="${k}" ${st.style === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+          <input data-s="${i}" data-k="rotate" type="number" min="-30" max="30" value="${esc(st.rotate || 0)}" aria-label="Rotation in degrees">
+          <button class="icon-btn danger" type="button" data-srm2="${i}" aria-label="Remove sticker">✕</button>
+        </div>`).join('')}</div>
+      </div></div>`;
+    $$('[data-preset]', p).forEach((b) => b.onclick = () => { d.preset = b.dataset.preset; d.colors = {}; live(); tabDesign(); });
+    $$('[data-color]', p).forEach((el) => el.oninput = () => { d.colors[el.dataset.color] = el.value; live(); });
+    $('#reset-colors').onclick = () => { d.colors = {}; live(); tabDesign(); };
+    $$('[data-seg]', p).forEach((g) => $$('button', g).forEach((b) => b.onclick = () => { d[g.dataset.seg] = b.dataset.v; live(); tabDesign(); }));
+    $$('[data-hide]', p).forEach((el) => el.onchange = () => { d.hide[el.dataset.hide] = el.checked; live(); });
+    $$('[data-add]', p).forEach((b) => b.onclick = () => { d.stickers.push({ emoji: b.dataset.add, text: b.dataset.add ? '' : 'Hello', section: 'top', pos: 'top-right', rotate: -4, style: 'accent' }); live(); tabDesign(); });
+    $$('[data-s]', p).forEach((el) => el.oninput = el.onchange = () => { const st = d.stickers[+el.dataset.s]; st[el.dataset.k] = el.dataset.k === 'rotate' ? Number(el.value) : el.value; live(); });
+    $$('[data-srm2]', p).forEach((b) => b.onclick = () => { d.stickers.splice(+b.dataset.srm2, 1); live(); tabDesign(); });
   }
 
   /* ---------------------------------------------------------------- onglet profil */

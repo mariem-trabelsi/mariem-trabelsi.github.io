@@ -6,6 +6,30 @@
     "counterNamespace": "mariem-trabelsi-portfolio-live",
     "showVisitsPublicly": false
   },
+  "design": {
+    "preset": "ink-ochre",
+    "colors": {},
+    "mode": "auto",
+    "font": "editorial",
+    "radius": "soft",
+    "photo": "arch",
+    "hide": {
+      "standards": false,
+      "stage": false,
+      "quote": false,
+      "rail": false
+    },
+    "stickers": [
+      {
+        "emoji": "◇",
+        "text": "BPMN enthusiast",
+        "section": "top",
+        "pos": "bottom-right",
+        "rotate": -6,
+        "style": "accent"
+      }
+    ]
+  },
   "profile": {
     "name": "Meriem Trabelsi",
     "title": "Software Development Engineer",

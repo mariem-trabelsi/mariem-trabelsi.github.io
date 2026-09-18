@@ -159,6 +159,7 @@
       $$('[data-cv]').forEach((a) => { a.href = p.cv; a.setAttribute('download', p.cv.split('/').pop()); });
       this.renderHero(); this.renderSpotlight(); this.renderWork(); this.renderExperience(); this.renderSkills(); this.renderStage();
       this.renderContact(); this.renderBrief(); this.renderFooter();
+      if (window.PFDesign) window.PFDesign.apply(d.design);
       this.observe();
     },
 
