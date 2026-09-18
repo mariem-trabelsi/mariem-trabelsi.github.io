@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mariem-trabelsi.github.io/sitemap.xml

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Meriem Trabelsi, posts</title>
+    <link>https://mariem-trabelsi.github.io/</link>
+    <description>I build cloud-native, event-driven systems where business processes are models, not buried code.</description>
+    <language>en</language>
+    <item>
+      <title>TM Forum in practice: frameworks, Open APIs and how to take part</title>
+      <link>https://mariem-trabelsi.github.io/#/post/tm-forum-in-practice</link>
+      <guid isPermaLink="false">tm-forum-in-practice</guid>
+      <pubDate>Fri, 18 Sep 2026 09:00:00 +0000</pubDate>
+      <description>What the TM Forum publishes, how SID splits product, service and resource, the 17 Open APIs I implemented, and how to become a member.</description>
+      <category>TM Forum</category>
+      <category>Open APIs</category>
+      <category>SID</category>
+      <category>Telecom</category>
+    </item>
+    <item>
+      <title>Why a BPMN model drives the whole order journey</title>
+      <link>https://mariem-trabelsi.github.io/#/post/why-bpmn</link>
+      <guid isPermaLink="false">why-bpmn</guid>
+      <pubDate>Fri, 18 Sep 2026 09:00:00 +0000</pubDate>
+      <description>A fibre order crosses nine services and several days. Here is the context, the architecture, and the six decisions that shaped it, each with the cost it accepts.</description>
+      <category>BPMN</category>
+      <category>Architecture</category>
+      <category>Kogito</category>
+      <category>Kafka</category>
+    </item>
+  </channel>
+</rss>

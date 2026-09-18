@@ -181,12 +181,39 @@
     bar.querySelector('button').onclick = () => { bar.remove(); location.hash = HASH; };
   }
 
+  function buildFeed(d) {
+    const base = 'https://mariem-trabelsi.github.io/';
+    const x = (v) => String(v ?? '').replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
+    const today = new Date().toISOString().slice(0, 10);
+    const posts = (d.posts || []).filter((p) => p.visible !== false && (!p.date || p.date <= today)).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const items = posts.map((p) => `    <item>
+      <title>${x(p.title)}</title>
+      <link>${base}#/post/${x(p.id)}</link>
+      <guid isPermaLink="false">${x(p.id)}</guid>
+      <pubDate>${new Date((p.date || today) + 'T09:00:00Z').toUTCString()}</pubDate>
+      <description>${x(p.excerpt || '')}</description>
+${(p.tags || []).map((t) => `      <category>${x(t)}</category>`).join('\n')}
+    </item>`).join('\n');
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>${x(d.profile.name)}, posts</title>
+    <link>${base}</link>
+    <description>${x(d.profile.headline)}</description>
+    <language>en</language>
+${items}
+  </channel>
+</rss>
+`;
+  }
+
   async function publish() {
     try {
       const json = JSON.stringify(S.draft, null, 2) + '\n';
       JSON.parse(json);
       toast('Publishing…', 0);
       await GH.put('data/portfolio.json', b64Text(json), 'Update portfolio content');
+      try { await GH.put('feed.xml', b64Text(buildFeed(S.draft)), 'Update the RSS feed'); } catch (e) { /* le flux sera refait a la prochaine publication */ }
       S.dirty = false;
       App.data = clone(S.draft);
       App.render();
@@ -503,6 +530,16 @@
         <label class="field" style="max-width:220px;margin-top:10px"><span>My colour</span><input type="color" id="photo-bg-color" value="${esc(d.photoBgColor || cur.light.accent)}"></label>
       </div>
 
+      <div class="design-block"><h3>Badge on the photo</h3>
+        <div class="fields" id="pbadge">
+          <label class="check full"><input type="checkbox" data-pb="show" ${d.photoBadge && d.photoBadge.show ? 'checked' : ''}> Show a badge on my photo</label>
+          <label class="field"><span>Emoji or symbol</span><input data-pb="emoji" value="${esc((d.photoBadge || {}).emoji || '')}" maxlength="4"></label>
+          <label class="field"><span>Text</span><input data-pb="text" value="${esc((d.photoBadge || {}).text || '')}" maxlength="40"></label>
+          <label class="field"><span>Position</span><select data-pb="pos">${[['top-left', 'Top left'], ['top-right', 'Top right'], ['bottom-left', 'Bottom left'], ['bottom-right', 'Bottom right']].map(([k, l]) => `<option value="${k}" ${((d.photoBadge || {}).pos || 'bottom-left') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+          <label class="field"><span>Style</span><select data-pb="style">${[['accent', 'Accent pill'], ['ink', 'Dark pill'], ['paper', 'Paper'], ['outline', 'Dashed'], ['circle', 'Round badge']].map(([k, l]) => `<option value="${k}" ${((d.photoBadge || {}).style || 'accent') === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        </div>
+      </div>
+
       <div class="design-block"><h3>Mode</h3>${seg('mode', { auto: 'Follow the visitor', light: 'Light', dark: 'Dark' })}</div>
       <div class="design-block"><h3>Typography</h3>${seg('font', Object.fromEntries(Object.entries(D.FONTS).map(([k, v]) => [k, v.name])))}</div>
       <div class="design-block"><h3>Corners</h3>${seg('radius', { sharp: 'Sharp', soft: 'Soft', round: 'Round' })}</div>
@@ -531,6 +568,7 @@
     $('#reset-colors').onclick = () => { d.colors = {}; live(); tabDesign(); };
     $$('[data-seg]', p).forEach((g) => $$('button', g).forEach((b) => b.onclick = () => { d[g.dataset.seg] = b.dataset.v; live(); tabDesign(); }));
     $$('[data-pat]', p).forEach((b) => b.onclick = () => { d.pattern = b.dataset.pat; if (!d.patternOpacity) d.patternOpacity = 0.12; live(); tabDesign(); });
+    $$('[data-pb]', p).forEach((el) => el.oninput = el.onchange = () => { d.photoBadge = d.photoBadge || {}; d.photoBadge[el.dataset.pb] = el.type === 'checkbox' ? el.checked : el.value; live(); });
     $('#photo-bg-color').oninput = (e) => { d.photoBgColor = e.target.value; d.photoBg = 'color'; live(); };
     $('#pat-op').oninput = (e) => { d.patternOpacity = e.target.value / 100; $('#op-v').textContent = e.target.value + '%'; live(); };
     $$('[data-hide]', p).forEach((el) => el.onchange = () => { d.hide[el.dataset.hide] = el.checked; live(); });

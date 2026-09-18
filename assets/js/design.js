@@ -116,6 +116,18 @@ ${area === '#top' ? '#top>*{position:relative;z-index:1}' : ''}`;
     if (!chosen) { if (d.mode === 'light' || d.mode === 'dark') document.documentElement.dataset.theme = d.mode; else delete document.documentElement.dataset.theme; }
     stickers(d.stickers || []);
     photoBg(d, light);
+    photoBadge(d.photoBadge);
+  }
+  function photoBadge(b) {
+    document.querySelectorAll('.photo-badge').forEach((x) => x.remove());
+    if (!b || !b.show || !(b.text || b.emoji)) return;
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    document.querySelectorAll('.hero-photo').forEach((host) => {
+      const el = document.createElement('span');
+      el.className = `photo-badge st-${b.style || 'accent'} pb-${b.pos || 'bottom-left'}`;
+      el.innerHTML = `${b.emoji ? `<i>${esc(b.emoji)}</i>` : ''}${b.text ? `<b>${esc(b.text)}</b>` : ''}`;
+      host.appendChild(el);
+    });
   }
   function photoBg(d, light) {
     const mode = d.photoBg || 'original';

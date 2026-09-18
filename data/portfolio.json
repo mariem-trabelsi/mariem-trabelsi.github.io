@@ -32,7 +32,14 @@
     "photoBg": "color",
     "pattern": "circles",
     "patternOpacity": 0.12,
-    "photoBgColor": "#0d3b3e"
+    "photoBgColor": "#0d3b3e",
+    "photoBadge": {
+      "show": true,
+      "emoji": "👋",
+      "text": "Open to work",
+      "pos": "bottom-left",
+      "style": "accent"
+    }
   },
   "profile": {
     "name": "Meriem Trabelsi",

@@ -576,3 +576,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
 /* angles */
 #view-posts.mr-sharp .post, #view-posts.mr-sharp .post-card, #view-posts.mr-sharp .mod-hero { border-radius: 2px; }
 #view-posts.mr-round .post, #view-posts.mr-round .post-card, #view-posts.mr-round .mod-hero { border-radius: 26px; }
+
+/* badge sur la photo */
+.hero-photo .photo-badge { position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; font: 600 13.5px var(--sans); box-shadow: 0 8px 20px rgba(0,0,0,.2); white-space: nowrap; animation: stick .5s cubic-bezier(.2,1.6,.4,1) both; }
+.hero-photo .photo-badge i { font-style: normal; font-size: 17px; }
+.hero-photo .photo-badge.st-circle { width: 92px; height: 92px; }
+.pb-top-left { top: 8%; left: -14px; } .pb-top-right { top: 8%; right: -14px; }
+.pb-bottom-left { bottom: 56px; left: -18px; } .pb-bottom-right { bottom: 56px; right: -18px; }
