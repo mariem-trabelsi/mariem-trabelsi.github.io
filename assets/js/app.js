@@ -325,7 +325,7 @@
       $$('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
       const cta = $('.top-actions .btn-solid'); if (cta) cta.textContent = T('contact');
       $$('[data-cv]').forEach((a) => { a.href = p.cv; a.setAttribute('download', p.cv.split('/').pop()); });
-      this.renderHero(); this.renderSpotlight(); this.renderWork(); this.renderExperience(); this.renderSkills(); this.renderStage();
+      this.renderHero(); this.renderSpotlight(); this.renderWork(); this.renderExperience(); this.renderSkills(); this.renderStage(); this.renderTestimonials();
       this.renderWriting(); this.renderContact(); this.renderBrief(); this.renderFooter();
       this.route();
       if (!$('#love-fab')) document.body.insertAdjacentHTML('beforeend', '<button type="button" id="love-fab" class="love fab" data-love aria-pressed="false" aria-label="Love this profile"><span class="heart" aria-hidden="true">❤</span><span class="love-n">0</span></button>');
@@ -495,13 +495,14 @@
             <p class="mic">${esc(s.text)}</p>
             ${(s.items || []).map((i) => `<div class="side-card" style="margin-bottom:10px"><div class="item"><b>${esc(i.name)}</b><span>${esc(i.detail)} · ${esc(i.year)}</span></div></div>`).join('')}
           </div>
-          <div class="stage-media reveal">${media.length ? media.map((m) => `<figure style="margin:0">${mediaEl(m, { controls: true })}${m.caption ? `<figcaption class="meta" style="margin-top:6px">${esc(m.caption)}</figcaption>` : ''}</figure>`).join('')
+          <div class="stage-media reveal ${media.length > 1 ? 'gallery' : ''}">${media.length ? media.map((m, i) => `<figure style="margin:0" class="zoomable" data-zoom="${i}">${mediaEl(m, { controls: true })}${m.caption ? `<figcaption class="meta" style="margin-top:6px">${esc(m.caption)}</figcaption>` : ''}</figure>`).join('')
             : `<div class="stage-placeholder">${T('stagePh')}</div>`}</div>
         </div>`;
     },
 
     posts() {
-      return (this.data.posts || []).filter((p) => p.visible !== false)
+      const today = new Date().toISOString().slice(0, 10);
+      return (this.data.posts || []).filter((p) => p.visible !== false && (!p.date || p.date <= today))
         .sort((a, b) => (b.pinned === true) - (a.pinned === true) || String(b.date).localeCompare(String(a.date)));
     },
     module(id) { return (this.data.modules || []).find((m) => m.id === id); },
@@ -530,6 +531,7 @@
       const all = this.posts();
       const tags = [...new Set(all.flatMap((p) => p.tags || []))];
       const list = tag ? all.filter((p) => (p.tags || []).includes(tag)) : all;
+      const hay = (p) => (p.title + ' ' + (p.excerpt || '') + ' ' + (p.tags || []).join(' ') + ' ' + String(p.body || '').replace(/<[^>]+>/g, ' ')).toLowerCase();
       this.resetModuleBg();
       const mods = (this.data.modules || []).filter((m) => all.some((p) => p.module === m.id));
       $('#view-posts').innerHTML = `<div class="posts-page">
@@ -539,8 +541,15 @@
           <span class="mod-emoji">${esc(m.emoji || '✦')}</span><b>${esc(m.name)}</b><small>${esc(m.description || '')}</small>
           <em>${all.filter((p) => p.module === m.id).length} posts</em></a>`).join('')}</div><h3 class="mods-title">${T('allPosts')}</h3>` : ''}
         ${tags.length ? `<div class="filters" style="margin-bottom:22px"><a class="chip" href="#/posts" aria-pressed="${!tag}">All</a>${tags.map((t) => `<a class="chip" href="#/posts/${encodeURIComponent(t)}" aria-pressed="${t === tag}">${esc(t)}</a>`).join('')}</div>` : ''}
-        ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : `<p class="empty">${T('noPost')}</p>`}
+        <input type="search" class="post-search" id="post-search" placeholder="${T('searchPosts')}" aria-label="${T('searchPosts')}">
+        <div id="post-results">${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : `<p class="empty">${T('noPost')}</p>`}</div>
       </div>`;
+      const box = $('#post-search');
+      box.addEventListener('input', () => {
+        const q = box.value.trim().toLowerCase();
+        const hits = q ? list.filter((p) => q.split(/\s+/).every((w) => hay(p).includes(w))) : list;
+        $('#post-results').innerHTML = hits.length ? `<div class="post-grid">${hits.map((p) => this.postCard(p)).join('')}</div>` : `<p class="empty">${T('noMatch')}</p>`;
+      });
     },
     resetModuleBg() { const v = $('#view-posts'); v.removeAttribute('style'); v.className = ''; },
     applyModule(m) {
@@ -565,7 +574,7 @@
       document.title = `${m.name}, ${this.data.profile.name}`;
     },
     renderPost(id) {
-      const p = (this.data.posts || []).find((x) => x.id === id && x.visible !== false);
+      const p = this.posts().find((x) => x.id === id);
       const box = $('#view-posts');
       if (!p) { box.innerHTML = `<div class="posts-page"><p class="empty">${T('notExist')} <a href="#/posts">${T('seeAll')}</a>.</p></div>`; return; }
       Counter.hit('post-' + p.id);
@@ -605,6 +614,20 @@
       if ((m = h.match(/^#\/posts(?:\/(.+))?$/))) { this.setView('posts', false); this.renderPostsList(m[1]); window.scrollTo({ top: 0 }); document.title = `Posts, ${this.data.profile.name}`; return true; }
       if (!$('#view-posts').hidden) { this.setView(store.get('pf_view', 'full') === 'brief' ? 'brief' : 'full', false); document.title = `${this.data.profile.name}, ${this.data.profile.title}`; }
       return false;
+    },
+
+    renderTestimonials() {
+      const list = (this.data.testimonials || []).filter((t) => t.visible !== false && t.quote);
+      let el = $('#testimonials');
+      if (!el) { el = document.createElement('section'); el.id = 'testimonials'; el.className = 'block'; el.dataset.section = ''; $('#stage').after(el); }
+      if (!list.length) { el.hidden = true; return; }
+      el.hidden = false;
+      el.innerHTML = `<div class="section-head reveal"><div><span class="eyebrow">${T('recommendations')}</span><h2>${T('whatOthers')}</h2></div></div>
+        <div class="testi-grid reveal">${list.map((t) => `<figure class="testi">
+          <blockquote>“${esc(t.quote)}”</blockquote>
+          <figcaption>${t.photo ? `<img src="${esc(t.photo)}" alt="">` : `<span class="ini">${esc(initials(t.name || '?'))}</span>`}
+          <span><b>${esc(t.name)}</b><small>${esc(t.role || '')}${t.company ? ', ' + esc(t.company) : ''}</small></span>
+          ${t.link ? `<a href="${esc(t.link)}" target="_blank" rel="noopener" aria-label="Profile">↗</a>` : ''}</figcaption></figure>`).join('')}</div>`;
     },
 
     renderContact() {
@@ -742,6 +765,24 @@
       dlg.showModal();
     },
 
+    lightbox(media, i) {
+      let box = $('#lightbox');
+      if (!box) { box = document.createElement('dialog'); box.id = 'lightbox'; box.className = 'lightbox'; document.body.appendChild(box); }
+      const show = (k) => {
+        i = (k + media.length) % media.length; const m = media[i];
+        box.innerHTML = `<button class="pd-close" type="button" aria-label="Close">×</button>
+          ${m.type === 'video' ? `<video src="${esc(m.src)}" controls autoplay></video>` : `<img src="${esc(m.src)}" alt="${esc(m.caption || '')}">`}
+          ${m.caption ? `<p>${esc(m.caption)}</p>` : ''}
+          ${media.length > 1 ? '<div class="lb-nav"><button type="button" data-lb="-1">←</button><button type="button" data-lb="1">→</button></div>' : ''}`;
+        $('.pd-close', box).onclick = () => box.close();
+        $$('[data-lb]', box).forEach((b) => b.onclick = () => show(i + +b.dataset.lb));
+      };
+      show(i);
+      box.onclick = (e) => { if (e.target === box) box.close(); };
+      box.onkeydown = (e) => { if (e.key === 'ArrowRight') show(i + 1); if (e.key === 'ArrowLeft') show(i - 1); };
+      box.showModal();
+    },
+
     /* ---------------------------------------------------------------- vues */
     setView(v, save = true) {
       $('#view-full').hidden = v !== 'full';
@@ -766,6 +807,10 @@
         if (l) { this.layout = l.dataset.layout; store.set('pf_layout', this.layout); $$('[data-layout]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layout === this.layout))); this.renderCards(); return; }
         const v = e.target.closest('.view-switch button, [data-goview]');
         if (v) { e.preventDefault(); this.setView(v.dataset.view || v.dataset.goview); return; }
+        const z = e.target.closest('[data-zoom]');
+        if (z && e.target.tagName === 'IMG') { this.lightbox((this.data.speaking.media || []), +z.dataset.zoom); return; }
+        const pi = e.target.closest('.post-body img');
+        if (pi) { this.lightbox([{ type: 'image', src: pi.getAttribute('src'), caption: pi.alt }], 0); return; }
         const lg = e.target.closest('[data-lang]');
         if (lg) { this.setLang(lg.dataset.lang); return; }
         const sh = e.target.closest('[data-share]');

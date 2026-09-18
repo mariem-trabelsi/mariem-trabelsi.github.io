@@ -586,3 +586,22 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .lang-switch { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); }
 .lang-switch button { border: 0; background: none; padding: 5px 9px; border-radius: 999px; font: 600 12px var(--mono); color: var(--muted); cursor: pointer; }
 .lang-switch button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+
+/* recherche, recommandations, galerie */
+.post-search { width: 100%; max-width: 480px; padding: 11px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin: 0 0 22px; font-size: 15px; }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.testi { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+.testi blockquote { margin: 0; font: italic 18px/1.5 var(--serif); color: var(--ink-2); }
+.testi figcaption { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+.testi img, .testi .ini { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: none; }
+.testi .ini { display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 700; }
+.testi b { display: block; font-size: 15px; } .testi small { color: var(--muted); font-size: 13px; }
+.testi a { margin-left: auto; text-decoration: none; color: var(--accent-ink); font-size: 18px; }
+.stage-media.gallery { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.zoomable img, .post-body img { cursor: zoom-in; }
+.lightbox { max-width: 94vw; max-height: 94vh; padding: 0; border: 0; background: transparent; }
+.lightbox::backdrop { background: rgba(6, 10, 18, .88); }
+.lightbox img, .lightbox video { max-width: 92vw; max-height: 84vh; border-radius: 6px; display: block; margin: 0 auto; }
+.lightbox p { color: #dbe3ee; text-align: center; margin: 10px 0 0; }
+.lb-nav { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+.lb-nav button { border: 0; background: rgba(255,255,255,.14); color: #fff; width: 44px; height: 36px; border-radius: 6px; cursor: pointer; font-size: 18px; }

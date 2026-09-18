@@ -142,7 +142,7 @@
     };
   }
 
-  const TABS = [['visitors', 'Visitors'], ['posts', 'Posts'], ['design', 'Design'], ['profile', 'Profile'], ['projects', 'Projects'], ['sections', 'Other sections'], ['settings', 'Settings']];
+  const TABS = [['visitors', 'Visitors'], ['posts', 'Posts'], ['design', 'Design'], ['profile', 'Profile'], ['projects', 'Projects'], ['testimonials', 'Recommendations'], ['sections', 'Other sections'], ['settings', 'Settings']];
 
   function shell() {
     root().innerHTML = `<div class="admin">
@@ -161,7 +161,7 @@
     $('[data-act="close"]', root()).onclick = () => { if (!S.dirty || confirm('Leave the studio? Unsaved changes stay in memory until you reload the page.')) close(); };
     $('[data-act="preview"]', root()).onclick = preview;
     $('[data-act="publish"]', root()).onclick = publish;
-    ({ visitors: tabVisitors, posts: tabPosts, design: tabDesign, profile: tabProfile, projects: tabProjects, sections: tabSections, settings: tabSettings })[S.tab]();
+    ({ visitors: tabVisitors, testimonials: tabTestimonials, posts: tabPosts, design: tabDesign, profile: tabProfile, projects: tabProjects, sections: tabSections, settings: tabSettings })[S.tab]();
   }
 
   function preview() {
@@ -241,6 +241,34 @@ ${items}
     $('#bars').insertAdjacentHTML('afterend', posts.length ? `<h3 style="font-size:18px;margin:18px 0 10px">Post reads</h3><div class="bars">${posts.map((x, i) => `<div><span>${esc(x.title || 'Untitled')}</span><i style="width:${((ps[i] || 0) / pmax) * 100}%"></i><em>${ps[i] ?? '–'}</em></div>`).join('')}</div>` : '');
     $('#bars').innerHTML = d.projects.map((x, i) => `<div><span>${esc(x.name)}</span><i style="width:${((pv[i] || 0) / max) * 100}%"></i><em>${pv[i] ?? '–'}</em></div>`).join('');
     if (vals.every((v) => v === null)) $('#stats').insertAdjacentHTML('afterend', '<div class="notice">The counter service did not answer. Try again later.</div>');
+  }
+
+  /* ---------------------------------------------------------------- onglet recommandations */
+  function tabTestimonials() {
+    const list = S.draft.testimonials = S.draft.testimonials || [];
+    const p = $('#admin-panel');
+    p.innerHTML = `<div class="panel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:end">
+      <div><h2>Recommendations</h2><p class="hint">What supervisors, colleagues or clients say about you. The section appears on the site as soon as one is visible.</p></div>
+      <button class="btn btn-solid" type="button" id="new-t">Add a recommendation</button></div>
+      <div class="rows">${list.map((t, i) => `<div class="panel" style="padding:14px;background:var(--paper)">
+        <div class="fields">
+          <label class="field"><span>Name</span><input data-t="${i}" data-k="name" value="${esc(t.name || '')}"></label>
+          <label class="field"><span>Role</span><input data-t="${i}" data-k="role" value="${esc(t.role || '')}"></label>
+          <label class="field"><span>Company</span><input data-t="${i}" data-k="company" value="${esc(t.company || '')}"></label>
+          <label class="field"><span>Link (LinkedIn…)</span><input data-t="${i}" data-k="link" value="${esc(t.link || '')}"></label>
+          <label class="field full"><span>Recommendation</span><textarea data-t="${i}" data-k="quote">${esc(t.quote || '')}</textarea></label>
+          <div class="field"><span>Photo</span><div style="display:flex;gap:8px;align-items:center">${t.photo ? `<img src="${esc(src(t.photo))}" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover">` : ''}<label class="btn" style="cursor:pointer">Upload<input type="file" data-tphoto="${i}" accept="image/*" hidden></label></div></div>
+          <div class="field"><span>&nbsp;</span><div style="display:flex;gap:8px;flex-wrap:wrap">
+            <label class="check"><input type="checkbox" data-tvis="${i}" ${t.visible !== false ? 'checked' : ''}> Visible</label>
+            <button class="icon-btn" type="button" data-tmv="${i}" data-d="-1">↑</button><button class="icon-btn" type="button" data-tmv="${i}" data-d="1">↓</button>
+            <button class="icon-btn danger" type="button" data-tdel="${i}">Delete</button></div></div>
+        </div></div>`).join('') || '<p class="hint">No recommendation yet.</p>'}</div></div>`;
+    $('#new-t').onclick = () => { list.push({ name: '', role: '', company: '', quote: '', photo: '', link: '', visible: true }); markDirty(); tabTestimonials(); };
+    $$('[data-t]', p).forEach((el) => el.oninput = () => { list[+el.dataset.t][el.dataset.k] = el.value; markDirty(); });
+    $$('[data-tvis]', p).forEach((el) => el.onchange = () => { list[+el.dataset.tvis].visible = el.checked; markDirty(); });
+    $$('[data-tdel]', p).forEach((b) => b.onclick = () => { if (confirm('Delete this recommendation?')) { list.splice(+b.dataset.tdel, 1); markDirty(); tabTestimonials(); } });
+    $$('[data-tmv]', p).forEach((b) => b.onclick = () => { const i = +b.dataset.tmv, j = i + +b.dataset.d; if (j < 0 || j >= list.length) return; [list[i], list[j]] = [list[j], list[i]]; markDirty(); tabTestimonials(); });
+    $$('[data-tphoto]', p).forEach((el) => el.onchange = async (e) => { try { const r = await upload(e.target.files[0], 'testimonials'); list[+el.dataset.tphoto].photo = r.path; markDirty(); tabTestimonials(); } catch (er) { toast(er.message, 6000); } });
   }
 
   /* ---------------------------------------------------------------- onglet publications */
@@ -348,7 +376,13 @@ ${items}
     if ($('#mcover-rm')) $('#mcover-rm').onclick = () => { m.cover = null; markDirty(); editModule(m); };
   }
 
-  function editPost(x) {
+  function editPost(x0) {
+    // version francaise : on edite la traduction, rangee a part
+    const tr = (S.draft.translations = S.draft.translations || {}).fr = (S.draft.translations.fr || {});
+    tr.posts = tr.posts || [];
+    let frx = tr.posts.find((t) => t.id === x0.id);
+    if (S.postLang === 'fr' && !frx) { frx = { id: x0.id, title: '', excerpt: '', body: '' }; tr.posts.push(frx); }
+    const x = S.postLang === 'fr' ? new Proxy(x0, { get: (o, k) => (['title', 'excerpt', 'body'].includes(k) ? frx[k] : o[k]), set: (o, k, v) => { if (['title', 'excerpt', 'body'].includes(k)) frx[k] = v; else o[k] = v; return true; } }) : x0;
     x.style = x.style || {};
     const st = x.style;
     const segP = (key, opts) => `<div class="seg">${Object.entries(opts).map(([k, l]) => `<button type="button" data-ps="${key}" data-v="${k}" aria-pressed="${(st[key] || '') === k}">${l}</button>`).join('')}</div>`;
@@ -357,9 +391,15 @@ ${items}
     const p = $('#admin-panel');
     p.innerHTML = `<div class="panel">
       <button class="btn btn-ghost" type="button" id="pback">← All posts</button>
+      <div class="seg" style="margin-left:10px" role="group" aria-label="Language">
+        <button type="button" data-plang="en" aria-pressed="${S.postLang !== 'fr'}">Editing: English</button>
+        <button type="button" data-plang="fr" aria-pressed="${S.postLang === 'fr'}">Editing: Français</button>
+      </div>
+      ${S.postLang === 'fr' ? '<p class="notice">You are writing the French version. Leave a field empty to show the English one.</p>' : ''}
+      ${x.date > new Date().toISOString().slice(0, 10) ? `<p class="notice">Scheduled: this post appears automatically on ${esc(x.date)}.</p>` : ''}
       <div class="fields" style="margin-top:14px" id="pf">
         <label class="field full"><span>Title</span><input name="title" value="${esc(x.title)}" placeholder="What is this post about?"></label>
-        <label class="field"><span>Date</span><input name="date" type="date" value="${esc(x.date)}"></label>
+        <label class="field"><span>Date (a future date schedules the post)</span><input name="date" type="date" value="${esc(x.date)}"></label>
         <label class="field"><span>Tags, separated by commas</span><input name="tags" value="${esc((x.tags || []).join(', '))}"></label>
         <label class="field"><span>Theme</span><select name="module"><option value="">No theme</option>${(S.draft.modules || []).map((m) => `<option value="${esc(m.id)}" ${x.module === m.id ? 'selected' : ''}>${esc((m.emoji || '') + ' ' + m.name)}</option>`).join('')}</select></label>
         <label class="field full"><span>Short summary, shown on the cards</span><textarea name="excerpt" style="min-height:60px">${esc(x.excerpt)}</textarea></label>
@@ -421,12 +461,13 @@ ${items}
     };
     ed.addEventListener('input', sync);
     $('#pback').onclick = () => { sync(); S.editingPost = null; tabPosts(); };
+    $$('[data-plang]', p).forEach((b) => b.onclick = () => { sync(); S.postLang = b.dataset.plang; editPost(x0); });
     $$('#pf [name]', p).forEach((el) => el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', () => {
       const n = el.name;
       if (el.type === 'checkbox') x[n] = el.checked;
       else if (n === 'tags') x.tags = el.value.split(',').map((t) => t.trim()).filter(Boolean);
       else x[n] = el.value;
-      if (n === 'title' && /^post-/.test(x.id)) x.id = slug(el.value) + '-' + x.id.slice(5);
+      if (n === 'title' && S.postLang !== 'fr' && /^post-/.test(x0.id)) x0.id = slug(el.value) + '-' + x0.id.slice(5);
       markDirty();
     }));
     const exec = (c, v = null) => { ed.focus(); document.execCommand(c, false, v); sync(); };
@@ -461,10 +502,10 @@ ${items}
     $('#rte-img').onchange = (e) => { if (e.target.files[0]) insertMedia(e.target.files[0], 'image'); e.target.value = ''; };
     $('#rte-vid').onchange = (e) => { if (e.target.files[0]) insertMedia(e.target.files[0], 'video'); e.target.value = ''; };
     $('#pcover').onchange = async (e) => {
-      try { const r = await upload(e.target.files[0], 'posts/' + x.id); x.cover = { type: r.type, src: r.path }; sync(); editPost(x); } catch (er) { toast(er.message, 6000); }
+      try { const r = await upload(e.target.files[0], 'posts/' + x.id); x.cover = { type: r.type, src: r.path }; sync(); editPost(x0); } catch (er) { toast(er.message, 6000); }
     };
-    if ($('#pcover-rm')) $('#pcover-rm').onclick = () => { x.cover = null; sync(); editPost(x); };
-    $$('[data-ps]', p).forEach((b) => b.onclick = () => { sync(); st[b.dataset.ps] = b.dataset.v; markDirty(); editPost(x); });
+    if ($('#pcover-rm')) $('#pcover-rm').onclick = () => { x.cover = null; sync(); editPost(x0); };
+    $$('[data-ps]', p).forEach((b) => b.onclick = () => { sync(); st[b.dataset.ps] = b.dataset.v; markDirty(); editPost(x0); });
     $('#paccent').oninput = (e) => { st.accent = e.target.value; markDirty(); };
     $('#paccent-rm').onclick = () => { st.accent = ''; markDirty(); toast('This post uses the site accent'); };
     $('#pview').onclick = () => { sync(); const vis = x.visible; x.visible = true; const id = x.id; preview(); x.visible = vis; location.hash = '#/post/' + id; };
@@ -721,7 +762,7 @@ ${items}
   /* ---------------------------------------------------------------- autres sections */
   function tabSections() {
     const d = S.draft;
-    const secs = [['spotlight', 'Standards section (TM Forum and BPMN)'], ['experience', 'Experience'], ['education', 'Education'], ['certifications', 'Certifications'], ['skills', 'Skills'], ['speaking', 'On stage (text and items)']];
+    const secs = [['translations', 'French translations (everything the French version changes)'], ['spotlight', 'Standards section (TM Forum and BPMN)'], ['experience', 'Experience'], ['education', 'Education'], ['certifications', 'Certifications'], ['skills', 'Skills'], ['speaking', 'On stage (text and items)']];
     const p = $('#admin-panel');
     p.innerHTML = `<div class="panel"><h2>Other sections</h2>
       <p class="hint">Edited as structured text. Keep the same shape as the existing entries; the field turns red until it is valid.</p>
