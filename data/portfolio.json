@@ -215,6 +215,374 @@
           "value": "52",
           "label": "Drools rules"
         }
+      ],
+      "journey": [
+        {
+          "id": "_START_ORDER_SUBMITTED",
+          "en": "The customer submits a fibre order",
+          "fr": "Le client soumet une commande fibre",
+          "key": true
+        },
+        {
+          "id": "_Q_TASK_LOAD_ELIGIBILITY",
+          "en": "Check the address and the offer (TMF679, TMF673, TMF620)",
+          "fr": "Vérifier l’adresse et l’offre (TMF679, TMF673, TMF620)",
+          "key": true
+        },
+        {
+          "id": "_Q_GW_ELIGIBLE",
+          "en": "Is the address eligible for fibre?",
+          "fr": "L’adresse est-elle éligible à la fibre ?",
+          "key": true
+        },
+        {
+          "id": "_Q_TASK_VALIDATE_OFFER_DRL",
+          "en": "Offer rules: price, discounts, eligibility (Drools)",
+          "fr": "Règles d’offre : prix, remises, éligibilité (Drools)",
+          "key": true
+        },
+        {
+          "id": "_Q_GW_OFFER_VALID",
+          "en": "Commercial: decision",
+          "fr": "Commercial : décision",
+          "key": false
+        },
+        {
+          "id": "_Q_TASK_CREATE_QUOTE",
+          "en": "Create the quote (TMF648)",
+          "fr": "Créer le devis (TMF648)",
+          "key": true
+        },
+        {
+          "id": "_Q_THROW_QUOTE_PROPOSED",
+          "en": "Commercial: publish or prepare data",
+          "fr": "Commercial : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_TASK_AUTO_001",
+          "en": "The customer decides on the quote",
+          "fr": "Le client décide sur le devis",
+          "key": true
+        },
+        {
+          "id": "_Q_TASK_BUILD_ACCEPTED_PAYLOAD",
+          "en": "Commercial: publish or prepare data",
+          "fr": "Commercial : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_C_GW_QUOTE_DECISION",
+          "en": "Quote accepted?",
+          "fr": "Devis accepté ?",
+          "key": true
+        },
+        {
+          "id": "_C_THROW_QUOTE_ACCEPTED",
+          "en": "Customer portal: publish or prepare data",
+          "fr": "Portail client : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_Q_TASK_UPDATE_QUOTE_ACCEPTED",
+          "en": "Mark the quote as approved",
+          "fr": "Marquer le devis comme accepté",
+          "key": true
+        },
+        {
+          "id": "_Q_GW_FORK_AFTER_ACCEPT",
+          "en": "Portal and order management run in parallel",
+          "fr": "Portail et gestion de commande en parallèle",
+          "key": true
+        },
+        {
+          "id": "_O_TASK_VALIDATE_ORDER_DRL",
+          "en": "Order rules and SLA deadline (Drools)",
+          "fr": "Règles de commande et échéance SLA (Drools)",
+          "key": true
+        },
+        {
+          "id": "_O_GW_ORDER_VALID",
+          "en": "Order management: decision",
+          "fr": "Gestion de commande : décision",
+          "key": false
+        },
+        {
+          "id": "_O_TASK_CREATE_PRODUCT_ORDER",
+          "en": "Create the product order (TMF622)",
+          "fr": "Créer la commande produit (TMF622)",
+          "key": true
+        },
+        {
+          "id": "_O_TASK_CREATE_SERVICE_ORDER",
+          "en": "Decompose into a service order (TMF641): the BSS/OSS boundary",
+          "fr": "Décomposer en ordre de service (TMF641) : la frontière BSS/OSS",
+          "key": true
+        },
+        {
+          "id": "_O_THROW_ORDER_CREATED",
+          "en": "Publish OrderCreated on Kafka",
+          "fr": "Publier OrderCreated sur Kafka",
+          "key": true
+        },
+        {
+          "id": "_A_TASK_GET_NETWORK_CONTEXT",
+          "en": "Read the network and reserve a fibre port (TMF639)",
+          "fr": "Lire le réseau et réserver un port fibre (TMF639)",
+          "key": true
+        },
+        {
+          "id": "_GW_AUTO_001",
+          "en": "Process: decision",
+          "fr": "Processus : décision",
+          "key": false
+        },
+        {
+          "id": "_A_TASK_EVALUATE_FEASIBILITY_DRL",
+          "en": "Feasibility rules (Drools)",
+          "fr": "Règles de faisabilité (Drools)",
+          "key": true
+        },
+        {
+          "id": "_A_GW_FEASIBILITY",
+          "en": "Provisioning and field: decision",
+          "fr": "Provisioning et terrain : décision",
+          "key": false
+        },
+        {
+          "id": "_A_TASK_CREATE_WORK_ORDER",
+          "en": "Create the work order (TMF697)",
+          "fr": "Créer l’ordre de travail (TMF697)",
+          "key": true
+        },
+        {
+          "id": "_A_TASK_ASSIGN_TECHNICIAN_DRL",
+          "en": "Dispatch rules choose a technician (Drools)",
+          "fr": "Les règles d’affectation choisissent un technicien (Drools)",
+          "key": true
+        },
+        {
+          "id": "_A_GW_ASSIGN_MERGE",
+          "en": "Provisioning and field: join",
+          "fr": "Provisioning et terrain : jonction",
+          "key": false
+        },
+        {
+          "id": "_A_TASK_NOTIFY_RDV",
+          "en": "Propose an installation slot (TMF646)",
+          "fr": "Proposer un créneau d’installation (TMF646)",
+          "key": true
+        },
+        {
+          "id": "_A_THROW_RDV_PROPOSED",
+          "en": "Provisioning and field: publish or prepare data",
+          "fr": "Provisioning et terrain : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_C_SCRIPT_PARSE_RDV",
+          "en": "Customer portal: publish or prepare data",
+          "fr": "Portail client : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_C_CATCH_RDV_CONFIRMED_WAIT",
+          "en": "Customer portal: waiting for an event",
+          "fr": "Portail client : attente d’un événement",
+          "key": false
+        },
+        {
+          "id": "_A_CATCH_RDV_CONFIRMED",
+          "en": "Wait: the customer confirms the slot",
+          "fr": "Attente : le client confirme le créneau",
+          "key": true
+        },
+        {
+          "id": "_O_GW_SLA_WAIT",
+          "en": "Order management: decision",
+          "fr": "Gestion de commande : décision",
+          "key": false
+        },
+        {
+          "id": "_O_CATCH_SO_STATE_CHANGE",
+          "en": "Order management: waiting for an event",
+          "fr": "Gestion de commande : attente d’un événement",
+          "key": false
+        },
+        {
+          "id": "_C_CATCH_RDV",
+          "en": "Customer portal: waiting for an event",
+          "fr": "Portail client : attente d’un événement",
+          "key": false
+        },
+        {
+          "id": "_C_THROW_RDV_CONFIRMED",
+          "en": "Customer portal: publish or prepare data",
+          "fr": "Portail client : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_C_CATCH_ACTIVATION",
+          "en": "Customer portal: waiting for an event",
+          "fr": "Portail client : attente d’un événement",
+          "key": false
+        },
+        {
+          "id": "_A_CATCH_WORKORDER_COMPLETED",
+          "en": "Wait: the technician reports the intervention",
+          "fr": "Attente : le technicien signale l’intervention",
+          "key": true
+        },
+        {
+          "id": "_A_TASK_EXTRACT_WORKORDER_RESULT",
+          "en": "Provisioning and field: publish or prepare data",
+          "fr": "Provisioning et terrain : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_A_TASK_PROVISION_NETWORK",
+          "en": "Provision the network, activate the port",
+          "fr": "Provisionner le réseau, activer le port",
+          "key": true
+        },
+        {
+          "id": "_A_GW_INTERVENTION_OK",
+          "en": "Intervention successful?",
+          "fr": "Intervention réussie ?",
+          "key": true
+        },
+        {
+          "id": "_A_TASK_VERIFY_SERVICE",
+          "en": "Verify the service activation (TMF640)",
+          "fr": "Vérifier l’activation du service (TMF640)",
+          "key": true
+        },
+        {
+          "id": "_A_TASK_UPDATE_SERVICE_INV",
+          "en": "Update the service inventory (TMF638)",
+          "fr": "Mettre à jour l’inventaire des services (TMF638)",
+          "key": true
+        },
+        {
+          "id": "_A_TASK_UPDATE_RESOURCE_INV",
+          "en": "Update the resource inventory (TMF639)",
+          "fr": "Mettre à jour l’inventaire des ressources (TMF639)",
+          "key": true
+        },
+        {
+          "id": "_A_GW_FORK_NOTIFY_CLOSE",
+          "en": "Provisioning and field: decision",
+          "fr": "Provisioning et terrain : décision",
+          "key": false
+        },
+        {
+          "id": "_A_THROW_SO_STATE_CHANGE",
+          "en": "Provisioning and field: publish or prepare data",
+          "fr": "Provisioning et terrain : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_O_CATCH_BILLING_ACTIVATED",
+          "en": "Order management: waiting for an event",
+          "fr": "Gestion de commande : attente d’un événement",
+          "key": false
+        },
+        {
+          "id": "_B_TASK_CREATE_BILLING_ACCOUNT",
+          "en": "Create the billing account (TMF666, Kill Bill)",
+          "fr": "Créer le compte de facturation (TMF666, Kill Bill)",
+          "key": true
+        },
+        {
+          "id": "_B_TASK_REGISTER_PAYMENT",
+          "en": "Register the payment method (TMF676)",
+          "fr": "Enregistrer le moyen de paiement (TMF676)",
+          "key": true
+        },
+        {
+          "id": "_B_GW_PAYMENT_MERGE",
+          "en": "Billing: join",
+          "fr": "Facturation : jonction",
+          "key": false
+        },
+        {
+          "id": "_B_TASK_APPLY_OFFER_PRICING_DRL",
+          "en": "Pricing and pro-rata rules (Drools)",
+          "fr": "Règles de tarification et de prorata (Drools)",
+          "key": true
+        },
+        {
+          "id": "_B_TASK_ACTIVATE_BILLING",
+          "en": "Activate the subscription in Kill Bill",
+          "fr": "Activer l’abonnement dans Kill Bill",
+          "key": true
+        },
+        {
+          "id": "_B_TASK_SEND_FIRST_INVOICE",
+          "en": "Send the first invoice",
+          "fr": "Envoyer la première facture",
+          "key": true
+        },
+        {
+          "id": "_B_THROW_BILLING_ACTIVATED",
+          "en": "Billing: publish or prepare data",
+          "fr": "Facturation : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_O_THROW_ACTIVATION_NOTIFIED",
+          "en": "Order management: publish or prepare data",
+          "fr": "Gestion de commande : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_C_TASK_VERIFY_SATISFACTION",
+          "en": "Satisfaction survey",
+          "fr": "Enquête de satisfaction",
+          "key": true
+        },
+        {
+          "id": "_O_CATCH_DOSSIER_CLOSED",
+          "en": "Order management: waiting for an event",
+          "fr": "Gestion de commande : attente d’un événement",
+          "key": false
+        },
+        {
+          "id": "_B_END_BILLING_DONE",
+          "en": "Billing: end of a branch",
+          "fr": "Facturation : fin d’une branche",
+          "key": false
+        },
+        {
+          "id": "_C_THROW_DOSSIER_CLOSED",
+          "en": "Customer portal: publish or prepare data",
+          "fr": "Portail client : publication ou préparation de données",
+          "key": false
+        },
+        {
+          "id": "_O_TASK_CLOSE_ORDER",
+          "en": "Close the product order (TMF622 completed)",
+          "fr": "Clôturer la commande produit (TMF622 terminée)",
+          "key": true
+        },
+        {
+          "id": "_GW_AUTO_002",
+          "en": "Process: join",
+          "fr": "Processus : jonction",
+          "key": false
+        },
+        {
+          "id": "_O_END_ACTIVE",
+          "en": "Fibre subscription active, order closed",
+          "fr": "Abonnement fibre actif, commande clôturée",
+          "key": true
+        },
+        {
+          "id": "_C_END_DOSSIER_CLOSED",
+          "en": "Customer portal: end of a branch",
+          "fr": "Portail client : fin d’une branche",
+          "key": false
+        }
       ]
     }
   },

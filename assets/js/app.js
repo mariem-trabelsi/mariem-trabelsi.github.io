@@ -157,14 +157,15 @@
     });
     return bpmnLib;
   }
-  async function mountBpmn(host, url) {
+  async function mountBpmn(host, url, journey) {
     host.innerHTML = `<div class="bpmn-canvas"><p class="bpmn-wait">Loading the model…</p></div>
       <div class="bpmn-tools" role="toolbar" aria-label="Model controls">
         <button type="button" data-z="in" aria-label="Zoom in">+</button>
         <button type="button" data-z="out" aria-label="Zoom out">−</button>
         <button type="button" data-z="fit">Fit</button>
         <button type="button" data-z="full">Full screen</button>
-      </div>`;
+      </div>
+      ${journey && journey.length ? `<button type="button" class="bpmn-play" data-play>${T('playJourney')}</button><div class="bpmn-caption" aria-live="polite" hidden></div>` : ''}`;
     try {
       const [Viewer, xml] = await Promise.all([loadBpmn(), fetch(url).then((r) => { if (!r.ok) throw new Error('Model not found'); return r.text(); })]);
       const canvasEl = host.querySelector('.bpmn-canvas');
@@ -181,6 +182,30 @@
         else canvas.zoom(canvas.zoom() * (z === 'in' ? 1.25 : 0.8));
       }));
       document.addEventListener('fullscreenchange', () => setTimeout(() => { canvas.resized(); fit(); }, 150));
+      const play = host.querySelector('[data-play]');
+      if (play) {
+        const reg = viewer.get('elementRegistry');
+        const steps = journey.filter((j) => reg.get(j.id));
+        const cap = host.querySelector('.bpmn-caption');
+        let timer = null, k = 0;
+        const clear = () => steps.forEach((j) => { canvas.removeMarker(j.id, 'pf-active'); canvas.removeMarker(j.id, 'pf-done'); });
+        const stop = () => { clearTimeout(timer); timer = null; play.textContent = T('playJourney'); };
+        const tick = () => {
+          if (k > 0) { canvas.removeMarker(steps[k - 1].id, 'pf-active'); canvas.addMarker(steps[k - 1].id, 'pf-done'); }
+          if (k >= steps.length) { stop(); return; }
+          const j = steps[k];
+          canvas.addMarker(j.id, 'pf-active');
+          if (j.key) { cap.hidden = false; cap.innerHTML = `<b>${k + 1} / ${steps.length}</b> ${esc(LANG === 'fr' ? j.fr : j.en)}`; }
+          try { if (canvas.scrollToElement && j.key) canvas.scrollToElement(reg.get(j.id), { top: 120, bottom: 120, left: 160, right: 160 }); } catch (e) { /* vue inchangee */ }
+          k += 1;
+          timer = setTimeout(tick, j.key ? 1300 : 380);
+        };
+        play.addEventListener('click', () => {
+          if (timer) { stop(); return; }
+          clear(); k = 0; fit(); canvas.zoom(canvas.zoom() * 2.2);
+          play.textContent = T('stopJourney'); Counter.hit('bpmn-play'); tick();
+        });
+      }
       return viewer;
     } catch (e) {
       host.querySelector('.bpmn-canvas').innerHTML = `<p class="bpmn-wait">The model could not be displayed. <a href="${esc(url)}" download>Download the .bpmn file</a>.</p>`;
@@ -394,7 +419,7 @@
         </div></div>`;
       const host = $('#spot-bpmn');
       if (host && b.file) {
-        $('.bpmn-start', host).addEventListener('click', () => { Counter.hit('bpmn-viewer'); mountBpmn(host, b.file); });
+        $('.bpmn-start', host).addEventListener('click', () => { Counter.hit('bpmn-viewer'); mountBpmn(host, b.file, b.journey); });
       }
     },
 
