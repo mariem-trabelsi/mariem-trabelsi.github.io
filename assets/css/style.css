@@ -614,3 +614,17 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .djs-element.pf-active .djs-visual > :first-child { stroke: #b8741f !important; stroke-width: 4px !important; fill: #f5d19c !important; }
 .djs-element.pf-active { filter: drop-shadow(0 0 8px rgba(184,116,31,.8)); }
 .djs-connection.pf-done .djs-visual path { stroke: #b8741f !important; }
+.comments { margin-top: 36px; }
+.comments h2 { font-size: 24px; margin-bottom: 10px; }
+.case-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 10px 0 30px; }
+.case-kpis div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+.case-kpis b { display: block; font: 500 30px/1 var(--serif); color: var(--ink); }
+.case-kpis span { font-size: 13px; color: var(--muted); }
+.case-sec { margin: 30px 0; font-size: 17px; line-height: 1.7; }
+.case-sec h2 { font-size: 28px; margin: 6px 0 12px; }
+.case-sec ul { padding-left: 20px; }
+.case-sec li { margin-bottom: 6px; }
+.daychart { display: grid; grid-template-columns: repeat(30, 1fr); gap: 3px; align-items: end; height: 150px; margin-bottom: 18px; }
+.dbar { height: 120px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+.dbar i { width: 100%; min-height: 2px; background: var(--accent); border-radius: 2px 2px 0 0; }
+.dbar span { font: 10px var(--mono); color: var(--muted); height: 14px; margin-top: 4px; white-space: nowrap; }

@@ -229,10 +229,16 @@ ${items}
     p.innerHTML = `<div class="panel"><h2>Visitors</h2>
       <p class="hint">Counted once per browser session. Your own visits on this device are not counted.</p>
       <div class="stats" id="stats">Loading…</div>
+      <h3 style="font-size:18px;margin:6px 0 10px">Visits, last 30 days</h3><div class="daychart" id="days">Loading…</div>
       <h3 style="font-size:18px;margin:6px 0 10px">Project openings</h3><div class="bars" id="bars"></div></div>`;
     const keys = [['visits', 'Visits'], ['likes', '❤ Profile loves'], ['cv', 'CV downloads'], ['bpmn-viewer', 'BPMN model opened'], ['contact-email', 'E-mail clicks'], ['contact-whatsapp', 'WhatsApp clicks'], ['view-brief', 'Recruiter brief views'], ['view-full', 'Full view switches']];
     const vals = await Promise.all(keys.map(([k]) => Counter.get(k)));
     $('#stats').innerHTML = keys.map(([, l], i) => `<div class="stat"><b>${vals[i] === null ? '–' : vals[i]}</b><span>${l}</span></div>`).join('');
+    const days = [...Array(30)].map((_, i) => { const t = new Date(Date.now() - (29 - i) * 864e5); return t.toISOString().slice(0, 10); });
+    const dv = await Promise.all(days.map((k) => Counter.get('day-' + k.replace(/-/g, ''))));
+    const dmax = Math.max(1, ...dv.map((v) => v || 0));
+    $('#days').innerHTML = days.map((k, i) => `<div class="dbar" title="${k}: ${dv[i] || 0}"><i style="height:${((dv[i] || 0) / dmax) * 100}%"></i><span>${i % 5 === 4 ? k.slice(8) + '/' + k.slice(5, 7) : ''}</span></div>`).join('')
+      + `<p class="hint" style="grid-column:1/-1;margin:6px 0 0">Total over 30 days: <b>${dv.reduce((a, b) => a + (b || 0), 0)}</b>. Daily counts start from the day this chart was added.</p>`;
     const pv = await Promise.all(d.projects.map((x) => Counter.get('project-' + x.id)));
     const max = Math.max(1, ...pv.map((v) => v || 0));
     const posts = d.posts || [];
@@ -805,13 +811,36 @@ ${items}
         ${field('owner', 'GitHub owner', c.owner)}${field('repo', 'Repository', c.repo)}
         ${field('branch', 'Branch', c.branch)}${field('counterNamespace', 'Counter name (changing it restarts the counts)', c.counterNamespace)}
         <label class="check full"><input type="checkbox" name="showVisitsPublicly" ${c.showVisitsPublicly ? 'checked' : ''}> Show the visit count in the public footer</label>
+        <label class="check full"><input type="checkbox" name="comments" ${c.comments ? 'checked' : ''}> Comments under posts (free, through GitHub). First install the <a href="https://github.com/apps/utterances" target="_blank" rel="noopener">utterances app</a> on this repository.</label>
       </div>
+      <h3 style="font-size:18px;margin:22px 0 6px">History</h3>
+      <p class="hint">Every “Save and publish” is a version. Load an older one, check it with Preview, then publish it to restore it.</p>
+      <div class="rows" id="history"><p class="hint">Loading…</p></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
         <button class="btn" type="button" id="dl">Download the content file</button>
         <button class="btn" type="button" id="forget-counting">Count my visits again on this device</button>
         <button class="btn danger" type="button" id="logout">Sign out and forget the token</button>
       </div></div>`;
     $$('#st [name]', p).forEach((el) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => { c[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim(); markDirty(); }));
+    (async () => {
+      try {
+        const cs = await GH.api(`/repos/${c.owner}/${c.repo}/commits?path=data/portfolio.json&per_page=25&sha=${encodeURIComponent(c.branch)}`);
+        $('#history').innerHTML = (cs || []).map((k) => `<div class="prow" style="grid-template-columns:1fr auto">
+          <div class="t"><b>${esc(new Date(k.commit.author.date).toLocaleString())}</b><span>${esc(k.commit.message)}</span></div>
+          <div class="acts"><button class="icon-btn" type="button" data-restore="${esc(k.sha)}">Load this version</button></div></div>`).join('') || '<p class="hint">No history yet.</p>';
+        $$('[data-restore]', p).forEach((b) => b.onclick = async () => {
+          if (S.dirty && !confirm('Your unsaved changes will be replaced by this version. Continue?')) return;
+          try {
+            const f = await GH.api(`/repos/${c.owner}/${c.repo}/contents/data/portfolio.json?ref=${b.dataset.restore}`);
+            const bytes = Uint8Array.from(atob(f.content.replace(/\n/g, '')), (ch) => ch.charCodeAt(0));
+            const old = JSON.parse(new TextDecoder().decode(bytes));
+            old.settings = S.draft.settings;
+            S.draft = old; markDirty();
+            toast('Version loaded. Check it with Preview, then Save and publish to restore it.', 6000);
+          } catch (er) { toast('Could not load this version: ' + er.message, 6000); }
+        });
+      } catch (er) { $('#history').innerHTML = `<p class="hint">History unavailable: ${esc(er.message)}</p>`; }
+    })();
     $('#dl').onclick = () => {
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([JSON.stringify(S.draft, null, 2)], { type: 'application/json' }));

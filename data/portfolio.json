@@ -709,7 +709,93 @@
       "cover": 2,
       "featured": true,
       "visible": true,
-      "links": []
+      "links": [],
+      "caseStudy": {
+        "title": "Case study: orchestrating a fibre order end to end",
+        "tagline": "From a journey pushed by hand across disconnected systems to one executable model, measured on the live platform.",
+        "kpis": [
+          {
+            "value": "118",
+            "label": "BPMN nodes, one model"
+          },
+          {
+            "value": "52",
+            "label": "business rules"
+          },
+          {
+            "value": "17",
+            "label": "TM Forum Open APIs"
+          },
+          {
+            "value": "54 / 54",
+            "label": "end-to-end checks passed"
+          },
+          {
+            "value": "0.10 s",
+            "label": "median at 50 concurrent orders"
+          }
+        ],
+        "sections": [
+          {
+            "label": "Problem",
+            "title": "Nobody could say where an order stood",
+            "paragraphs": [
+              "A fibre order crosses the commercial systems (BSS) and the technical systems (OSS). Integrations were point to point, so the journey existed nowhere as a whole."
+            ],
+            "points": [
+              "Stuck orders found and pushed by hand",
+              "Business rules buried in application code",
+              "No screen showing the position of an order",
+              "Failures that left ports reserved for nothing"
+            ]
+          },
+          {
+            "label": "Approach",
+            "title": "Model the journey, then execute the model",
+            "paragraphs": [
+              "I analysed the Order-to-Activate journey with the TM Forum frameworks (eTOM for the processes, SID for the data), wrote 14 functional and 9 non-functional requirements with their acceptance criteria, then modelled the journey in BPMN 2.0 and ran it on Kogito."
+            ],
+            "points": [
+              "Requirements traced from the business need to the measurement",
+              "Five lanes: commercial, order, provisioning and field, billing, customer",
+              "Decisions extracted into 52 Drools rules owned by each service",
+              "Every external contract mapped to a TM Forum Open API"
+            ]
+          },
+          {
+            "label": "Decisions",
+            "title": "Six decisions, each with its accepted cost",
+            "paragraphs": [
+              "Sequence in a model, decisions in rules, orchestration for the journey and events between domains, the billing engine behind an adapter, one database per service, and a shared port reserved by the database itself."
+            ]
+          },
+          {
+            "label": "Results",
+            "title": "Measured, not assumed",
+            "paragraphs": [
+              "Every result was read in the database of the service that owns it, never only in the engine's word."
+            ],
+            "points": [
+              "19 of 23 requirements met, 4 met in part and documented",
+              "Ten journeys on the full stack, 54 checks, no failure",
+              "Median unchanged from 10 to 50 concurrent orders",
+              "A double booking found under concurrency and fixed",
+              "8 blocking conformance issues found with the official kits, 7 fixed"
+            ]
+          },
+          {
+            "label": "What I bring",
+            "title": "From business need to working system",
+            "points": [
+              "Process analysis and modelling (BPMN, eTOM)",
+              "Requirements with measurable acceptance criteria",
+              "Business rules design",
+              "Standards-based integration (TM Forum Open APIs)",
+              "Validation against real data"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "foodsafety",
@@ -1311,7 +1397,88 @@
             "Compensation en ordre inverse quand un parcours ne peut aboutir ; les pannes techniques restent reprenables",
             "Mesuré sur la plateforme réelle : 54 vérifications de bout en bout, 50 commandes simultanées à 0,10 s de médiane",
             "Une double réservation de port détectée sous concurrence, corrigée par une écriture conditionnelle en base"
-          ]
+          ],
+          "caseStudy": {
+            "title": "Étude de cas : orchestrer une commande fibre de bout en bout",
+            "tagline": "D’un parcours poussé à la main entre des systèmes déconnectés à un seul modèle exécutable, mesuré sur la plateforme réelle.",
+            "kpis": [
+              {
+                "label": "nœuds BPMN, un seul modèle"
+              },
+              {
+                "label": "règles métier"
+              },
+              {
+                "label": "Open APIs TM Forum"
+              },
+              {
+                "label": "vérifications de bout en bout réussies"
+              },
+              {
+                "label": "médiane à 50 commandes simultanées"
+              }
+            ],
+            "sections": [
+              {
+                "label": "Problème",
+                "title": "Personne ne savait où en était une commande",
+                "paragraphs": [
+                  "Une commande fibre traverse les systèmes commerciaux (BSS) et techniques (OSS). Les intégrations étaient point à point : le parcours n’existait nulle part dans son ensemble."
+                ],
+                "points": [
+                  "Commandes bloquées retrouvées et poussées à la main",
+                  "Règles métier enfouies dans le code",
+                  "Aucun écran montrant la position d’une commande",
+                  "Des échecs qui laissaient des ports réservés pour rien"
+                ]
+              },
+              {
+                "label": "Démarche",
+                "title": "Modéliser le parcours, puis exécuter le modèle",
+                "paragraphs": [
+                  "J’ai analysé le parcours Order-to-Activate avec les cadres du TM Forum (eTOM pour les processus, SID pour les données), rédigé 14 exigences fonctionnelles et 9 non fonctionnelles avec leurs critères d’acceptation, puis modélisé le parcours en BPMN 2.0 et l’ai exécuté sur Kogito."
+                ],
+                "points": [
+                  "Exigences tracées du besoin métier jusqu’à la mesure",
+                  "Cinq couloirs : commercial, commande, provisioning et terrain, facturation, client",
+                  "Décisions extraites en 52 règles Drools détenues par chaque service",
+                  "Chaque contrat externe aligné sur une Open API du TM Forum"
+                ]
+              },
+              {
+                "label": "Décisions",
+                "title": "Six décisions, chacune avec son coût accepté",
+                "paragraphs": [
+                  "La séquence dans un modèle, les décisions dans des règles, l’orchestration pour le parcours et les événements entre domaines, le moteur de facturation derrière un adaptateur, une base par service, et un port partagé réservé par la base elle-même."
+                ]
+              },
+              {
+                "label": "Résultats",
+                "title": "Mesuré, pas supposé",
+                "paragraphs": [
+                  "Chaque résultat a été lu dans la base du service qui le possède, jamais seulement dans la parole du moteur."
+                ],
+                "points": [
+                  "19 exigences sur 23 satisfaites, 4 partiellement et documentées",
+                  "Dix parcours sur la plateforme complète, 54 vérifications, aucun échec",
+                  "Médiane inchangée de 10 à 50 commandes simultanées",
+                  "Une double réservation détectée sous concurrence et corrigée",
+                  "8 non-conformités bloquantes trouvées avec les kits officiels, 7 corrigées"
+                ]
+              },
+              {
+                "label": "Ce que j’apporte",
+                "title": "Du besoin métier au système qui fonctionne",
+                "points": [
+                  "Analyse et modélisation des processus (BPMN, eTOM)",
+                  "Exigences avec critères d’acceptation mesurables",
+                  "Conception de règles métier",
+                  "Intégration fondée sur les standards (Open APIs TM Forum)",
+                  "Validation sur données réelles"
+                ]
+              }
+            ]
+          }
         },
         {
           "id": "foodsafety",

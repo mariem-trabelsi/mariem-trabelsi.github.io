@@ -325,7 +325,7 @@
       const view = new URLSearchParams(location.search).get('view') || store.get('pf_view', 'full');
       if (!this.route()) this.setView(view === 'brief' ? 'brief' : 'full', false);
       window.addEventListener('hashchange', () => this.route());
-      if (!store.sget('pf_counted')) { store.sset('pf_counted', '1'); Counter.hit('visits'); }
+      if (!store.sget('pf_counted')) { store.sset('pf_counted', '1'); Counter.hit('visits'); Counter.hit('day-' + new Date().toISOString().slice(0, 10).replace(/-/g, '')); }
       document.dispatchEvent(new CustomEvent('pf:ready'));
     },
 
@@ -576,6 +576,28 @@
         $('#post-results').innerHTML = hits.length ? `<div class="post-grid">${hits.map((p) => this.postCard(p)).join('')}</div>` : `<p class="empty">${T('noMatch')}</p>`;
       });
     },
+    renderCase(id) {
+      this.resetModuleBg();
+      const pr = (this.data.projects || []).find((x) => x.id === id);
+      const c = pr && pr.caseStudy;
+      const v = $('#view-posts');
+      if (!c) { v.innerHTML = `<div class="posts-page"><p class="empty">${T('notExist')}</p></div>`; return; }
+      Counter.hit('case-' + id);
+      const cover = (pr.media || [])[pr.cover || 0];
+      v.innerHTML = `<article class="post case">
+        <a class="back" href="#work">← ${T('projects')}</a>
+        <header><div class="meta"><span class="company">${esc(pr.company)}</span><span>${esc(pr.period)}</span></div>
+          <h1>${esc(c.title || pr.name)}</h1><p class="lede">${esc(c.tagline || pr.summary)}</p></header>
+        ${cover && cover.type === 'image' ? `<div class="post-cover hero-inline"><img src="${esc(cover.src)}" alt=""></div>` : ''}
+        <div class="case-kpis">${(c.kpis || []).map((k) => `<div><b>${esc(k.value)}</b><span>${esc(k.label)}</span></div>`).join('')}</div>
+        ${(c.sections || []).map((sec) => `<section class="case-sec"><span class="eyebrow">${esc(sec.label)}</span><h2>${esc(sec.title)}</h2>
+          ${(sec.paragraphs || []).map((t) => `<p>${esc(t)}</p>`).join('')}
+          ${(sec.points || []).length ? `<ul>${sec.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}</section>`).join('')}
+        <footer class="post-foot"><a class="btn" href="${esc(mailto(this.data.profile, 'About your case study: ' + pr.name))}">${ICON.mail} ${T('replyMail')}</a>
+          <button class="btn" type="button" data-project="${esc(pr.id)}">${T('seeScreens')}</button></footer>
+      </article>`;
+      document.title = `${c.title || pr.name}, ${this.data.profile.name}`;
+    },
     resetModuleBg() { const v = $('#view-posts'); v.removeAttribute('style'); v.className = ''; },
     applyModule(m) {
       const v = $('#view-posts');
@@ -629,12 +651,23 @@
       </article>`;
       Love.sync();
       document.title = `${p.title}, ${this.data.profile.name}`;
+      const cs = this.data.settings || {};
+      if (cs.comments) {
+        const box = document.createElement('section'); box.className = 'comments';
+        box.innerHTML = `<h2>${T('comments')}</h2>`;
+        const sc = document.createElement('script');
+        sc.src = 'https://utteranc.es/client.js'; sc.async = true; sc.crossOrigin = 'anonymous';
+        sc.setAttribute('repo', `${cs.owner}/${cs.repo}`); sc.setAttribute('issue-term', 'post: ' + p.id);
+        sc.setAttribute('label', 'comments'); sc.setAttribute('theme', document.documentElement.dataset.theme === 'dark' ? 'github-dark' : 'github-light');
+        box.appendChild(sc); $('.post', box.ownerDocument).appendChild(box);
+      }
     },
 
     route() {
       const h = decodeURIComponent(location.hash || '');
       let m;
       if ((m = h.match(/^#\/post\/(.+)$/))) { this.setView('posts', false); this.renderPost(m[1]); window.scrollTo({ top: 0 }); return true; }
+      if ((m = h.match(/^#\/case\/(.+)$/))) { this.setView('posts', false); this.renderCase(m[1]); window.scrollTo({ top: 0 }); return true; }
       if ((m = h.match(/^#\/module\/(.+)$/))) { this.setView('posts', false); this.renderModule(m[1]); window.scrollTo({ top: 0 }); return true; }
       if ((m = h.match(/^#\/posts(?:\/(.+))?$/))) { this.setView('posts', false); this.renderPostsList(m[1]); window.scrollTo({ top: 0 }); document.title = `Posts, ${this.data.profile.name}`; return true; }
       if (!$('#view-posts').hidden) { this.setView(store.get('pf_view', 'full') === 'brief' ? 'brief' : 'full', false); document.title = `${this.data.profile.name}, ${this.data.profile.title}`; }
@@ -767,6 +800,7 @@
             <p>${esc(pr.summary)}</p>
             ${(pr.highlights || []).length ? `<ul>${pr.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
             <div class="tags">${(pr.keywords || []).map((k) => `<span class="tag">${esc(k)}</span>`).join('')}</div>
+            ${pr.caseStudy ? `<p style="margin-top:16px"><a class="btn btn-accent" href="#/case/${esc(pr.id)}">${T('caseStudy')} →</a></p>` : ''}
             ${(pr.links || []).length ? `<div class="hero-cta" style="margin:18px 0 0">${pr.links.map((l) => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')}</div>` : ''}
           </div>
         </div>`;
