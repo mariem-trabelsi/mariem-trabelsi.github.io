@@ -21,7 +21,7 @@
     },
     "stickers": [
       {
-        "emoji": "📊",
+        "emoji": "✦",
         "text": "Business analyst",
         "section": "top",
         "pos": "bottom-right",
@@ -32,11 +32,11 @@
     "photoBg": "color",
     "pattern": "circles",
     "patternOpacity": 0.12,
-    "photoBgColor": "#9141ac",
+    "photoBgColor": "#a4145a",
     "photoBadge": {
       "show": true,
       "emoji": "👋",
-      "text": "Open to work",
+      "text": "hey!",
       "pos": "bottom-left",
       "style": "accent"
     }
