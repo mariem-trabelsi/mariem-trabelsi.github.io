@@ -1,2 +1,5 @@
 .DS_Store
 Thumbs.db
+
+# sauvegarde locale du modele avant recalcul des etiquettes
+*.bpmn.bak

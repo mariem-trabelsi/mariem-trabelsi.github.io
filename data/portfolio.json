@@ -609,7 +609,7 @@
       "highlights": [
         "One BPMN model of 118 nodes in five lanes, executed by Kogito 10.2",
         "52 Drools rules, each file owned by the service that consults it",
-        "9 microservices, 8 PostgreSQL databases, 22 Kafka topics, 17 TM Forum Open APIs (v4)",
+        "9 microservices, 8 PostgreSQL databases, 23 Kafka topics, 17 TM Forum Open APIs (v4)",
         "Compensation in reverse order when a journey cannot succeed; technical failures stay resumable",
         "Measured on the live stack: 54 end-to-end checks, 50 concurrent orders at a 0.10 s median",
         "A port double-booking found under concurrency, fixed with a conditional database write"
@@ -628,7 +628,7 @@
         {
           "type": "image",
           "src": "assets/projects/o2a-service/m0-bpm.jpg",
-          "caption": "The order drawn live on its BPMN model"
+          "caption": "The whole model, with this order’s route painted on it"
         },
         {
           "type": "video",
@@ -673,7 +673,7 @@
         {
           "type": "image",
           "src": "assets/projects/o2a-service/m2-noc.jpg",
-          "caption": "Level-2 support after three failed visits"
+          "caption": "Trouble tickets opened when a visit fails"
         },
         {
           "type": "image",

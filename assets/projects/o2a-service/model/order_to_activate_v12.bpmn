@@ -2189,25 +2189,25 @@
       <bpmndi:BPMNShape id="sh_C_END_QUOTE_REJECTED" bpmnElement="_C_END_QUOTE_REJECTED">
         <dc:Bounds x="2110" y="130" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2163" y="144.5" width="180" height="14" />
+          <dc:Bounds x="2083.5" y="192" width="109" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_THROW_QUOTE_ACCEPTED" bpmnElement="_C_THROW_QUOTE_ACCEPTED">
         <dc:Bounds x="2490" y="440" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2448" y="504" width="146" height="14" />
+          <dc:Bounds x="2452" y="502" width="132" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_GW_QUOTE_DECISION" bpmnElement="_C_GW_QUOTE_DECISION" isMarkerVisible="true">
         <dc:Bounds x="2110" y="440" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2080" y="508.5" width="120" height="14" />
+          <dc:Bounds x="2091" y="502" width="94" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_Q_END_OFFER_REJECTED" bpmnElement="_Q_END_OFFER_REJECTED">
         <dc:Bounds x="1620" y="820" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1473" y="794" width="370" height="14" />
+          <dc:Bounds x="1574.5" y="882" width="147" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_Q_TASK_VALIDATE_OFFER_DRL" bpmnElement="_Q_TASK_VALIDATE_OFFER_DRL">
@@ -2234,7 +2234,7 @@
       <bpmndi:BPMNShape id="sh_A_THROW_RDV_PROPOSED" bpmnElement="_A_THROW_RDV_PROPOSED">
         <dc:Bounds x="3050" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2975" y="1735" width="205" height="27" />
+          <dc:Bounds x="2998.5" y="1732" width="159" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_NOTIFY_RDV" bpmnElement="_A_TASK_NOTIFY_RDV">
@@ -2246,7 +2246,7 @@
       <bpmndi:BPMNShape id="sh_A_GW_FEASIBILITY" bpmnElement="_A_GW_FEASIBILITY" isMarkerVisible="true">
         <dc:Bounds x="1460" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1452" y="1632.5" width="72" height="27" />
+          <dc:Bounds x="1418.5" y="1732" width="139" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_EVALUATE_FEASIBILITY_DRL" bpmnElement="_A_TASK_EVALUATE_FEASIBILITY_DRL">
@@ -2258,7 +2258,7 @@
       <bpmndi:BPMNShape id="sh_O_END_ACTIVE" bpmnElement="_O_END_ACTIVE">
         <dc:Bounds x="7750" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="7627" y="1217" width="302" height="14" />
+          <dc:Bounds x="7701.5" y="1212" width="153" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_TASK_CLOSE_ORDER" bpmnElement="_O_TASK_CLOSE_ORDER">
@@ -2267,25 +2267,25 @@
       <bpmndi:BPMNShape id="sh_O_TIMER_SLA" bpmnElement="_O_TIMER_SLA">
         <dc:Bounds x="5120" y="1360" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5020" y="1426" width="220" height="27" />
+          <dc:Bounds x="5056" y="1422" width="184" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_GW_SLA_WAIT" bpmnElement="_O_GW_SLA_WAIT">
         <dc:Bounds x="5120" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5103" y="1086.5" width="90" height="53" />
+          <dc:Bounds x="5067" y="1212" width="162" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_THROW_ORDER_CREATED" bpmnElement="_O_THROW_ORDER_CREATED">
         <dc:Bounds x="4870" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4730" y="1125.5" width="320" height="14" />
+          <dc:Bounds x="4818.5" y="1212" width="159" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_END_ERR_ORDER" bpmnElement="_O_END_ERR_ORDER">
         <dc:Bounds x="3830" y="1350" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3755" y="1423" width="229" height="14" />
+          <dc:Bounds x="3795.5" y="1412" width="125" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_TASK_CREATE_PRODUCT_ORDER" bpmnElement="_O_TASK_CREATE_PRODUCT_ORDER">
@@ -2294,7 +2294,7 @@
       <bpmndi:BPMNShape id="sh_O_GW_ORDER_VALID" bpmnElement="_O_GW_ORDER_VALID" isMarkerVisible="true">
         <dc:Bounds x="2990" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2939" y="1126" width="157" height="14" />
+          <dc:Bounds x="2961" y="1212" width="114" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_TASK_VALIDATE_ORDER_DRL" bpmnElement="_O_TASK_VALIDATE_ORDER_DRL">
@@ -2306,13 +2306,13 @@
       <bpmndi:BPMNShape id="sh_A_GW_MAX_RETRIES" bpmnElement="_A_GW_MAX_RETRIES" isMarkerVisible="true">
         <dc:Bounds x="3310" y="1880" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3297" y="1842.5" width="81" height="27" />
+          <dc:Bounds x="3280" y="1942" width="116" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_START_ORDER_SUBMITTED" bpmnElement="_START_ORDER_SUBMITTED">
         <dc:Bounds x="290" y="290" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="279" y="346" width="79" height="40" />
+          <dc:Bounds x="249.5" y="352" width="137" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_TASK_AUTO_002" bpmnElement="_TASK_AUTO_002">
@@ -2321,7 +2321,7 @@
       <bpmndi:BPMNShape id="sh_Q_GW_ELIGIBLE" bpmnElement="_Q_GW_ELIGIBLE" isMarkerVisible="true">
         <dc:Bounds x="960" y="950" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="948" y="1016" width="112" height="14" />
+          <dc:Bounds x="909.5" y="1012" width="157" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_TASK_AUTO_003" bpmnElement="_TASK_AUTO_003">
@@ -2330,7 +2330,7 @@
       <bpmndi:BPMNShape id="sh_Q_GW_OFFER_VALID" bpmnElement="_Q_GW_OFFER_VALID" isMarkerVisible="true">
         <dc:Bounds x="1620" y="950" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1581" y="1016" width="134" height="14" />
+          <dc:Bounds x="1598" y="1012" width="100" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_Q_TASK_BUILD_ACCEPTED_PAYLOAD" bpmnElement="_Q_TASK_BUILD_ACCEPTED_PAYLOAD">
@@ -2342,13 +2342,13 @@
       <bpmndi:BPMNShape id="sh_C_THROW_QUOTE_REJECTED" bpmnElement="_C_THROW_QUOTE_REJECTED">
         <dc:Bounds x="2110" y="270" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2176" y="291" width="271" height="14" />
+          <dc:Bounds x="2066" y="332" width="144" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_Q_END_NOT_ELIGIBLE" bpmnElement="_Q_END_NOT_ELIGIBLE">
         <dc:Bounds x="960" y="818" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="869" y="794" width="221" height="14" />
+          <dc:Bounds x="916" y="880" width="144" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_Q_TASK_CREATE_QUOTE" bpmnElement="_Q_TASK_CREATE_QUOTE">
@@ -2357,13 +2357,13 @@
       <bpmndi:BPMNShape id="sh_Q_THROW_QUOTE_PROPOSED" bpmnElement="_Q_THROW_QUOTE_PROPOSED">
         <dc:Bounds x="2270" y="950" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2106" y="1013" width="433" height="14" />
+          <dc:Bounds x="2224.5" y="1012" width="147" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_END_ORDER_INVALID" bpmnElement="_O_END_ORDER_INVALID">
         <dc:Bounds x="2990" y="1322" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2860" y="1381" width="339" height="14" />
+          <dc:Bounds x="2929" y="1384" width="178" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_TASK_CANCEL_PRODUCT_ORDER" bpmnElement="_O_TASK_CANCEL_PRODUCT_ORDER">
@@ -2372,7 +2372,7 @@
       <bpmndi:BPMNShape id="sh_O_CT_ORDER" bpmnElement="_O_CT_ORDER">
         <dc:Bounds x="3520" y="1350" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3471" y="1423" width="177" height="14" />
+          <dc:Bounds x="3478.5" y="1412" width="139" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_TASK_CREATE_SERVICE_ORDER" bpmnElement="_O_TASK_CREATE_SERVICE_ORDER">
@@ -2381,61 +2381,61 @@
       <bpmndi:BPMNShape id="sh_GW_AUTO_001" bpmnElement="_GW_AUTO_001">
         <dc:Bounds x="4870" y="1271" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4690" y="1343" width="215" height="14" />
+          <dc:Bounds x="4837" y="1333" width="122" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_END_SLA_BREACH" bpmnElement="_O_END_SLA_BREACH">
         <dc:Bounds x="5683" y="1360" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5603" y="1423" width="313" height="14" />
+          <dc:Bounds x="5617.5" y="1422" width="187" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_CT_SLA" bpmnElement="_O_CT_SLA">
         <dc:Bounds x="5372" y="1360" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5307" y="1423" width="186" height="14" />
+          <dc:Bounds x="5321.5" y="1422" width="157" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_CATCH_SO_STATE_CHANGE" bpmnElement="_O_CATCH_SO_STATE_CHANGE">
         <dc:Bounds x="5381" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5294" y="1209" width="253" height="27" />
+          <dc:Bounds x="5315.5" y="1212" width="187" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_CATCH_BILLING_ACTIVATED" bpmnElement="_O_CATCH_BILLING_ACTIVATED">
         <dc:Bounds x="5692" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5638" y="1216" width="243" height="14" />
+          <dc:Bounds x="5634.5" y="1212" width="171" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_THROW_ACTIVATION_NOTIFIED" bpmnElement="_O_THROW_ACTIVATION_NOTIFIED">
         <dc:Bounds x="6164" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="6022" y="1212" width="255" height="27" />
+          <dc:Bounds x="6075.5" y="1212" width="233" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_CATCH_DOSSIER_CLOSED" bpmnElement="_O_CATCH_DOSSIER_CLOSED">
         <dc:Bounds x="6602" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="6522" y="1216" width="276" height="14" />
+          <dc:Bounds x="6553.5" y="1212" width="153" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_GW_AUTO_002" bpmnElement="_GW_AUTO_002">
         <dc:Bounds x="7083" y="1150" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="6936" y="1126" width="293" height="14" />
+          <dc:Bounds x="7037.5" y="1212" width="147" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_GW_FORK_NOTIFY_CLOSE" bpmnElement="_A_GW_FORK_NOTIFY_CLOSE">
         <dc:Bounds x="6218" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="6134" y="1733" width="248" height="14" />
+          <dc:Bounds x="6179" y="1732" width="134" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_THROW_SO_STATE_CHANGE" bpmnElement="_A_THROW_SO_STATE_CHANGE">
         <dc:Bounds x="6632" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="6469" y="1647" width="381" height="14" />
+          <dc:Bounds x="6568" y="1732" width="184" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_RESTORE_NETWORK" bpmnElement="_A_TASK_RESTORE_NETWORK">
@@ -2444,13 +2444,13 @@
       <bpmndi:BPMNShape id="sh_A_CT_SERVICE" bpmnElement="_A_CT_SERVICE">
         <dc:Bounds x="5140" y="1880" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5172" y="1899" width="236" height="14" />
+          <dc:Bounds x="5108.5" y="1942" width="119" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_END_ERR_SERVICE" bpmnElement="_A_END_ERR_SERVICE">
         <dc:Bounds x="5140" y="2000" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5081" y="2070" width="197" height="14" />
+          <dc:Bounds x="5107" y="2062" width="122" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_RELEASE_RESERVED_PORT" bpmnElement="_A_TASK_RELEASE_RESERVED_PORT">
@@ -2459,7 +2459,7 @@
       <bpmndi:BPMNShape id="sh_A_END_NOT_FEASIBLE" bpmnElement="_A_END_NOT_FEASIBLE">
         <dc:Bounds x="1460" y="1852" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1385" y="1916" width="205" height="27" />
+          <dc:Bounds x="1391.5" y="1914" width="193" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_CANCEL_WORK_ORDER" bpmnElement="_A_TASK_CANCEL_WORK_ORDER">
@@ -2468,7 +2468,7 @@
       <bpmndi:BPMNShape id="sh_A_GW_ASSIGN_MERGE" bpmnElement="_A_GW_ASSIGN_MERGE" isMarkerVisible="true">
         <dc:Bounds x="2022" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2015" y="1632.5" width="70" height="27" />
+          <dc:Bounds x="2003" y="1732" width="94" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_ASSIGN_TECHNICIAN_DRL" bpmnElement="_A_TASK_ASSIGN_TECHNICIAN_DRL">
@@ -2477,13 +2477,13 @@
       <bpmndi:BPMNShape id="sh_A_CATCH_WORKORDER_COMPLETED" bpmnElement="_A_CATCH_WORKORDER_COMPLETED">
         <dc:Bounds x="3712" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3600" y="1737" width="340" height="14" />
+          <dc:Bounds x="3646.5" y="1732" width="187" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_CATCH_RDV_CONFIRMED" bpmnElement="_A_CATCH_RDV_CONFIRMED">
         <dc:Bounds x="3341" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3199" y="1741" width="339" height="14" />
+          <dc:Bounds x="3281.5" y="1732" width="175" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_EXTRACT_WORKORDER_RESULT" bpmnElement="_A_TASK_EXTRACT_WORKORDER_RESULT">
@@ -2492,7 +2492,7 @@
       <bpmndi:BPMNShape id="sh_A_GW_INTERVENTION_OK" bpmnElement="_A_GW_INTERVENTION_OK" isMarkerVisible="true">
         <dc:Bounds x="4468" y="1670" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4467" y="1632.5" width="58" height="27" />
+          <dc:Bounds x="4430" y="1732" width="132" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_TASK_ESCALATE" bpmnElement="_A_TASK_ESCALATE">
@@ -2507,19 +2507,19 @@
       <bpmndi:BPMNShape id="sh_A_END_RESOLVED_L2" bpmnElement="_A_END_RESOLVED_L2">
         <dc:Bounds x="2300" y="2074" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2164" y="2144" width="305" height="14" />
+          <dc:Bounds x="2227" y="2136" width="202" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_CT_NETWORK" bpmnElement="_A_CT_NETWORK">
         <dc:Bounds x="4792" y="1873" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4826" y="1894" width="248" height="14" />
+          <dc:Bounds x="4762" y="1935" width="116" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_END_ERR_NETWORK" bpmnElement="_A_END_ERR_NETWORK">
         <dc:Bounds x="4792" y="2022" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4683" y="2083" width="274" height="14" />
+          <dc:Bounds x="4760.5" y="2084" width="119" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_TASK_CANCEL_BILLING_ACCOUNT" bpmnElement="_B_TASK_CANCEL_BILLING_ACCOUNT">
@@ -2528,25 +2528,25 @@
       <bpmndi:BPMNShape id="sh_B_CT_INVOICE" bpmnElement="_B_CT_INVOICE">
         <dc:Bounds x="2620" y="2490" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2538.5" y="2504" width="71" height="27" />
+          <dc:Bounds x="2582" y="2552" width="132" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_END_ERR_INVOICE" bpmnElement="_B_END_ERR_INVOICE">
         <dc:Bounds x="2620" y="2646" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2546" y="2709" width="248" height="14" />
+          <dc:Bounds x="2581" y="2708" width="134" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_END_BILLING_DONE" bpmnElement="_B_END_BILLING_DONE">
         <dc:Bounds x="3282" y="2342" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3198" y="2418" width="223" height="27" />
+          <dc:Bounds x="3227.5" y="2404" width="165" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_GW_AUTO_003" bpmnElement="_GW_AUTO_003" isMarkerVisible="true">
         <dc:Bounds x="1150" y="2500" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1216" y="2521" width="70" height="14" />
+          <dc:Bounds x="1127.5" y="2562" width="101" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_TASK_ABANDON_ORDER" bpmnElement="_O_TASK_ABANDON_ORDER">
@@ -2555,7 +2555,7 @@
       <bpmndi:BPMNShape id="sh_EVT_AUTO_004" bpmnElement="_EVT_AUTO_004">
         <dc:Bounds x="1153" y="2796" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1005" y="2863" width="350" height="14" />
+          <dc:Bounds x="1104.5" y="2858" width="153" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_TASK_INCREMENT_BILLING_RETRY" bpmnElement="_B_TASK_INCREMENT_BILLING_RETRY">
@@ -2564,31 +2564,31 @@
       <bpmndi:BPMNShape id="sh_B_CT_PRICING" bpmnElement="_B_CT_PRICING">
         <dc:Bounds x="1600" y="2500" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1659" y="2521" width="142" height="14" />
+          <dc:Bounds x="1581" y="2562" width="94" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_END_ERR_PRICING" bpmnElement="_B_END_ERR_PRICING">
         <dc:Bounds x="1600" y="2640" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1530" y="2706" width="227" height="14" />
+          <dc:Bounds x="1568.5" y="2702" width="119" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_CT_ACTIVATE" bpmnElement="_B_CT_ACTIVATE">
         <dc:Bounds x="2060" y="2552" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1979" y="2556" width="71" height="27" />
+          <dc:Bounds x="2002.5" y="2594" width="151" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_END_ERR_ACTIVATE" bpmnElement="_B_END_ERR_ACTIVATE">
         <dc:Bounds x="2060" y="2692" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1958" y="2732" width="284" height="14" />
+          <dc:Bounds x="2008" y="2734" width="140" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_THROW_BILLING_ACTIVATED" bpmnElement="_B_THROW_BILLING_ACTIVATED">
         <dc:Bounds x="3020" y="2342" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2937" y="2418" width="221" height="27" />
+          <dc:Bounds x="2956" y="2404" width="184" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_TASK_SEND_FIRST_INVOICE" bpmnElement="_B_TASK_SEND_FIRST_INVOICE">
@@ -2609,7 +2609,7 @@
       <bpmndi:BPMNShape id="sh_B_GW_PAYMENT_MERGE" bpmnElement="_B_GW_PAYMENT_MERGE" isMarkerVisible="true">
         <dc:Bounds x="850" y="2342" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="833" y="2304.5" width="90" height="27" />
+          <dc:Bounds x="825" y="2404" width="106" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_TASK_CREATE_BILLING_ACCOUNT" bpmnElement="_B_TASK_CREATE_BILLING_ACCOUNT">
@@ -2621,13 +2621,13 @@
       <bpmndi:BPMNShape id="sh_Q_GW_FORK_AFTER_ACCEPT" bpmnElement="_Q_GW_FORK_AFTER_ACCEPT">
         <dc:Bounds x="3050" y="440" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2944" y="410" width="332" height="14" />
+          <dc:Bounds x="2989" y="502" width="178" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_CATCH_RDV" bpmnElement="_C_CATCH_RDV">
         <dc:Bounds x="3402" y="440" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3254" y="416.5" width="360" height="14" />
+          <dc:Bounds x="3342.5" y="502" width="175" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_SCRIPT_PARSE_RDV" bpmnElement="_C_SCRIPT_PARSE_RDV">
@@ -2636,19 +2636,19 @@
       <bpmndi:BPMNShape id="sh_C_CATCH_RDV_CONFIRMED_WAIT" bpmnElement="_C_CATCH_RDV_CONFIRMED_WAIT">
         <dc:Bounds x="3972" y="442" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3791" y="417" width="397" height="14" />
+          <dc:Bounds x="3895.5" y="504" width="209" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_THROW_RDV_CONFIRMED" bpmnElement="_C_THROW_RDV_CONFIRMED">
         <dc:Bounds x="4280" y="442" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4182" y="418" width="310" height="14" />
+          <dc:Bounds x="4228.5" y="504" width="159" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_CATCH_ACTIVATION" bpmnElement="_C_CATCH_ACTIVATION">
         <dc:Bounds x="4553" y="442" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4428" y="420" width="336" height="14" />
+          <dc:Bounds x="4507.5" y="504" width="147" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_TASK_VERIFY_SATISFACTION" bpmnElement="_C_TASK_VERIFY_SATISFACTION">
@@ -2657,25 +2657,25 @@
       <bpmndi:BPMNShape id="sh_C_THROW_DOSSIER_CLOSED" bpmnElement="_C_THROW_DOSSIER_CLOSED">
         <dc:Bounds x="5079" y="442" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5000" y="417" width="214" height="14" />
+          <dc:Bounds x="5037.5" y="504" width="139" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_C_END_DOSSIER_CLOSED" bpmnElement="_C_END_DOSSIER_CLOSED">
         <dc:Bounds x="5325" y="442" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5213" y="417" width="294" height="14" />
+          <dc:Bounds x="5281" y="504" width="144" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_EVT_AUTO_002" bpmnElement="_EVT_AUTO_002">
         <dc:Bounds x="1040" y="300" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1024" y="361" width="88" height="14" />
+          <dc:Bounds x="1011" y="362" width="114" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_EVT_AUTO_003" bpmnElement="_EVT_AUTO_003">
         <dc:Bounds x="1042" y="628" width="56" height="56" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1031" y="689" width="79" height="14" />
+          <dc:Bounds x="1016" y="690" width="108" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="ed_assoc_comp_order" bpmnElement="_assoc_comp_order">
@@ -2711,91 +2711,91 @@
       <bpmndi:BPMNShape id="sh_A_ERR_SERVICE" bpmnElement="_A_ERR_SERVICE">
         <dc:Bounds x="5150" y="1730" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="5179" y="1769" width="140" height="14" />
+          <dc:Bounds x="5102" y="1772" width="132" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_ERR_ORDER" bpmnElement="_O_ERR_ORDER">
         <dc:Bounds x="3370" y="1210" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3386" y="1247" width="166" height="14" />
+          <dc:Bounds x="3312.5" y="1272" width="151" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_COMP_NETWORK" bpmnElement="_A_COMP_NETWORK">
         <dc:Bounds x="4710" y="1730" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4650" y="1766" width="59" height="27" />
+          <dc:Bounds x="4655.5" y="1772" width="145" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_COMP_RESERVATION" bpmnElement="_A_COMP_RESERVATION">
         <dc:Bounds x="640" y="1730" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="581" y="1766" width="77" height="27" />
+          <dc:Bounds x="609.5" y="1772" width="97" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_COMP_WORKORDER" bpmnElement="_A_COMP_WORKORDER">
         <dc:Bounds x="1810" y="1730" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1756" y="1772" width="57" height="27" />
+          <dc:Bounds x="1765" y="1772" width="126" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_O_COMP_ORDER" bpmnElement="_O_COMP_ORDER">
         <dc:Bounds x="3310" y="1210" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="3180" y="1246" width="133" height="14" />
+          <dc:Bounds x="3255.5" y="1252" width="145" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_EVT_AUTO_001" bpmnElement="_EVT_AUTO_001">
         <dc:Bounds x="1488" y="497" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1355" y="538" width="145" height="14" />
+          <dc:Bounds x="1457.5" y="554" width="97" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_EVT_AUTO_005" bpmnElement="_EVT_AUTO_005">
         <dc:Bounds x="1560" y="399" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1574" y="380" width="144" height="14" />
+          <dc:Bounds x="1508.5" y="536" width="139" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_A_ERR_NETWORK" bpmnElement="_A_ERR_NETWORK">
         <dc:Bounds x="4802" y="1734" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="4793" y="1769" width="210" height="14" />
+          <dc:Bounds x="4773" y="1791" width="94" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_ERR_INVOICE" bpmnElement="_B_ERR_INVOICE">
         <dc:Bounds x="2630" y="2402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2610" y="2445" width="200" height="14" />
+          <dc:Bounds x="2585" y="2464" width="126" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_COMP_INVOICE" bpmnElement="_B_COMP_INVOICE">
         <dc:Bounds x="2560" y="2402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2486" y="2438" width="87" height="27" />
+          <dc:Bounds x="2502.5" y="2444" width="151" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_ERR_ACTIVATE_BILLING" bpmnElement="_B_ERR_ACTIVATE_BILLING">
         <dc:Bounds x="2060" y="2402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2069" y="2438" width="81" height="27" />
+          <dc:Bounds x="2028" y="2444" width="100" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_ERR_PRICING" bpmnElement="_B_ERR_PRICING">
         <dc:Bounds x="1610" y="2402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1588" y="2445" width="204" height="14" />
+          <dc:Bounds x="1552.5" y="2444" width="151" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_ERR_PAYMENT" bpmnElement="_B_ERR_PAYMENT">
         <dc:Bounds x="1160" y="2402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1173" y="2438" width="207" height="14" />
+          <dc:Bounds x="1125" y="2444" width="106" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sh_B_COMP_BILLING_ACCOUNT" bpmnElement="_B_COMP_BILLING_ACCOUNT">
         <dc:Bounds x="580" y="2402" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="611" y="2445" width="159" height="14" />
+          <dc:Bounds x="546.5" y="2444" width="103" height="28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="ed_sB_eInv2" bpmnElement="_sB_eInv2">
