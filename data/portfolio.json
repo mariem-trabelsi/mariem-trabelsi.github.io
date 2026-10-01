@@ -19,18 +19,9 @@
       "quote": false,
       "rail": false
     },
-    "stickers": [
-      {
-        "emoji": "✦",
-        "text": "Business analyst",
-        "section": "top",
-        "pos": "bottom-right",
-        "rotate": -6,
-        "style": "accent"
-      }
-    ],
+    "stickers": [],
     "photoBg": "color",
-    "pattern": "circles",
+    "pattern": "grid",
     "patternOpacity": 0.12,
     "photoBgColor": "#a4145a",
     "photoBadge": {
@@ -43,7 +34,7 @@
   },
   "profile": {
     "name": "Meriem Trabelsi",
-    "title": "Software Development Engineer",
+    "title": "Software  Engineer",
     "headline": "I build cloud-native, event-driven systems where business processes are models, not buried code.",
     "about": [
       "Engineer in software development from the Higher Institute of Computer Science (ISI), University of Tunis El Manar.",
@@ -1685,5 +1676,6 @@
         }
       ]
     }
-  }
+  },
+  "testimonials": []
 }
