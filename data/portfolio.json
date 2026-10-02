@@ -7,7 +7,7 @@
     "showVisitsPublicly": false
   },
   "design": {
-    "preset": "rose-ink",
+    "preset": "teal-coral",
     "colors": {},
     "mode": "auto",
     "font": "editorial",
@@ -21,7 +21,7 @@
     },
     "stickers": [],
     "photoBg": "color",
-    "pattern": "grid",
+    "pattern": "stars",
     "patternOpacity": 0.12,
     "photoBgColor": "#a4145a",
     "photoBadge": {
