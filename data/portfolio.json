@@ -1213,7 +1213,7 @@
       "name": "TM Forum",
       "description": "Telecom standards in practice: frameworks, SID, Open APIs, conformance and membership.",
       "emoji": "📡",
-      "accent": "#0d3b3e",
+      "accent": "#1c71d8",
       "background": "#fbf1f5",
       "bgStyle": "gradient",
       "bgImage": null,
@@ -1221,7 +1221,8 @@
       "patternOpacity": 0.16,
       "font": "site",
       "cover": null,
-      "patternColor2": "#77767b"
+      "patternColor2": "#77767b",
+      "patternColor": "#813d9c"
     },
     {
       "id": "business-process-modelling",
