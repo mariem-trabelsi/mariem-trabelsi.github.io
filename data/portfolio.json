@@ -1229,14 +1229,16 @@
       "name": "Business Process Modelling",
       "description": "BPMN, executable models and the architecture decisions behind process automation.",
       "emoji": "◇",
-      "accent": "#b8741f",
+      "accent": "#000000",
       "background": "#eef2f8",
       "bgStyle": "color",
       "bgImage": null,
       "pattern": "bpmn",
       "patternOpacity": 0.1,
       "font": "site",
-      "cover": null
+      "cover": null,
+      "patternColor": "#2e1a3d",
+      "patternColor2": "#0d3b3e"
     }
   ],
   "posts": [
