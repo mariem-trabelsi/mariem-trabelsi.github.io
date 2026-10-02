@@ -156,6 +156,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .gen-cover .nodes i.on { background: #d08a33; border-color: #d08a33; }
 .gen-cover b { position: absolute; left: 8%; top: 16%; font: 500 44px/1 var(--serif); letter-spacing: -.02em; }
 .gen-cover small { position: absolute; left: 8%; bottom: 12%; right: 8%; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: rgba(238,242,248,.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gen-cover.art::before { display: none; }
+.gen-cover.art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .cover .hover-video { position: absolute; inset: 0; opacity: 0; transition: opacity .3s; }
 .card:hover .hover-video, .card:focus-visible .hover-video, .card.playing .hover-video { opacity: 1; }
 .card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }

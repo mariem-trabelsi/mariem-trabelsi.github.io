@@ -38,7 +38,7 @@
       availability: 'Availability', location: 'Location', degree: 'Degree', languages: 'Languages', theme: 'Theme', openModel: 'Open the live model', dragZoom: 'drag to pan · scroll to zoom',
       apisImpl: 'Open APIs implemented', loveThis: 'Love this profile', youLove: 'You love this profile', searchPosts: 'Search posts', noMatch: 'No post matches your search.',
       recommendations: 'Recommendations', whatOthers: 'What people say', caseStudy: 'Read the case study', videos: 'video', images: 'image', liveModel: 'Live BPMN model',
-      notExist: 'This post does not exist.', seeAll: 'See all posts', comments: 'Comments', playJourney: '▶ Play an order through the model', stopJourney: '■ Stop',
+      notExist: 'This post does not exist.', seeAll: 'See all posts', comments: 'Comments', playJourney: '▶ Play an order through the model', stopJourney: '■ Stop', illustration: 'Illustration of the subject, not a screenshot.',
     },
     fr: {
       full: 'Portfolio complet', brief: 'Vue recruteur', posts: 'Publications', contact: 'Contact', state: 'état', dlcv: 'Télécharger le CV', email: 'M’écrire',
@@ -54,7 +54,7 @@
       availability: 'Disponibilité', location: 'Localisation', degree: 'Diplôme', languages: 'Langues', theme: 'Thème', openModel: 'Ouvrir le modèle interactif', dragZoom: 'glisser pour déplacer · molette pour zoomer',
       apisImpl: 'Open APIs implémentées', loveThis: 'J’aime ce profil', youLove: 'Vous aimez ce profil', searchPosts: 'Rechercher une publication', noMatch: 'Aucune publication ne correspond.',
       recommendations: 'Recommandations', whatOthers: 'Ce qu’on dit de moi', caseStudy: 'Lire l’étude de cas', videos: 'vidéo', images: 'image', liveModel: 'Modèle BPMN interactif',
-      notExist: 'Cette publication n’existe pas.', seeAll: 'Voir toutes les publications', comments: 'Commentaires', playJourney: '▶ Faire traverser une commande', stopJourney: '■ Arrêter',
+      notExist: 'Cette publication n’existe pas.', seeAll: 'Voir toutes les publications', comments: 'Commentaires', playJourney: '▶ Faire traverser une commande', stopJourney: '■ Arrêter', illustration: 'Illustration du sujet, pas une capture d’écran.',
     },
   };
   let LANG = 'en';
@@ -119,7 +119,91 @@
   function initials(name) {
     return name.split(/[\s,]+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
   }
+  /* vignettes dessinees, pour les projets dont aucune capture n existe.
+     Ce sont des ILLUSTRATIONS du sujet, jamais des fausses captures d ecran. */
+  const ART_INK = '#0f1d33', ART_PAPER = '#eef2f8', ART_OR = '#d08a33';
+  const ART = {
+    // detection d objets : trois boites englobantes sur des pieces, dont une retenue
+    'object-detection': () => `
+      <g stroke="${ART_PAPER}" stroke-opacity=".07">${[20,40,60,80,100,120,140].map((y)=>`<line x1="0" y1="${y}" x2="320" y2="${y}"/>`).join('')}${[40,80,120,160,200,240,280].map((x)=>`<line x1="${x}" y1="0" x2="${x}" y2="150"/>`).join('')}</g>
+      <rect x="0" y="126" width="320" height="2" fill="${ART_PAPER}" opacity=".16"/>
+      <circle cx="78" cy="96" r="21" fill="${ART_PAPER}" opacity=".14"/>
+      <rect x="144" y="72" width="44" height="46" rx="3" fill="${ART_PAPER}" opacity=".14"/>
+      <path d="M226 118 l24-42 24 42z" fill="${ART_PAPER}" opacity=".14"/>
+      <g fill="none" stroke="${ART_PAPER}" stroke-opacity=".42" stroke-width="1.5">
+        <rect x="54" y="72" width="48" height="48"/><rect x="222" y="74" width="56" height="46"/></g>
+      <rect x="138" y="66" width="56" height="58" fill="none" stroke="${ART_OR}" stroke-width="2"/>
+      <rect x="138" y="52" width="40" height="13" fill="${ART_OR}"/>
+      <text x="142" y="62" font-family="ui-monospace,Menlo,monospace" font-size="8" fill="${ART_INK}">0.94</text>`,
+    // partage d articles scientifiques : une publication et son fil de discussion
+    'academia': () => `
+      <rect x="40" y="38" width="98" height="104" rx="2" fill="${ART_PAPER}" opacity=".12"/>
+      <rect x="34" y="32" width="98" height="104" rx="2" fill="${ART_PAPER}" opacity=".2"/>
+      <rect x="28" y="26" width="98" height="104" rx="2" fill="${ART_PAPER}" opacity=".93"/>
+      <rect x="38" y="38" width="56" height="5" rx="1" fill="${ART_INK}" opacity=".8"/>
+      <g fill="${ART_INK}" opacity=".3">${[52,60,68,80,88,96,108,116].map((y,i)=>`<rect x="38" y="${y}" width="${[78,70,58,78,64,74,52,68][i]}" height="3" rx="1"/>`).join('')}</g>
+      <rect x="38" y="118" width="26" height="8" rx="2" fill="${ART_OR}"/>
+      <g fill="none" stroke="${ART_PAPER}" stroke-opacity=".34" stroke-width="1.5">
+        <path d="M168 46 h104 a4 4 0 0 1 4 4 v22 a4 4 0 0 1 -4 4 h-92 l-8 8 v-8 a4 4 0 0 1 -4 -4 v-22 a4 4 0 0 1 4 -4z"/>
+        <path d="M184 118 h88 a4 4 0 0 1 4 4 v18 a4 4 0 0 1 -4 4 h-88 a4 4 0 0 1 -4 -4 v-18 a4 4 0 0 1 4 -4z"/></g>
+      <path d="M176 84 h96 a4 4 0 0 1 4 4 v20 a4 4 0 0 1 -4 4 h-84 l-8 8 v-8 a4 4 0 0 1 -4 -4 v-20 a4 4 0 0 1 4 -4z" fill="none" stroke="${ART_OR}" stroke-width="2"/>
+      <g fill="${ART_PAPER}" opacity=".4">${[[176,56,74],[176,64,52],[192,128,60],[192,136,40]].map(([x,y,w])=>`<rect x="${x}" y="${y}" width="${w}" height="3" rx="1"/>`).join('')}</g>
+      <g fill="${ART_OR}" opacity=".8"><rect x="186" y="94" width="68" height="3" rx="1"/><rect x="186" y="102" width="46" height="3" rx="1"/></g>
+      <path d="M132 76 C 148 70 154 62 170 60" stroke="${ART_OR}" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>`,
+    // quiz temps reel : le depouillement en direct et les joueurs connectes
+    // quiz temps reel facon Mentimeter : code de session, question, depouillement en direct
+    'quiz-app': () => `
+      <rect x="22" y="14" width="276" height="17" rx="4" fill="${ART_PAPER}" opacity=".12"/>
+      <text x="32" y="26" font-family="ui-monospace,Menlo,monospace" font-size="8" letter-spacing="1.1" fill="${ART_PAPER}" fill-opacity=".55">JOIN  ·  CODE</text>
+      <text x="112" y="26" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="2.6" fill="${ART_OR}">48 92 17</text>
+      <circle cx="233" cy="22.5" r="3.5" fill="${ART_OR}"/>
+      <text x="242" y="26" font-family="ui-monospace,Menlo,monospace" font-size="8" letter-spacing="1.1" fill="${ART_PAPER}" fill-opacity=".55">12 LIVE</text>
+      <rect x="22" y="42" width="168" height="5" rx="2" fill="${ART_PAPER}" opacity=".55"/>
+      <rect x="22" y="52" width="104" height="5" rx="2" fill="${ART_PAPER}" opacity=".26"/>
+      ${[[42,58,''],[98,34,''],[154,76,''],[210,50,''],[266,86,'or']].map(([x,h,or_])=>`
+        <rect x="${x}" y="${142-Number(h)}" width="36" height="${h}" rx="3" fill="${or_?ART_OR:ART_PAPER}" opacity="${or_?1:.3}"/>
+        <text x="${Number(x)+18}" y="${136-Number(h)}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="7.5" fill="${ART_PAPER}" fill-opacity="${or_?.85:.45}">${h}</text>`).join('')}
+      <rect x="22" y="142" width="276" height="1.5" fill="${ART_PAPER}" opacity=".3"/>
+`,
+    // refonte front avec theme : le meme ecran dans deux themes, et la bascule
+    'allacarta': () => `
+      <rect x="22" y="30" width="118" height="104" rx="5" fill="${ART_PAPER}" opacity=".93"/>
+      <rect x="22" y="30" width="118" height="18" rx="5" fill="${ART_OR}"/>
+      <rect x="22" y="43" width="118" height="5" fill="${ART_OR}"/>
+      <g fill="${ART_INK}" opacity=".26">${[58,72,86,100].map((y,i)=>`<rect x="32" y="${y}" width="${[88,70,94,56][i]}" height="5" rx="2"/>`).join('')}</g>
+      <rect x="32" y="114" width="40" height="11" rx="3" fill="${ART_INK}" opacity=".8"/>
+      <rect x="180" y="30" width="118" height="104" rx="5" fill="#17253a" stroke="${ART_PAPER}" stroke-opacity=".2"/>
+      <rect x="180" y="30" width="118" height="18" rx="5" fill="${ART_PAPER}" opacity=".16"/>
+      <rect x="180" y="43" width="118" height="5" fill="${ART_PAPER}" opacity=".16"/>
+      <g fill="${ART_PAPER}" opacity=".3">${[58,72,86,100].map((y,i)=>`<rect x="190" y="${y}" width="${[88,70,94,56][i]}" height="5" rx="2"/>`).join('')}</g>
+      <rect x="190" y="114" width="40" height="11" rx="3" fill="${ART_OR}"/>
+      <rect x="146" y="74" width="28" height="15" rx="7.5" fill="${ART_PAPER}" opacity=".22"/>
+      <circle cx="166" cy="81.5" r="5.5" fill="${ART_OR}"/>`,
+    // partage d experiences de stage : un formulaire a champs variables et ce qu il publie
+    'internship-share': () => `
+      <rect x="22" y="28" width="132" height="110" rx="4" fill="${ART_PAPER}" opacity=".93"/>
+      <rect x="32" y="38" width="48" height="5" rx="1" fill="${ART_INK}" opacity=".75"/>
+      ${[52,74].map((y)=>`<rect x="32" y="${y}" width="112" height="14" rx="3" fill="${ART_INK}" opacity=".08"/><rect x="38" y="${Number(y)+5}" width="${y===52?62:44}" height="4" rx="1" fill="${ART_INK}" opacity=".3"/>`).join('')}
+      <rect x="32" y="96" width="112" height="14" rx="3" fill="none" stroke="${ART_OR}" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <g stroke="${ART_OR}" stroke-width="1.5"><line x1="82" y1="99" x2="82" y2="107"/><line x1="78" y1="103" x2="86" y2="103"/></g>
+      <rect x="32" y="118" width="44" height="12" rx="3" fill="${ART_OR}"/>
+      ${[30,86].map((y,i)=>`<rect x="184" y="${y}" width="114" height="48" rx="4" fill="${ART_PAPER}" opacity="${i?.14:.22}"/>
+        <circle cx="200" cy="${Number(y)+16}" r="8" fill="${ART_OR}" opacity="${i?.5:1}"/>
+        <rect x="214" y="${Number(y)+10}" width="54" height="4" rx="1" fill="${ART_PAPER}" opacity=".5"/>
+        <rect x="214" y="${Number(y)+19}" width="36" height="4" rx="1" fill="${ART_PAPER}" opacity=".3"/>
+        <g fill="${ART_PAPER}" opacity=".22"><rect x="196" y="${Number(y)+32}" width="88" height="3.5" rx="1"/><rect x="196" y="${Number(y)+39}" width="64" height="3.5" rx="1"/></g>`).join('')}
+      <path d="M156 84 h22" stroke="${ART_OR}" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <path d="M176 80 l6 4 -6 4z" fill="${ART_OR}"/>`,
+  };
   function genCover(p) {
+    // ~49 caracteres tiennent sur la largeur : au-dela on retire un mot-cle,
+    // sinon la ligne sort du cadre au lieu d etre coupee proprement.
+    const kw = p.keywords || [];
+    let lab = kw.slice(0, 3).join(' · ').toUpperCase();
+    if (lab.length > 44) lab = kw.slice(0, 2).join(' · ').toUpperCase();
+    if (lab.length > 44) lab = lab.slice(0, 43) + '…';
+    const art = ART[p.id];
+    if (art) return `<div class="gen-cover art"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(p.name)}"><rect width="320" height="180" fill="${ART_INK}"/>${art()}<text x="22" y="166" font-family="ui-monospace,Menlo,monospace" font-size="7.5" letter-spacing="1.3" fill="${ART_PAPER}" fill-opacity=".5">${esc(lab)}</text></svg></div>`;
     const k = Math.abs([...p.id].reduce((a, c) => a * 31 + c.charCodeAt(0) | 0, 7)) % 5;
     return `<div class="gen-cover"><b>${esc(initials(p.name))}</b><div class="nodes">${[0, 1, 2, 3, 4].map((i) => `<i class="${i === k ? 'on' : ''}"></i>`).join('')}</div><small>${esc((p.keywords || []).slice(0, 3).join(' · '))}</small></div>`;
   }
@@ -806,7 +890,7 @@
         </div>`;
       const stage = $('.pd-stage', dlg), cap = $('.pd-caption', dlg);
       const show = (i) => {
-        if (!media.length) { stage.innerHTML = `<div style="position:relative;width:100%;height:280px">${genCover(pr)}</div>`; cap.textContent = 'Screens coming soon.'; return; }
+        if (!media.length) { stage.innerHTML = `<div style="position:relative;width:100%;height:280px">${genCover(pr)}</div>`; cap.textContent = T('illustration'); return; }
         idx = (i + media.length) % media.length;
         const m = media[idx];
         if (m.type === 'bpmn') { stage.innerHTML = '<div class="bpmn-host in-dialog"></div>'; mountBpmn($('.bpmn-host', stage), m.src); }
