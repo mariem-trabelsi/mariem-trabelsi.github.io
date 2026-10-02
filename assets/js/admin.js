@@ -227,9 +227,12 @@ ${items}
     const d = S.draft;
     const p = $('#admin-panel');
     p.innerHTML = `<div class="panel"><h2>Visitors</h2>
-      <p class="hint">Counted once per browser session. Your own visits on this device are not counted.</p>
+      <p class="hint">Counted once per browser session. Your own visits on this device are not counted \u2014 open <b>#admin</b> once on each phone or browser you use, and it stops counting you there.</p>
+      <p class="hint">Nothing here identifies anyone. A website never receives a visitor's name: it sees the page they arrived from and the time zone their system declares, and that is all these figures are. For names, there is only LinkedIn's \u201cWho viewed your profile\u201d.</p>
       <div class="stats" id="stats">Loading…</div>
       <h3 style="font-size:18px;margin:6px 0 10px">Visits, last 30 days</h3><div class="daychart" id="days">Loading…</div>
+      <h3 style="font-size:18px;margin:6px 0 10px">Where visitors come from</h3><div class="bars" id="srcs"></div>
+      <h3 style="font-size:18px;margin:18px 0 10px">Which part of the world</h3><div class="bars" id="zones"></div>
       <h3 style="font-size:18px;margin:6px 0 10px">Project openings</h3><div class="bars" id="bars"></div></div>`;
     const keys = [['visits', 'Visits'], ['likes', '❤ Profile loves'], ['cv', 'CV downloads'], ['bpmn-viewer', 'BPMN model opened'], ['contact-email', 'E-mail clicks'], ['contact-whatsapp', 'WhatsApp clicks'], ['view-brief', 'Recruiter brief views'], ['view-full', 'Full view switches']];
     const vals = await Promise.all(keys.map(([k]) => Counter.get(k)));
@@ -239,6 +242,30 @@ ${items}
     const dmax = Math.max(1, ...dv.map((v) => v || 0));
     $('#days').innerHTML = days.map((k, i) => `<div class="dbar" title="${k}: ${dv[i] || 0}"><i style="height:${((dv[i] || 0) / dmax) * 100}%"></i><span>${i % 5 === 4 ? k.slice(8) + '/' + k.slice(5, 7) : ''}</span></div>`).join('')
       + `<p class="hint" style="grid-column:1/-1;margin:6px 0 0">Total over 30 days: <b>${dv.reduce((a, b) => a + (b || 0), 0)}</b>. Daily counts start from the day this chart was added.</p>`;
+    // Provenance et region : deux mesures anonymes, lisibles seulement en nombre.
+    // Aucune ne dit QUI est venu, et c'est voulu : un site ne recoit pas d'identite.
+    const barres = (cible, lignes) => {
+      const mx = Math.max(1, ...lignes.map(([, v]) => v || 0));
+      const vus = lignes.filter(([, v]) => v);
+      $(cible).innerHTML = vus.length
+        ? vus.sort((a, b) => b[1] - a[1]).map(([l, v]) =>
+            `<div><span>${esc(l)}</span><i style="width:${(v / mx) * 100}%"></i><em>${v}</em></div>`).join('')
+        : '<p class="hint">Nothing recorded yet. This starts filling in with the next visit.</p>';
+    };
+    const SRC = [['LinkedIn', 'linkedin'], ['Google', 'google'], ['GitHub', 'github'], ['Direct link', 'direct'],
+                 ['Facebook', 'facebook'], ['Instagram', 'instagram'], ['Twitter', 'twitter'], ['WhatsApp', 'whatsapp'],
+                 ['Bing', 'bing'], ['DuckDuckGo', 'duckduckgo'], ['YouTube', 'youtube'], ['Reddit', 'reddit'],
+                 ['Medium', 'medium'], ['Somewhere else', 'other']];
+    const sv = await Promise.all(SRC.map(([, k]) => Counter.get('src-' + k)));
+    barres('#srcs', SRC.map(([l], i) => [l, sv[i] || 0]));
+
+    const ZON = [['Africa', 'africa'], ['Europe', 'europe'], ['Americas', 'america'], ['Asia', 'asia'],
+                 ['Australia', 'australia'], ['Elsewhere', 'other'], ['Unknown', 'unknown']];
+    const zv = await Promise.all(ZON.map(([, k]) => Counter.get('zone-' + k)));
+    const DEV = [['On a phone', 'mobile'], ['On a computer', 'desktop']];
+    const dvv = await Promise.all(DEV.map(([, k]) => Counter.get('dev-' + k)));
+    barres('#zones', ZON.map(([l], i) => [l, zv[i] || 0]).concat(DEV.map(([l], i) => [l, dvv[i] || 0])));
+
     const pv = await Promise.all(d.projects.map((x) => Counter.get('project-' + x.id)));
     const max = Math.max(1, ...pv.map((v) => v || 0));
     const posts = d.posts || [];

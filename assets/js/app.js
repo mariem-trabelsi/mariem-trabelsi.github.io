@@ -97,6 +97,33 @@
     },
   };
 
+  /* ------------------------------------------------- provenance et region
+     D'ou vient le visiteur, et depuis quelle region du monde. Aucune des deux
+     mesures n'identifie personne : la provenance est l'en-tete que le
+     navigateur envoie deja a tous les sites, la region vient du fuseau horaire
+     declare par le systeme. Ni cookie, ni adresse IP conservee, ni service
+     tiers supplementaire — ce sont les memes compteurs que les visites. */
+  const SOURCES = ['linkedin', 'google', 'github', 'facebook', 'instagram',
+                   'twitter', 'whatsapp', 'bing', 'duckduckgo', 'youtube', 'reddit', 'medium'];
+  function provenance() {
+    let h;
+    try { h = new URL(document.referrer).hostname.toLowerCase(); } catch (e) { return 'direct'; }
+    if (!h || h === location.hostname) return 'direct';
+    h = h.replace(/^www\./, '');
+    for (const s of SOURCES) if (h === s + '.com' || h.startsWith(s + '.') || h.includes('.' + s + '.')) return s;
+    if (h.includes('lnkd.in') || h.includes('linkedin')) return 'linkedin';
+    if (h.includes('google')) return 'google';
+    return 'other';
+  }
+  const REGIONS = ['africa', 'europe', 'america', 'asia', 'australia'];
+  function region() {
+    let z;
+    try { z = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase(); } catch (e) { return 'unknown'; }
+    const tete = z.split('/')[0];
+    if (['america', 'us', 'canada', 'brazil', 'mexico'].includes(tete)) return 'america';
+    return REGIONS.includes(tete) ? tete : 'other';
+  }
+
   /* ---------------------------------------------------------------- liens contact */
   function mailto(p, subject, body) {
     return `mailto:${p.email}?subject=${encodeURIComponent(subject || 'Opportunity for ' + p.name)}&body=${encodeURIComponent(body || 'Hello ' + p.name.split(' ')[0] + ',\n\n')}`;
@@ -409,7 +436,14 @@
       const view = new URLSearchParams(location.search).get('view') || store.get('pf_view', 'full');
       if (!this.route()) this.setView(view === 'brief' ? 'brief' : 'full', false);
       window.addEventListener('hashchange', () => this.route());
-      if (!store.sget('pf_counted')) { store.sset('pf_counted', '1'); Counter.hit('visits'); Counter.hit('day-' + new Date().toISOString().slice(0, 10).replace(/-/g, '')); }
+      if (!store.sget('pf_counted')) {
+        store.sset('pf_counted', '1');
+        Counter.hit('visits');
+        Counter.hit('day-' + new Date().toISOString().slice(0, 10).replace(/-/g, ''));
+        Counter.hit('src-' + provenance());
+        Counter.hit('zone-' + region());
+        Counter.hit('dev-' + (window.matchMedia('(max-width: 720px)').matches ? 'mobile' : 'desktop'));
+      }
       document.dispatchEvent(new CustomEvent('pf:ready'));
     },
 
