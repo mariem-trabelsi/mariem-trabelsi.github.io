@@ -857,54 +857,56 @@
     },
     {
       "id": "exam-planner",
-      "name": "Exam Invigilation Scheduler",
-      "company": "ISI, University of Tunis El Manar",
-      "role": "Software Developer",
-      "period": "May 2025",
+      "name": "Exam Invigilation Planner",
+      "company": "Independent product",
+      "role": "Design and development",
+      "period": "May 2025 — October 2026",
       "keywords": [
-        "Scheduling",
-        "Constraint rules",
-        "Fairness metrics",
-        "Data import",
-        "Export"
+        "Genetic algorithm",
+        "Configurable rules",
+        "Compliance report",
+        "Desktop app",
+        "Excel import",
+        "PDF export"
       ],
-      "summary": "A planner that assigns teachers to exam invigilation slots, respecting quotas and unavailability, and reports how fair the result is by grade.",
+      "summary": "A desktop planner that assigns teachers to exam invigilation slots under the rules an institution sets itself, and proves rule by rule that the result holds.",
       "highlights": [
-        "526 assignments over 23 slots for 126 teachers, every teacher assigned",
-        "Hard constraints checked: quotas, unavailability, no conflicts",
-        "Quality report: global score, fairness per grade, spread per day",
-        "Views by planning, by teacher and by room, with individual and global export"
+        "Twelve rules, each set as mandatory, desirable or ignored. A mandatory rule is enforced by the repair step, never by a penalty in a score",
+        "When a mandatory rule cannot be met, the tool says so instead of presenting the planning as compliant",
+        "Measured: the earlier approach let through 1,485 quota overruns its own penalty was meant to prevent, and one evaluation went from 9.51 ms to 1.39 ms",
+        "49 automated checks, including the algorithm run against synthetic data built to defeat it",
+        "French and English, configurable sessions, quotas, logo and institution name"
       ],
       "media": [
         {
           "type": "image",
-          "src": "assets/projects/exam-planner/screen-2.jpg",
-          "caption": "Quality report after generating the planning"
+          "src": "assets/projects/exam-planner/planning.jpg",
+          "caption": "The planning, slot by slot, with the invigilators assigned to each session"
         },
         {
           "type": "image",
-          "src": "assets/projects/exam-planner/screen-1.jpg",
-          "caption": "Planning loaded from history"
+          "src": "assets/projects/exam-planner/conformite.jpg",
+          "caption": "The compliance report: every rule, what is required of it, and the verdict"
         },
         {
           "type": "image",
-          "src": "assets/projects/exam-planner/screen-3.jpg",
-          "caption": "Fairness by grade and overall statistics"
+          "src": "assets/projects/exam-planner/par-enseignant.jpg",
+          "caption": "Per teacher: quota, assigned load and the slots held"
         },
         {
           "type": "image",
-          "src": "assets/projects/exam-planner/screen-4.jpg",
-          "caption": "One teacher's slots and unavailability"
+          "src": "assets/projects/exam-planner/par-salle.jpg",
+          "caption": "Per room, with the rooms that are short of invigilators flagged"
         },
         {
           "type": "image",
-          "src": "assets/projects/exam-planner/screen-7.jpg",
-          "caption": "View by room"
+          "src": "assets/projects/exam-planner/regles.jpg",
+          "caption": "Each rule is named, described and set as mandatory or desirable by the institution"
         },
         {
           "type": "image",
-          "src": "assets/projects/exam-planner/screen-8.jpg",
-          "caption": "View by teacher"
+          "src": "assets/projects/exam-planner/demarrage.jpg",
+          "caption": "Starting point: three Excel files to import, then generate"
         }
       ],
       "cover": 0,
