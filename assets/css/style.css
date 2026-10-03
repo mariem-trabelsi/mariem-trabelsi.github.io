@@ -625,6 +625,19 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .case-sec h2 { font-size: 28px; margin: 6px 0 12px; }
 .case-sec ul { padding-left: 20px; }
 .case-sec li { margin-bottom: 6px; }
+/* Figures et tableaux d'une etude de cas. Le tableau defile seul sur petit
+   ecran : sans cela, dix-sept lignes d'APIs poussent la page entiere de cote. */
+.case-fig { margin: 22px 0; }
+.case-fig img { width: 100%; border: 1px solid var(--line); border-radius: var(--radius); display: block; }
+.case-fig figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.case-table-wrap { margin: 22px 0; overflow-x: auto; }
+.case-table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.case-table th { text-align: left; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 0 14px 8px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.case-table td { padding: 9px 14px 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.case-table tr:last-child td { border-bottom: 0; }
+.case-table td:first-child { font-family: var(--mono); font-size: 13px; color: var(--ink); white-space: nowrap; }
+.case-table-cap { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
 .daychart { display: grid; grid-template-columns: repeat(30, 1fr); gap: 3px; align-items: end; height: 150px; margin-bottom: 18px; }
 .dbar { height: 120px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 .dbar i { width: 100%; min-height: 2px; background: var(--accent); border-radius: 2px 2px 0 0; }

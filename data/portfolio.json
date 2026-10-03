@@ -754,6 +754,119 @@
             ]
           },
           {
+            "label": "Standards",
+            "title": "Four frameworks, four different questions",
+            "paragraphs": [
+              "TM Forum is not one standard but several, stacked, and they are easy to confuse. Each one answers a different question, and the project uses all of them for what they are good at.",
+              "eTOM gave the breakdown of the journey into lanes. SID gave the vocabulary of the entities carried in every message. TAM and the ODA component model gave the split into services. The Open APIs gave the HTTP contract of each resource, so nothing in the integration had to be invented."
+            ],
+            "figures": [
+              {
+                "src": "assets/projects/o2a-service/frameworx-questions.jpg",
+                "caption": "The four frameworks and the question each one answers."
+              },
+              {
+                "src": "assets/projects/o2a-service/etom-parcours.jpg",
+                "caption": "eTOM positions the journey. Each step carries the TM Forum API that serves it, and the dotted line is the BSS/OSS boundary: the product order becomes a service order when it crosses."
+              }
+            ],
+            "table": {
+              "head": [
+                "API",
+                "What it manages",
+                "Service"
+              ],
+              "rows": [
+                [
+                  "TMF620",
+                  "Product catalogue: offerings, categories, specifications",
+                  "catalog"
+                ],
+                [
+                  "TMF621",
+                  "Trouble tickets raised when an intervention fails",
+                  "assurance"
+                ],
+                [
+                  "TMF622",
+                  "The product order the customer places",
+                  "order"
+                ],
+                [
+                  "TMF629",
+                  "The customer record",
+                  "customer"
+                ],
+                [
+                  "TMF632",
+                  "The person behind the customer, and the technician",
+                  "customer"
+                ],
+                [
+                  "TMF637",
+                  "What the customer owns once the line is live",
+                  "order"
+                ],
+                [
+                  "TMF638",
+                  "The service inventory: the fibre access delivered",
+                  "assurance"
+                ],
+                [
+                  "TMF639",
+                  "The resource inventory: the OLT/GPON port, and its reservation",
+                  "assurance"
+                ],
+                [
+                  "TMF640",
+                  "Service activation and configuration",
+                  "assurance"
+                ],
+                [
+                  "TMF641",
+                  "The service order the product order decomposes into",
+                  "order"
+                ],
+                [
+                  "TMF646",
+                  "Appointments: the slots offered, the one the customer confirms",
+                  "assurance"
+                ],
+                [
+                  "TMF648",
+                  "The quote, and the price the customer accepts",
+                  "quote"
+                ],
+                [
+                  "TMF666",
+                  "Billing accounts, subscriptions and invoices",
+                  "billing adapter"
+                ],
+                [
+                  "TMF673",
+                  "Geographic addresses, for eligibility",
+                  "catalog"
+                ],
+                [
+                  "TMF676",
+                  "Payment methods and payments",
+                  "billing adapter"
+                ],
+                [
+                  "TMF679",
+                  "Whether this offering can be sold at this address",
+                  "catalog"
+                ],
+                [
+                  "TMF697",
+                  "The work order the technician carries out",
+                  "assurance"
+                ]
+              ],
+              "caption": "The seventeen Open APIs served by the platform, all in v4. Thirteen of them were run against the official TM Forum Conformance Test Kits."
+            }
+          },
+          {
             "label": "Decisions",
             "title": "Six decisions, each with its accepted cost",
             "paragraphs": [

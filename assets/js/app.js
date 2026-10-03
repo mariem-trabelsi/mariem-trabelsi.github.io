@@ -132,6 +132,23 @@
     return `https://wa.me/${String(p.whatsapp).replace(/\D/g, '')}?text=${encodeURIComponent(text || 'Hello ' + p.name.split(' ')[0] + ', I saw your portfolio and would like to talk about an opportunity.')}`;
   }
 
+  /* ------------------------------------------------- case study: figures, table */
+  // Une etude de cas qui ne porte que du texte oblige le lecteur a croire sur
+  // parole. Une figure et un tableau se verifient d'un coup d'oeil.
+  function caseFigures(sec) {
+    const figs = sec.figures || (sec.figure ? [sec.figure] : []);
+    if (!figs.length) return '';
+    return figs.map((f) => `<figure class="case-fig"><img src="${esc(f.src)}" alt="${esc(f.caption || '')}" loading="lazy">${f.caption ? `<figcaption>${esc(f.caption)}</figcaption>` : ''}</figure>`).join('');
+  }
+
+  function caseTable(sec) {
+    const t = sec.table;
+    if (!t || !(t.rows || []).length) return '';
+    const head = (t.head || []).length ? `<thead><tr>${t.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead>` : '';
+    const body = `<tbody>${t.rows.map((r) => `<tr>${r.map((cell) => `<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    return `<div class="case-table-wrap"><table class="case-table">${head}${body}</table>${t.caption ? `<p class="case-table-cap">${esc(t.caption)}</p>` : ''}</div>`;
+  }
+
   /* ---------------------------------------------------------------- media */
   function mediaEl(m, opts = {}) {
     if (!m) return '';
@@ -710,7 +727,8 @@
         <div class="case-kpis">${(c.kpis || []).map((k) => `<div><b>${esc(k.value)}</b><span>${esc(k.label)}</span></div>`).join('')}</div>
         ${(c.sections || []).map((sec) => `<section class="case-sec"><span class="eyebrow">${esc(sec.label)}</span><h2>${esc(sec.title)}</h2>
           ${(sec.paragraphs || []).map((t) => `<p>${esc(t)}</p>`).join('')}
-          ${(sec.points || []).length ? `<ul>${sec.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}</section>`).join('')}
+          ${(sec.points || []).length ? `<ul>${sec.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
+          ${caseFigures(sec)}${caseTable(sec)}</section>`).join('')}
         <footer class="post-foot"><a class="btn" href="${esc(mailto(this.data.profile, 'About your case study: ' + pr.name))}">${ICON.mail} ${T('replyMail')}</a>
           <button class="btn" type="button" data-project="${esc(pr.id)}">${T('seeScreens')}</button></footer>
       </article>`;
