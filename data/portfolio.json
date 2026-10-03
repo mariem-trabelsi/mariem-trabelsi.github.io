@@ -912,7 +912,12 @@
       "cover": 0,
       "featured": true,
       "visible": true,
-      "links": []
+      "links": [
+        {
+          "label": "Source and Windows build",
+          "href": "https://github.com/mariem-trabelsi/exam-slot-planner-pro"
+        }
+      ]
     },
     {
       "id": "object-detection",
