@@ -268,6 +268,70 @@
     return `<div class="cover">${inner}${badges}</div>`;
   }
 
+  /* ---------------------------------------------------------------- carrousel PDF */
+  // Un post peut porter un PDF : il s'affiche une page a la fois, comme un
+  // document sur LinkedIn. PDF.js n'est charge que si un carrousel est ouvert.
+  const PDFJS_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+  let pdfLib = null;
+  function loadPdf() {
+    if (pdfLib) return pdfLib;
+    pdfLib = new Promise((resolve, reject) => {
+      const sc = document.createElement('script');
+      sc.src = PDFJS_CDN + 'pdf.min.js';
+      sc.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_CDN + 'pdf.worker.min.js'; resolve(window.pdfjsLib); };
+      sc.onerror = () => { pdfLib = null; reject(new Error('PDF viewer unavailable')); };
+      document.head.appendChild(sc);
+    });
+    return pdfLib;
+  }
+
+  async function mountCarousel(host, url, title) {
+    // le panneau d'administration montre un fichier tout juste televerse avant sa publication
+    const file = window.PFAdminSrc ? window.PFAdminSrc(url) : url;
+    host.innerHTML = `<div class="pc-stage" tabindex="0" aria-label="${esc(title || 'Carousel')}"><canvas></canvas><p class="pc-wait">Loading…</p>
+        <button type="button" class="pc-arrow prev" data-pc="-1" aria-label="Previous page">‹</button>
+        <button type="button" class="pc-arrow next" data-pc="1" aria-label="Next page">›</button></div>
+      <div class="pc-bar"><span class="pc-count" aria-live="polite"></span><div class="pc-progress"><i></i></div>
+        <button type="button" data-pc-full>Full screen</button>
+        <a href="${esc(file)}" download>Download PDF</a></div>`;
+    const stage = $('.pc-stage', host), canvas = $('canvas', stage), count = $('.pc-count', host), bar = $('.pc-progress i', host);
+    let doc, n = 1, rendering = null;
+    const show = async (k) => {
+      if (!doc) return;
+      n = Math.max(1, Math.min(doc.numPages, k));
+      const page = await doc.getPage(n);
+      const base = page.getViewport({ scale: 1 });
+      const width = stage.clientWidth || 800;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+      const vp = page.getViewport({ scale: (width / base.width) * dpr });
+      canvas.width = vp.width; canvas.height = vp.height;
+      canvas.style.width = '100%'; canvas.style.aspectRatio = `${base.width} / ${base.height}`;
+      if (rendering) rendering.cancel();
+      rendering = page.render({ canvasContext: canvas.getContext('2d'), viewport: vp });
+      try { await rendering.promise; } catch (e) { return; }
+      count.textContent = `${n} / ${doc.numPages}`;
+      bar.style.width = (100 * n / doc.numPages) + '%';
+      $('.prev', host).disabled = n === 1; $('.next', host).disabled = n === doc.numPages;
+    };
+    $$('[data-pc]', host).forEach((b) => b.addEventListener('click', () => show(n + +b.dataset.pc)));
+    stage.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') show(n + 1); if (e.key === 'ArrowLeft') show(n - 1); });
+    let x0 = null;
+    stage.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(n + (dx < 0 ? 1 : -1)); x0 = null; });
+    $('[data-pc-full]', host).addEventListener('click', () => { if (document.fullscreenElement) document.exitFullscreen(); else host.requestFullscreen && host.requestFullscreen(); });
+    document.addEventListener('fullscreenchange', () => show(n));
+    let resize; window.addEventListener('resize', () => { clearTimeout(resize); resize = setTimeout(() => show(n), 200); });
+    try {
+      const lib = await loadPdf();
+      doc = await lib.getDocument(file).promise;
+      $('.pc-wait', host).remove();
+      await show(1);
+      Counter.hit('carousel-open');
+    } catch (e) {
+      $('.pc-wait', host).innerHTML = `The carousel could not load. <a href="${esc(file)}">Open the PDF</a>.`;
+    }
+  }
+
   /* ---------------------------------------------------------------- visualiseur BPMN */
   const BPMN_CDN = 'https://cdn.jsdelivr.net/npm/bpmn-js@17.11.1/dist/';
   let bpmnLib = null;
@@ -673,7 +737,7 @@
         ${m ? `<span class="mod-chip">${esc(m.emoji || '')} ${esc(m.name)}</span>` : ''}
         ${postCover(p)}
         <div class="pc-body">
-          <div class="meta">${p.pinned ? `<span class="company">${T('pinned')}</span>` : ''}<span>${esc(fmtDate(p.date))}</span><span>${readMin(p.body)} ${T('minRead')}</span></div>
+          <div class="meta">${p.pinned ? `<span class="company">${T('pinned')}</span>` : ''}<span>${esc(fmtDate(p.date))}</span>${p.carousel && p.carousel.src ? '<span>Carousel</span>' : `<span>${readMin(p.body)} ${T('minRead')}</span>`}</div>
           <h3>${esc(p.title)}</h3>
           <p>${esc(p.excerpt || '')}</p>
           <div class="tags">${(p.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
@@ -778,7 +842,7 @@
           ${p.excerpt ? `<p class="lede">${esc(p.excerpt)}</p>` : ''}
           <div class="byline"><img src="${esc(this.data.profile.photo)}" alt=""><span>${esc(this.data.profile.name)}<small>${esc(this.data.profile.title)}</small></span></div>
         </header>
-        ${st.coverDisplay !== 'none' && p.cover && p.cover.src ? postCover(p, 'hero-' + (st.coverDisplay || 'full')) : ''}
+        ${p.carousel && p.carousel.src ? '<div class="pdf-carousel"></div>' : st.coverDisplay !== 'none' && p.cover && p.cover.src ? postCover(p, 'hero-' + (st.coverDisplay || 'full')) : ''}
         <div class="post-body">${clean(p.body)}</div>
         <footer class="post-foot">
           <button type="button" class="love" data-love aria-pressed="false"><span class="heart" aria-hidden="true">❤</span><span class="love-n"></span></button>
@@ -788,6 +852,7 @@
         <nav class="post-nav">${prev ? `<a href="#/post/${esc(prev.id)}"><small>${T('previous')}</small>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/post/${esc(next.id)}" style="text-align:right"><small>${T('next')}</small>${esc(next.title)}</a>` : ''}</nav>
       </article>`;
       Love.sync();
+      if (p.carousel && p.carousel.src) mountCarousel($('.pdf-carousel', box), p.carousel.src, p.title);
       document.title = `${p.title}, ${this.data.profile.name}`;
       const cs = this.data.settings || {};
       if (cs.comments) {

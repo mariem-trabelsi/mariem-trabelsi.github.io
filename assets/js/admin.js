@@ -93,6 +93,7 @@
     return { path, type: /\.(bpmn|xml)$/i.test(f.name) ? 'bpmn' : f.type.startsWith('video') ? 'video' : 'image' };
   }
   const src = (p) => S.blobs[p] || p;
+  window.PFAdminSrc = src;  // le carrousel PDF lit un fichier televerse avant sa publication
 
   /* ---------------------------------------------------------------- interface */
   let toastTimer;
@@ -441,6 +442,15 @@
         </div>
       </div>
 
+      <div class="design-block"><h3>Carousel (PDF)</h3>
+        <p class="hint">Add a PDF and the post shows it one page at a time, like a document on LinkedIn: arrows, swipe, full screen and download. Upload the same PDF you post on LinkedIn.</p>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          ${x.carousel && x.carousel.src ? `<span class="badge">▤ ${esc(x.carousel.src.split('/').pop())}</span>` : ''}
+          <label class="btn" style="cursor:pointer">${x.carousel && x.carousel.src ? 'Replace the PDF' : 'Upload a PDF'}<input type="file" id="pcarousel" accept="application/pdf,.pdf" hidden></label>
+          ${x.carousel && x.carousel.src ? '<button class="btn" type="button" id="pcarousel-rm">Remove the carousel</button>' : ''}
+        </div>
+      </div>
+
       <div class="design-block"><h3>Text</h3>
         <div class="rte-bar" role="toolbar" aria-label="Formatting">
           <select id="rte-block" aria-label="Paragraph style"><option value="p">Paragraph</option><option value="h2">Heading</option><option value="h3">Subheading</option><option value="blockquote">Quote</option><option value="pre">Code block</option></select>
@@ -531,6 +541,13 @@
       try { const r = await upload(e.target.files[0], 'posts/' + x.id); x.cover = { type: r.type, src: r.path }; sync(); editPost(x0); } catch (er) { toast(er.message, 6000); }
     };
     if ($('#pcover-rm')) $('#pcover-rm').onclick = () => { x.cover = null; sync(); editPost(x0); };
+    $('#pcarousel').onchange = async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      if (!/\.pdf$/i.test(f.name)) { toast('Choose a PDF file.', 5000); return; }
+      try { const r = await upload(f, 'posts/' + x.id); x.carousel = { src: r.path }; sync(); editPost(x0); } catch (er) { toast(er.message, 6000); }
+    };
+    if ($('#pcarousel-rm')) $('#pcarousel-rm').onclick = () => { delete x.carousel; sync(); editPost(x0); };
     $$('[data-ps]', p).forEach((b) => b.onclick = () => { sync(); st[b.dataset.ps] = b.dataset.v; markDirty(); editPost(x0); });
     $('#paccent').oninput = (e) => { st.accent = e.target.value; markDirty(); };
     $('#paccent-rm').onclick = () => { st.accent = ''; markDirty(); toast('This post uses the site accent'); };

@@ -642,3 +642,21 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .dbar { height: 120px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 .dbar i { width: 100%; min-height: 2px; background: var(--accent); border-radius: 2px 2px 0 0; }
 .dbar span { font: 10px var(--mono); color: var(--muted); height: 14px; margin-top: 4px; white-space: nowrap; }
+
+/* Carrousel PDF des publications : une page a la fois, comme un document LinkedIn */
+.pdf-carousel { margin: 8px 0 28px; }
+.pdf-carousel .pc-stage { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); outline: none; min-height: 120px; }
+.pdf-carousel .pc-stage:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow); }
+.pdf-carousel canvas { display: block; width: 100%; height: auto; }
+.pdf-carousel .pc-wait { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--muted); font: 500 14px var(--sans); }
+.pdf-carousel .pc-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); color: #1b2230; font: 600 26px/1 var(--sans); cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.15); opacity: .9; }
+.pdf-carousel .pc-arrow:hover { opacity: 1; }
+.pdf-carousel .pc-arrow:disabled { opacity: 0; pointer-events: none; }
+.pdf-carousel .pc-arrow.prev { left: 12px; } .pdf-carousel .pc-arrow.next { right: 12px; }
+.pdf-carousel .pc-bar { display: flex; align-items: center; gap: 14px; margin-top: 10px; font: 500 13px var(--sans); color: var(--muted); }
+.pdf-carousel .pc-progress { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.pdf-carousel .pc-progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s; }
+.pdf-carousel .pc-bar button, .pdf-carousel .pc-bar a { border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit; padding: 5px 10px; border-radius: 6px; cursor: pointer; text-decoration: none; }
+.pdf-carousel:fullscreen { background: #000; display: flex; flex-direction: column; justify-content: center; padding: 20px; }
+.pdf-carousel:fullscreen .pc-stage { max-width: min(100%, calc((100vh - 80px) * 16 / 9)); margin: 0 auto; width: 100%; }
+@media (max-width: 720px) { .pdf-carousel .pc-arrow { width: 36px; height: 36px; font-size: 22px; } .pdf-carousel .pc-bar a { display: none; } }
