@@ -1363,6 +1363,26 @@
   ],
   "posts": [
     {
+      "id": "d-mvcgxrk6",
+      "title": "Drools : Rule Engine ",
+      "date": "2026-10-17",
+      "tags": [],
+      "excerpt": "What is Drools ? How it works ? when to use it ?",
+      "cover": null,
+      "body": "<p></p>",
+      "style": {
+        "layout": "standard",
+        "font": "site",
+        "accent": "#63e2dd",
+        "coverDisplay": "full"
+      },
+      "visible": false,
+      "pinned": false,
+      "carousel": {
+        "src": "assets/uploads/posts-post-mvcgxrk6/1792245911706-drools-how-it-works.pdf"
+      }
+    },
+    {
       "id": "tm-forum-in-practice",
       "title": "TM Forum in practice: frameworks, Open APIs and how to take part",
       "date": "2026-09-18",
