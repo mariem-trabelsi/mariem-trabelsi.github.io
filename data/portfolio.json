@@ -21,7 +21,7 @@
     },
     "stickers": [],
     "photoBg": "color",
-    "pattern": "flowers",
+    "pattern": "bpmn",
     "patternOpacity": 0.12,
     "photoBgColor": "#a4145a",
     "photoBadge": {
@@ -1800,5 +1800,15 @@
       ]
     }
   },
-  "testimonials": []
+  "testimonials": [
+    {
+      "name": "",
+      "role": "",
+      "company": "",
+      "quote": "",
+      "photo": "",
+      "link": "",
+      "visible": true
+    }
+  ]
 }
