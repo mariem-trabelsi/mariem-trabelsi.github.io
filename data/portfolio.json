@@ -1368,7 +1368,10 @@
       "date": "2026-10-17",
       "tags": [],
       "excerpt": "What is Drools ? How it works ? when to use it ?",
-      "cover": null,
+      "cover": {
+        "type": "image",
+        "src": "assets/uploads/posts-d-mvcgxrk6/1792246294887-drools.png"
+      },
       "body": "<p></p>",
       "style": {
         "layout": "standard",
@@ -1376,7 +1379,7 @@
         "accent": "#63e2dd",
         "coverDisplay": "full"
       },
-      "visible": false,
+      "visible": true,
       "pinned": false,
       "carousel": {
         "src": "assets/uploads/posts-post-mvcgxrk6/1792245911706-drools-how-it-works.pdf"
