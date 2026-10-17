@@ -39,6 +39,18 @@
       const r = await this.api(`/repos/${c.owner}/${c.repo}/contents/${encodeURI(path)}?ref=${encodeURIComponent(c.branch)}`);
       return r && r.sha ? r.sha : undefined;
     },
+    // N'ecrit que si le contenu change : une publication ne cree pas quinze commits identiques.
+    async putIfChanged(path, text, message) {
+      const c = this.cfg();
+      const cur = await this.api(`/repos/${c.owner}/${c.repo}/contents/${encodeURI(path)}?ref=${encodeURIComponent(c.branch)}`);
+      const b64 = b64Text(text);
+      if (cur && cur.content && cur.content.replace(/\s/g, '') === b64) return false;
+      await this.api(`/repos/${c.owner}/${c.repo}/contents/${encodeURI(path)}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, content: b64, branch: c.branch, sha: cur ? cur.sha : undefined }),
+      });
+      return true;
+    },
     async put(path, base64, message) {
       const c = this.cfg();
       const sha = await this.sha(path);
@@ -181,39 +193,20 @@
     bar.querySelector('button').onclick = () => { bar.remove(); location.hash = HASH; };
   }
 
-  function buildFeed(d) {
-    const base = 'https://mariem-trabelsi.github.io/';
-    const x = (v) => String(v ?? '').replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
-    const today = new Date().toISOString().slice(0, 10);
-    const posts = (d.posts || []).filter((p) => p.visible !== false && (!p.date || p.date <= today)).sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    const items = posts.map((p) => `    <item>
-      <title>${x(p.title)}</title>
-      <link>${base}#/post/${x(p.id)}</link>
-      <guid isPermaLink="false">${x(p.id)}</guid>
-      <pubDate>${new Date((p.date || today) + 'T09:00:00Z').toUTCString()}</pubDate>
-      <description>${x(p.excerpt || '')}</description>
-${(p.tags || []).map((t) => `      <category>${x(t)}</category>`).join('\n')}
-    </item>`).join('\n');
-    return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>${x(d.profile.name)}, posts</title>
-    <link>${base}</link>
-    <description>${x(d.profile.headline)}</description>
-    <language>en</language>
-${items}
-  </channel>
-</rss>
-`;
-  }
-
   async function publish() {
     try {
       const json = JSON.stringify(S.draft, null, 2) + '\n';
       JSON.parse(json);
       toast('Publishing…', 0);
       await GH.put('data/portfolio.json', b64Text(json), 'Update portfolio content');
-      try { await GH.put('feed.xml', b64Text(buildFeed(S.draft)), 'Update the RSS feed'); } catch (e) { /* le flux sera refait a la prochaine publication */ }
+      // Une vraie adresse par contenu (post/<id>/, project/<id>/…), lisible par LinkedIn,
+      // puis le sitemap et le flux RSS qui pointent vers elles.
+      if (window.PFShare) {
+        toast('Publishing the share links…', 0);
+        for (const f of window.PFShare.build(S.draft)) {
+          try { await GH.putIfChanged(f.path, f.content, /index\.html$/.test(f.path) ? 'Update the share page ' + f.path.replace(/\/?index\.html$/, '') : 'Update ' + f.path); } catch (e) { /* 404.html redirige en attendant */ }
+        }
+      }
       S.dirty = false;
       App.setData(clone(S.draft));
       App.render();

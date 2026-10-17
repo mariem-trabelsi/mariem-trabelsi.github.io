@@ -16,7 +16,8 @@ import hashlib, io, os, re, sys
 
 ICI = os.path.dirname(os.path.abspath(__file__))
 CIBLES = ['assets/css/style.css', 'assets/js/design.js', 'assets/js/app.js',
-          'assets/js/admin.js', 'assets/img/favicon.svg']
+          'assets/js/admin.js', 'assets/js/share-pages.js',
+          'assets/img/favicon.svg']
 
 def empreinte(chemin):
     with open(os.path.join(ICI, chemin), 'rb') as f:

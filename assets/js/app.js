@@ -550,6 +550,7 @@
             <div class="bpmn-host" id="spot-bpmn" data-src="${esc(b.file)}">
               <button type="button" class="bpmn-start">◇ ${T('openModel')}<small>${T('dragZoom')}</small></button>
             </div>
+            <p style="margin:12px 0 0">${this.shareBtn('bpmn')}</p>
           </article>
         </div></div>`;
       const host = $('#spot-bpmn');
@@ -730,7 +731,7 @@
           ${(sec.points || []).length ? `<ul>${sec.points.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
           ${caseFigures(sec)}${caseTable(sec)}</section>`).join('')}
         <footer class="post-foot"><a class="btn" href="${esc(mailto(this.data.profile, 'About your case study: ' + pr.name))}">${ICON.mail} ${T('replyMail')}</a>
-          <button class="btn" type="button" data-project="${esc(pr.id)}">${T('seeScreens')}</button></footer>
+          <button class="btn" type="button" data-project="${esc(pr.id)}">${T('seeScreens')}</button>${this.shareBtn('case', pr.id)}</footer>
       </article>`;
       document.title = `${c.title || pr.name}, ${this.data.profile.name}`;
     },
@@ -751,7 +752,8 @@
         <a class="back" href="#/posts">← All posts</a>
         <header class="mod-hero">${m.cover && m.cover.src ? `<img src="${esc(m.cover.src)}" alt="">` : ''}
           <span class="mod-emoji big">${esc(m.emoji || '✦')}</span>
-          <h2>${esc(m.name)}</h2><p>${esc(m.description || '')}</p><span class="meta">${list.length} post${list.length > 1 ? 's' : ''}</span></header>
+          <h2>${esc(m.name)}</h2><p>${esc(m.description || '')}</p><span class="meta">${list.length} post${list.length > 1 ? 's' : ''}</span>
+          <p style="margin-top:14px">${this.shareBtn('module', m.id)}</p></header>
         ${list.length ? `<div class="post-grid">${list.map((p) => this.postCard(p)).join('')}</div>` : '<p class="empty">No post in this module yet.</p>'}
       </div>`;
       document.title = `${m.name}, ${this.data.profile.name}`;
@@ -781,7 +783,7 @@
         <footer class="post-foot">
           <button type="button" class="love" data-love aria-pressed="false"><span class="heart" aria-hidden="true">❤</span><span class="love-n"></span></button>
           <a class="btn" href="${esc(mailto(this.data.profile, 'About your post: ' + p.title))}">${ICON.mail} ${T('replyMail')}</a>
-          <button class="btn" type="button" data-share="${esc(p.id)}">${T('copyLink')}</button>
+          ${this.shareBtn('post', p.id)}
         </footer>
         <nav class="post-nav">${prev ? `<a href="#/post/${esc(prev.id)}"><small>${T('previous')}</small>${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="#/post/${esc(next.id)}" style="text-align:right"><small>${T('next')}</small>${esc(next.title)}</a>` : ''}</nav>
       </article>`;
@@ -799,12 +801,33 @@
       }
     },
 
+    /* Le portfolio derriere un contenu ouvert par son lien (projet, modele BPMN). */
+    toMain() {
+      if ($('#view-full').hidden && $('#view-brief').hidden) this.setView(store.get('pf_view', 'full') === 'brief' ? 'brief' : 'full', false);
+      document.title = `${this.data.profile.name}, ${this.data.profile.title}`;
+    },
+    openBpmn() {
+      this.setView('full', false);
+      const host = $('#spot-bpmn');
+      if (!host) return;
+      host.scrollIntoView({ block: 'center' });
+      if (host.dataset.opened) return;
+      host.dataset.opened = '1';
+      const start = $('.bpmn-start', host);
+      if (start) start.click();
+    },
+    shareBtn(kind, id) {
+      return `<button class="btn" type="button" data-share-kind="${esc(kind)}" data-share-id="${esc(id || '')}">${T('copyLink')}</button>`;
+    },
+
     route() {
       const h = decodeURIComponent(location.hash || '');
       let m;
       if ((m = h.match(/^#\/post\/(.+)$/))) { this.setView('posts', false); this.renderPost(m[1]); window.scrollTo({ top: 0 }); return true; }
       if ((m = h.match(/^#\/case\/(.+)$/))) { this.setView('posts', false); this.renderCase(m[1]); window.scrollTo({ top: 0 }); return true; }
       if ((m = h.match(/^#\/module\/(.+)$/))) { this.setView('posts', false); this.renderModule(m[1]); window.scrollTo({ top: 0 }); return true; }
+      if ((m = h.match(/^#\/project\/(.+)$/))) { this.toMain(); this.openProject(m[1], true); return true; }
+      if (h === '#/bpmn') { this.toMain(); this.openBpmn(); return true; }
       if ((m = h.match(/^#\/posts(?:\/(.+))?$/))) { this.setView('posts', false); this.renderPostsList(m[1]); window.scrollTo({ top: 0 }); document.title = `Posts, ${this.data.profile.name}`; return true; }
       if (!$('#view-posts').hidden) { this.setView(store.get('pf_view', 'full') === 'brief' ? 'brief' : 'full', false); document.title = `${this.data.profile.name}, ${this.data.profile.title}`; }
       return false;
@@ -914,11 +937,16 @@
     },
 
     /* ---------------------------------------------------------------- dialogue */
-    openProject(id) {
+    openProject(id, fromLink) {
       const pr = (this.data.projects || []).find((x) => x.id === id);
       if (!pr) return;
-      Counter.hit('project-' + id);
       const dlg = $('#project-dialog');
+      if (dlg.open && dlg.dataset.openProject === id) return;
+      dlg.dataset.openProject = id;
+      Counter.hit('project-' + id);
+      // L'adresse suit le projet ouvert, pour pouvoir la copier depuis la barre.
+      const back = location.hash;
+      if (!fromLink) history.replaceState(null, '', location.pathname + location.search + '#/project/' + id);
       const media = pr.media || [];
       let idx = Math.min(pr.cover || 0, Math.max(media.length - 1, 0));
       dlg.innerHTML = `<button class="pd-close" type="button" aria-label="Close">×</button>
@@ -937,7 +965,7 @@
             ${(pr.highlights || []).length ? `<ul>${pr.highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
             <div class="tags">${(pr.keywords || []).map((k) => `<span class="tag">${esc(k)}</span>`).join('')}</div>
             ${pr.caseStudy ? `<p style="margin-top:16px"><a class="btn btn-accent" href="#/case/${esc(pr.id)}">${T('caseStudy')} →</a></p>` : ''}
-            ${(pr.links || []).length ? `<div class="hero-cta" style="margin:18px 0 0">${pr.links.map((l) => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')}</div>` : ''}
+            <div class="hero-cta" style="margin:18px 0 0">${(pr.links || []).map((l) => `<a class="btn" href="${esc(l.url || l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')}${this.shareBtn('project', pr.id)}</div>
           </div>
         </div>`;
       const stage = $('.pd-stage', dlg), cap = $('.pd-caption', dlg);
@@ -956,7 +984,10 @@
       $('.pd-close', dlg).addEventListener('click', () => dlg.close());
       dlg.onkeydown = (e) => { if (e.target.closest && e.target.closest('.bpmn-host')) return; if (e.key === 'ArrowRight') show(idx + 1); if (e.key === 'ArrowLeft') show(idx - 1); };
       dlg.onclick = (e) => { if (e.target === dlg) dlg.close(); };
-      dlg.onclose = () => { stage.innerHTML = ''; };
+      dlg.onclose = () => {
+        stage.innerHTML = ''; delete dlg.dataset.openProject;
+        if (/^#\/project\//.test(location.hash)) history.replaceState(null, '', location.pathname + location.search + (fromLink || /^#\/project\//.test(back) ? '' : back));
+      };
       dlg.showModal();
     },
 
@@ -1008,8 +1039,14 @@
         if (pi) { this.lightbox([{ type: 'image', src: pi.getAttribute('src'), caption: pi.alt }], 0); return; }
         const lg = e.target.closest('[data-lang]');
         if (lg) { this.setLang(lg.dataset.lang); return; }
-        const sh = e.target.closest('[data-share]');
-        if (sh) { const u = location.origin + location.pathname + '#/post/' + sh.dataset.share; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { sh.textContent = T('linkCopied'); }).catch(() => prompt('Copy this link', u)); return; }
+        const sh = e.target.closest('[data-share-kind]');
+        if (sh) {
+          // L'adresse propre (post/why-bpmn/) : c'est elle que LinkedIn sait lire.
+          const k = sh.dataset.shareKind, id = sh.dataset.shareId;
+          const u = location.origin + '/' + (window.PFShare ? window.PFShare.PATHS[k](id) : '#/' + k + (id ? '/' + id : ''));
+          (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(() => { sh.textContent = T('linkCopied'); }).catch(() => prompt('Copy this link', u));
+          return;
+        }
         const lv = e.target.closest('[data-love]');
         if (lv) { Love.click(lv); return; }
         const c = e.target.closest('[data-count]');
