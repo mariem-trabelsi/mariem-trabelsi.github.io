@@ -810,7 +810,12 @@
       this.setView('full', false);
       const host = $('#spot-bpmn');
       if (!host) return;
-      host.scrollIntoView({ block: 'center' });
+      // Au rechargement, le navigateur remet l'ancienne position une fois la page
+      // chargee : on la lui reprend, et on se recale quand images et polices ont pris leur place.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      const go = () => host.scrollIntoView({ block: 'center' });
+      go();
+      if (document.readyState !== 'complete') window.addEventListener('load', go, { once: true });
       if (host.dataset.opened) return;
       host.dataset.opened = '1';
       const start = $('.bpmn-start', host);
