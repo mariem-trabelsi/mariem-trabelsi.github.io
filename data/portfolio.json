@@ -45,7 +45,7 @@
     "availability": "Open to opportunities",
     "photo": "assets/img/meriem.jpg",
     "cv": "assets/cv/Meriem_Trabelsi_CV.pdf",
-    "email": "mrtrabelsi547@gmail.com",
+    "email": "meriemtrabelsi.contact@gmail.com",
     "whatsapp": "21697276628",
     "linkedin": "https://www.linkedin.com/in/mariemtrabelsi2000",
     "github": "https://github.com/mariem-trabelsi",
@@ -583,7 +583,7 @@
       "name": "O2A Service, Order-to-Activate Orchestration",
       "company": "IT Serv",
       "role": "Process Automation Engineer, graduation project",
-      "period": "Jan. 2025 – Jun. 2026",
+      "period": "Jan. 2026 – Sep. 2026",
       "keywords": [
         "TM Forum Open APIs",
         "BPMN 2.0",
@@ -1158,7 +1158,7 @@
     {
       "role": "Process Automation Engineer",
       "company": "IT Serv",
-      "period": "Jan. 2025 – Jun. 2026",
+      "period": "Jan. 2026 – Sep. 2026",
       "points": [
         "Cloud-native provisioning engine with Kogito and Quarkus",
         "Order management, work order and catalogue services connected through Apache Kafka",
