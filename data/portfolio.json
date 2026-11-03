@@ -906,7 +906,7 @@
       "name": "FoodSafety Platform",
       "company": "Archicompass (French startup)",
       "role": "Full Stack Developer",
-      "period": "Feb. 2023 – Sep. 2023",
+      "period": "Jan. 2023 – Sep. 2023",
       "keywords": [
         "Spring Boot",
         "Angular",
@@ -1184,9 +1184,9 @@
       ]
     },
     {
-      "role": "Full Stack Developer",
+      "role": "Intern, then Full Stack Developer",
       "company": "Archicompass (French startup)",
-      "period": "Feb. 2023 – Sep. 2023",
+      "period": "Jan. 2023 – Sep. 2023",
       "points": [
         "FoodSafety compliance app with Spring Boot and Angular",
         "Weekly Scrum sprints, Keycloak security"
@@ -1725,7 +1725,7 @@
           ]
         },
         {
-          "role": "Développeuse full-stack",
+          "role": "Stagiaire, puis développeuse full-stack",
           "company": "Archicompass (start-up française)",
           "points": [
             "Application de conformité FoodSafety avec Spring Boot et Angular",
