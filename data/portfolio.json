@@ -1363,6 +1363,28 @@
   ],
   "posts": [
     {
+      "id": "orchestration-mw1tdz74",
+      "title": "orchestration VS choreography",
+      "date": "2026-11-04",
+      "tags": [
+        "orchestration choreography"
+      ],
+      "excerpt": "One fibre order. Three services: inventory, billing, field technicians.\n\nWho decides what happens next? And who reacts when the technician step fails?\n\nTwo answers: a conductor that calls each service in order (orchestration), or services that listen to events and react on their own (choreography). Same goal, very different trade-offs.\n\nConductor or dancers: which does your team use?",
+      "cover": null,
+      "body": "<p></p>",
+      "style": {
+        "layout": "standard",
+        "font": "site",
+        "accent": "#c061cb",
+        "coverDisplay": "full"
+      },
+      "visible": false,
+      "pinned": false,
+      "carousel": {
+        "src": "assets/uploads/posts-post-mw1tdz74/1793778493023-orchestration-or-choreography.pdf"
+      }
+    },
+    {
       "id": "d-mvcgxrk6",
       "title": "Drools : Rule Engine ",
       "date": "2026-10-17",
