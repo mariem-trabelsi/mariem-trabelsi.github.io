@@ -1364,10 +1364,12 @@
   "posts": [
     {
       "id": "orchestration-mw1tdz74",
-      "title": "orchestration VS choreography",
-      "date": "2026-11-04",
+      "title": "Orchestration or choreography?",
+      "date": "2026-11-24",
       "tags": [
-        "orchestration choreography"
+        "Orchestration",
+        "Choreography",
+        "Microservices"
       ],
       "excerpt": "One fibre order. Three services: inventory, billing, field technicians.\n\nWho decides what happens next? And who reacts when the technician step fails?\n\nTwo answers: a conductor that calls each service in order (orchestration), or services that listen to events and react on their own (choreography). Same goal, very different trade-offs.\n\nConductor or dancers: which does your team use?",
       "cover": {
