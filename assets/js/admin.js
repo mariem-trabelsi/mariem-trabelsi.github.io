@@ -15,7 +15,9 @@
   const GH = {
     cfg() { return S.draft ? S.draft.settings : (App.base || App.data).settings; },
     async api(path, opts = {}) {
+      // no-store : sinon le navigateur ressert un ancien sha et l'ecriture echoue en 409
       const res = await fetch('https://api.github.com' + path, {
+        cache: 'no-store',
         ...opts,
         headers: { Authorization: 'Bearer ' + S.token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(opts.headers || {}) },
       });
