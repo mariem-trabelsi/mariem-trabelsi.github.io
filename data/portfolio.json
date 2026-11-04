@@ -1383,7 +1383,7 @@
         "accent": "#c061cb",
         "coverDisplay": "full"
       },
-      "visible": false,
+      "visible": true,
       "pinned": false,
       "carousel": {
         "src": "assets/uploads/posts-post-mw1tdz74/1793778493023-orchestration-or-choreography.pdf"
