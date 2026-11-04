@@ -6,6 +6,22 @@
     <description>I build cloud-native, event-driven systems where business processes are models, not buried code.</description>
     <language>en</language>
     <item>
+      <title>Orchestration or choreography?</title>
+      <link>https://mariem-trabelsi.github.io/post/orchestration-mw1tdz74/</link>
+      <guid isPermaLink="false">orchestration-mw1tdz74</guid>
+      <pubDate>Wed, 04 Nov 2026 09:00:00 GMT</pubDate>
+      <description>One fibre order. Three services: inventory, billing, field technicians.
+
+Who decides what happens next? And who reacts when the technician step fails?
+
+Two answers: a conductor that calls each service in order (orchestration), or services that listen to events and react on their own (choreography). Same goal, very different trade-offs.
+
+Conductor or dancers: which does your team use?</description>
+      <category>Orchestration</category>
+      <category>Choreography</category>
+      <category>Microservices</category>
+    </item>
+    <item>
       <title>Drools : Rule Engine </title>
       <link>https://mariem-trabelsi.github.io/post/d-mvcgxrk6/</link>
       <guid isPermaLink="false">d-mvcgxrk6</guid>
